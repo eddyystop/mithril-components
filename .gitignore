@@ -1,0 +1,14 @@
+########################
+# editors
+########################
+# WebStorm
+.idea
+*.iws
+workspace.xml
+tasks.xml
+
+########################
+# customization
+########################
+.ignore
+bower_components
