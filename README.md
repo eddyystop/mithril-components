@@ -1,6 +1,6 @@
 # [mithril-components] (https://github.com/eddyystop/mithril-components)
 
-Components, patterns and sample code for lhorie/mithril.js 
+Components, patterns and sample code for
 [mithril] (https://github.com/lhorie/mithril.js).
 
 A new-born work in progress.
@@ -24,7 +24,7 @@ bower install git://github.com/eddyystop/mithril-components
 ***
 
 
-### <a name="table-responsive"></a>Responsive table
+### <a name="table-responsive"></a>Table responsive - mc.TableResponsive
 
 ```js
 $(window).on('resize', function () {

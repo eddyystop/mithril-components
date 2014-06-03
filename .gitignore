@@ -11,4 +11,4 @@ tasks.xml
 # customization
 ########################
 .ignore
-bower_components
+bower_components/
