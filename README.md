@@ -131,15 +131,6 @@ bower install git://github.com/eddyystop/mithril-components
     }
   };
 ```
-Start downloading in parallel any CSS files not already downloaded.
-We do not wait for the downloads to complete.
-
-```js
-PJAX.requireCss([
-    '/concat/production.css',
-    '/css/vendor/pjax-responsive-tables.css'
-], handler );
-```
 
 
 ## License
