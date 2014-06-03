@@ -17,10 +17,10 @@
   controller: function () {
     var table = _getTableData(4, 8);
 
-    // always a plain table
+    // a plain table
     this.tableScrollable1 = new mc.TableResponsive.controller(table);
 
-    // responsive table, breaking at 767px
+    // a table responsive to viewport width
     this.tableScrollable2 = new mc.TableResponsive.controller(table, {
       isPlain: function () { return $(window).width() >= 767; }
     });
