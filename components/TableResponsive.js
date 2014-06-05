@@ -1,4 +1,4 @@
-/*global m, $, mc */
+/*global m, $ */
 
 /**
  * SAMPLE USAGE ================================================================
@@ -17,13 +17,8 @@
   controller: function () {
     var table = _getTableData(4, 8);
 
-    // a plain table
     this.tableScrollable1 = new mc.TableResponsive.controller(table);
-
-    // a table responsive to viewport width
-    this.tableScrollable2 = new mc.TableResponsive.controller(table, {
-      isPlain: function () { return $(window).width() >= 767; }
-    });
+    this.tableScrollable2 = new mc.TableResponsive.controller(table);
 
     function _getTableData (rows, cols) {
       var table = [],
@@ -48,8 +43,12 @@
 
   view: function (ctrl) {
     return m('div', [
+      // a plain table
       mc.TableResponsive.view(ctrl.tableScrollable1),
-      mc.TableResponsive.view(ctrl.tableScrollable2)
+      // a table responsive to viewport width
+      mc.TableResponsive.view(ctrl.tableScrollable2, {
+        isPlain: function () { return $(window).width() >= 767; }
+      })
     ]);
   }
  };
@@ -61,38 +60,36 @@
 var mc = mc || {};
 
 mc.TableResponsive = {
-  controller: function (table, opts, selector, attrs) {
+  controller: function (table) {
     this.table = table || [];
-    this.opts = opts || {};
-    this.selector = selector || '';
-    this.attrs = attrs || {};
   },
 
-  view: function (ctrl) {
+  view: function (ctrl, opts) {
+    opts = opts || {};
 
-    if (!ctrl.opts.isPlain || ctrl.opts.isPlain()) {
-      return _plainTable(ctrl.table, ctrl.selector, ctrl.attrs);
+    if (!opts.isPlain || opts.isPlain()) {
+      return _plainTable(ctrl.table, opts.selector, opts.attrs);
     } else {
       return m('div.mc-TableResponsive', [
         m('div.scrollable',
-          _scrollableTable(ctrl.table, '.responsive' + ctrl.selector, ctrl.attrs)),
+          _scrollableTable(ctrl.table, '.responsive' + (opts.selector || ''), opts.attrs)),
         m('div.pinned',
-          _pinnedTable(ctrl.table, ctrl.selector, ctrl.attrs))
+          _pinnedTable(ctrl.table, opts.selector,opts.attrs))
       ]);
     }
 
     function _plainTable (table, selector, attrs) {
-      return m('table' + selector, attrs,
+      return m('table' + (selector || ''), attrs || {},
         _tableCols(table, 0, table[0].length));
     }
 
     function _pinnedTable (table, selector, attrs) {
-      return m('table' + selector, attrs,
+      return m('table' + (selector || ''), attrs || {},
         _tableCols(table, 0, 1));
     }
 
     function _scrollableTable (table, selector, attrs) {
-      return m('table' + selector, attrs,
+      return m('table' + (selector || ''), attrs || {},
         _tableCols(table, 1, table[0].length));
     }
 

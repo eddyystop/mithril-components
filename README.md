@@ -3,58 +3,31 @@
 Components, patterns and sample code for
 [mithril] (https://github.com/lhorie/mithril.js).
 
-A new-born work in progress.
+A work in progress.
 
-## How to install
+## Installation
 ```sh
-bower install mithril-components
-    or
 bower install git://github.com/eddyystop/mithril-components
 ```
 
-## UI Components
-- [Table - responsive] (#table-responsive) - A responsive table.
+## Components
+For component ```tableResponsive``` 
+* The JS is in ```components/tableResponsive.js``` and contains docs
+* The CSS, if any, is in ```components/tableResponsive.css```
+* A working example, if any, is located at ```public/tableResponsive.html```
+* The example's runner, if any, is in ```public/js/tableResponsive-runner.js```
 
+### UI Components
 
-## Docs
+- ```tableResponsive``` - A responsive table.
 
-### <a name="UI"></a>UI Components
+## Patterns
+For pattern ```service-error-handling```
+* The JS is in ```patterns/service-error-handling.js```
 
+### Basic
 
-***
-
-
-### <a name="table-responsive"></a>Table responsive - mc.TableResponsive
-
-```js
-$(window).on('resize', function () {
-  m.startComputation();
-  m.endComputation();
-});
-  
-var app = {
-  controller: function () {
-    var table = [ ['heading 1', 'heading 2', 'heading 3'], [1, 2, 3], [...] ];
-
-    // a plain table
-    this.tableScrollable1 = new mc.TableResponsive.controller(table);
-
-    // a table responsive to viewport width
-    this.tableScrollable2 = new mc.TableResponsive.controller(table, {
-      isPlain: function () { return $(window).width() >= 767; }
-    });
-  },
-
-  view: function (ctrl) {
-    return m('div', [
-      mc.TableResponsive.view(ctrl.tableScrollable1),
-      mc.TableResponsive.view(ctrl.tableScrollable2)
-    ]);
-  }
-};
-  
-m.module(document.body, app);
-```
+- ```service-error-handling``` - handle web-server and app errors
 
 
 ## License
