@@ -1,11 +1,5 @@
 /* global $ */
 
-// force display of selected value
-setInterval(function () {
-  m.startComputation();
-  m.endComputation();
-}, 1000);
-
 var app = {
   car: m.prop('saab'),
   race: m.prop(null),
@@ -42,6 +36,7 @@ var app = {
   }
 };
 
+// views will be re-rendered when mc.Select.view's onchange is triggered.
 $(document).ready(function () {
   m.module(document.body, app);
 });
