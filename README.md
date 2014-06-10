@@ -11,7 +11,7 @@ bower install git://github.com/eddyystop/mithril-components
 ```
 
 ## Components
-Component ```tableResponsive``` resides in ```components/tableResponsive```.
+Component ```tableResponsive``` resides in ```components/tableResponsive/```.
 Docs are in the ```readme```.
 You may extract the files you need with a build tool,
 or you may use the front-end packaging tool
@@ -22,7 +22,7 @@ A working example, if any, is located at ```public/tableResponsive.html```.
 ### UI Components
 
 - ```tableResponsive``` - Responsive tables.
-- ```imageResponsive``` - Responsive image polyfill for <picture> and more.
+- ```imageResponsive``` - Responsive image polyfill for < picture > and more.
 
 ## Patterns
 For ```service-error-handling```
