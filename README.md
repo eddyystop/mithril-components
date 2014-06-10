@@ -25,8 +25,7 @@ A working example, if any, is located at ```public/tableResponsive.html```.
 - ```imageResponsive``` - Responsive image polyfill for < picture > and more.
 
 ## Patterns
-Pattern ```service-error-handling``` resides in 
-```patterns/service-error-handling.js```.
+Pattern ```service-error-handling``` resides in ```patterns/service-error-handling.js``` .
 
 ### Basic
 
