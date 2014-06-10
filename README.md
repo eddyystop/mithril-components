@@ -22,7 +22,8 @@ A working example, if any, is located at ```public/tableResponsive.html```.
 ### UI Components
 
 - ```table``` - Simple table.
-- ```tableResponsive``` - Responsive tables.
+- ```select``` - Simple select.
+- ```tableResponsive``` - Responsive table.
 - ```imageResponsive``` - Responsive image polyfill for < picture > and more.
 
 ## Patterns

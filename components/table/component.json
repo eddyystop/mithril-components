@@ -1,4 +1,4 @@
 {
   "name": "table",
-  "scripts": ["table"]
+  "scripts": ["table.js"]
 }
