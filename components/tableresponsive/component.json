@@ -1,0 +1,5 @@
+{
+  "name": "tableResponsive",
+  "scripts": ["tableResponsive.js"],
+  "styles": ["tableResponsive.css"]
+}
