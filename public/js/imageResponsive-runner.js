@@ -1,22 +1,28 @@
 /* global $ */
 
+var sources = [
+  { srcset: "images/extralarge.jpg", media: "(min-width: 1000px)" },
+  { srcset: "images/large.jpg", media: "(min-width: 800px)" },
+  { srcset: "images/medium.jpg" }
+];
+
+var img = { srcset: "images/medium.jpg",
+  alt: "A giant stone face at The Bayon temple in Angkor Thom, Cambodia" };
+
 var app = {
   controller: function () {
+    // options provided when select controlled is instantiated
+    this.image1 = new mc.ImageResponsive.controller(sources, img);
 
-    var sources = [
-      { srcset: "images/extralarge.jpg", media: "(min-width: 1000px)" },
-      { srcset: "images/large.jpg", media: "(min-width: 800px)" },
-      { srcset: "images/medium.jpg" }
-    ];
-
-    var img = { srcset: "examples/images/medium.jpg",
-      alt: "A giant stone face at The Bayon temple in Angkor Thom, Cambodia" };
-
-    this.image = new mc.ImageResponsive.controller(sources, img);
+    // options will be provided when select component is rendered
+    this.image2 = new mc.ImageResponsive.controller();
   },
 
   view: function (ctrl) {
-    return m('div', mc.ImageResponsive.view(ctrl.image));
+    return [
+      m('div', mc.ImageResponsive.view(ctrl.image1)),
+      m('div', mc.ImageResponsive.view(ctrl.image2, { sources: sources, img: img }))
+    ];
   }
 };
 

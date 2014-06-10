@@ -3,7 +3,7 @@
  * The options may be provided either when controller is instantiated,
  * or when the component is rendered.
  *
- * A shim used be provided for Object.create() if it is not native.
+ * A shim is required for Object.create() if it is not native.
  *
  * SAMPLE USAGE ================================================================
 

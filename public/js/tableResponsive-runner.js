@@ -36,6 +36,7 @@ var app = {
     return m('div', [
       // a plain table
       mc.TableResponsive.view(ctrl.tableScrollable1),
+
       // a table responsive to viewport width
       mc.TableResponsive.view(ctrl.tableScrollable2, {
         isPlain: function () { return $(window).width() >= 767; }

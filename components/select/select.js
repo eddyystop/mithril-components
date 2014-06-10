@@ -17,10 +17,11 @@ mc.Select = {
     opts.attrs.onchange = m.withAttr('value', ctrl.value);
     opts.attrs.value = ctrl.value();
 
-    var options = (opts.options || ctrl.options || []);
+    var caption = opts.caption || ctrl.caption,
+      options = opts.options || ctrl.options || [];
 
-    return m('select' + (opts.selector || ''), opts.attrs || {}, [
-        ctrl.caption ? m('option', { value: '' }, ctrl.caption) : '',
+    return m('select' + (opts.selector || ''), opts.attrs, [
+        caption ? m('option', { value: '' }, caption) : '',
         Object.keys(options).map(composeOption)
       ]
     );
