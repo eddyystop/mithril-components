@@ -12,11 +12,11 @@ bower install git://github.com/eddyystop/mithril-components
 
 ## Components
 Component ```tableResponsive``` resides in ```components/tableResponsive```.
+Docs are in the ```readme```.
 You may extract the files you need with a build tool,
 or you may use the front-end packaging tool
 [component] (https://github.com/component/component).
 
-Docs are in the ```readme```. 
 A working example, if any, is located at ```public/tableResponsive.html```.
 
 ### UI Components
