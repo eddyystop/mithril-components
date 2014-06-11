@@ -1,0 +1,29 @@
+<!doctype html>
+<head>
+    <script src="js/vendor/mithril.js"></script>
+</head>
+<body>
+<noscript>
+    <p>This server rendered page services SEO.</p>
+</noscript>
+<script>
+    // Based on comments within https://github.com/lhorie/mithril.js/issues/60
+    var app = {
+        controller: function() {
+            this.paragraph = [
+                'Server rendered first pages are used for SEO purposes,',
+                'and to display the first page quickly.',
+                'The noscript tag contains an image of the first page and satisfies',
+                'the SEO need. However it does nothing to improve performance.'
+            ];
+        },
+        view: function(ctrl) {
+            return ctrl.paragraph.map(function (line) {
+                return m('p', line);
+            });
+        }
+    };
+
+    m.module(document.body, app);
+</script>
+</body>
