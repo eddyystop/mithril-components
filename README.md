@@ -23,9 +23,11 @@ A working example, if any, is located at ```public/tableResponsive.html```.
 
 - ```table``` - Simple table.
 - ```select``` - Simple select.
-- ```select2``` - Select replacement, supports searching, remote data, and infinite scrolling. (jQuery based)
+- ```select2``` - [Select replacement.] (https://github.com/ivaynberg/select2) 
+Supports searching, remote data, and infinite scrolling. jQuery based.
 - ```tableResponsive``` - Responsive table.
-- ```imageResponsive``` - Responsive image polyfill for < picture > and more.
+- ```imageResponsive``` - [Responsive image polyfill for < picture > and more.] 
+(https://github.com/scottjehl/picturefill)
 
 ## Patterns
 Pattern ```service-error-handling``` resides in ```patterns/service-error-handling.js``` .
