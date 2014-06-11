@@ -23,6 +23,8 @@ A working example, if any, is located at ```public/tableResponsive.html```.
 
 - ```table``` - Simple table.
 - ```select``` - Simple select.
+- ```select2``` - A jQuery based replacement for select boxes. 
+It supports searching, remote data sets, and infinite scrolling of results.
 - ```tableResponsive``` - Responsive table.
 - ```imageResponsive``` - Responsive image polyfill for < picture > and more.
 
