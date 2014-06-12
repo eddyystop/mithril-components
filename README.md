@@ -50,18 +50,18 @@ for Mithril itself to handle tsituation efficiently.
 (https://www.igvita.com/2014/05/20/script-injected-async-scripts-considered-harmful/)
 - [Mobile Analysis in PageSpeed Insights]
 (https://developers.google.com/speed/docs/insights/mobile)
-- [Optimizing the Critical Path Rendering]
+and [Optimizing the Critical Path Rendering]
 (https://docs.google.com/presentation/d/1IRHyU7_crIiCjl0Gvue0WY3eY_eYvFQvSfwQouW9368/present#slide=id.p19)
 - [Detecting Critical Above-the-fold CSS]
-(http://paul.kinlan.me/detecting-critical-above-the-fold-css/),
-[PaulKinlan / criticalcss.html]
+(http://paul.kinlan.me/detecting-critical-above-the-fold-css/)
+and [PaulKinlan / criticalcss.html]
 (https://gist.github.com/PaulKinlan/6283739),
-[PaulKinlan / criticalcss-bookmarklet-devtool-snippet.js]
+and [PaulKinlan / criticalcss-bookmarklet-devtool-snippet.js]
 (https://gist.github.com/PaulKinlan/6284142)
-- [Calculating a selector's specificity]
-(http://www.w3.org/TR/CSS21/cascade.html#specificity)
 - [When is a stylesheet really loaded?]
-(http://www.phpied.com/when-is-a-stylesheet-really-loaded/)
+(http://www.phpied.com/when-is-a-stylesheet-really-loaded/),
+and [Calculating a selector's specificity]
+(http://www.w3.org/TR/CSS21/cascade.html#specificity)
 - [eddyystop/first-page-loader]
 (https://github.com/eddyystop/first-page-loader)
 
