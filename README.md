@@ -39,8 +39,9 @@ A working example, if any, is located at ```public/seo-by-cleanup.html```
 
 - ```seo-by-noscript``` - Server serves SEO the first page within a noscript tag.
 - ```seo-by-cleanup``` - Remove server generated DOM so Mithril can re-render the first page.
-- [Proof of concept] (https://github.com/lhorie/mithril.js/issues/60#issuecomment-41177111)
-for Mithril itself to handle tsituation efficiently.
+- One [Proof of concept] (https://github.com/lhorie/mithril.js/issues/60#issuecomment-41177111)
+for Mithril itself to handle this efficiently.
+- A different [Proof of concept] (https://groups.google.com/forum/#!topic/mithriljs/pxpj2MMIRYs)
 
 ## Code
 
