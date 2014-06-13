@@ -35,6 +35,10 @@ A working example, if any, is located at ```public/seo-by-cleanup.html```
 
 - ```service-error-handling``` - Handle web-server and app errors
 
+### Mixin
+
+- ```mixin-primitive``` - A simplistic validation mixin with no sugar.
+
 ### SEO / server rendered first page
 
 - ```seo-by-noscript``` - Server serves SEO the first page within a noscript tag.
