@@ -1,6 +1,6 @@
 # [mithril-components] (https://github.com/eddyystop/mithril-components)
 
-Components, patterns and code for
+Components, mixins, patterns and code for
 [mithril] (https://github.com/lhorie/mithril.js).
 
 ## Installation
@@ -27,6 +27,14 @@ Supports searching, remote data, and infinite scrolling. jQuery based.
 - ```imageResponsive``` - [Responsive image polyfill] 
 (https://github.com/scottjehl/picturefill)  for < picture > and more.
 
+## Mixins
+Mixin ```ValidationMixin``` resides in ```mixins/ValidationMixins/```.
+Docs are in the ```readme```.
+A working example, if any, is located at ```public/tableResponsive.html```.
+
+- ```mixins/Solder.js``` - A simple dependency injector used with these mixins.
+- ```ValidationMixin``` - A validator for the controller.
+
 ## Patterns
 Pattern ```seo-by-cleanup``` resides in ```patterns/seo-by-cleanup.js``` .
 A working example, if any, is located at ```public/seo-by-cleanup.html```
@@ -34,10 +42,6 @@ A working example, if any, is located at ```public/seo-by-cleanup.html```
 ### Basic
 
 - ```service-error-handling``` - Handle web-server and app errors
-
-### Mixin
-
-- ```mixin-primitive``` - A simplistic validation mixin with no sugar.
 
 ### SEO / server rendered first page
 
