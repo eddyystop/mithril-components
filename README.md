@@ -30,7 +30,7 @@ Supports searching, remote data, and infinite scrolling. jQuery based.
 ## Mixins
 Mixin ```ValidationMixin``` resides in ```mixins/ValidationMixins/```.
 Docs are in the ```readme```.
-A working example, if any, is located at ```public/tableResponsive.html```.
+A working example, if any, is located at ```public/ValidationMixin.html```.
 
 - ```mixins/Solder.js``` - A simple dependency injector used with these mixins.
 - ```ValidationMixin``` - A validator for the controller.
