@@ -11,19 +11,19 @@ var app = {
 
   // app
   controller: function () {
-    var self = this;
-    this.validator = ''; // define 'this.validator' solely to stop jshint errors
+    var self = this,
+      validators = {
+        name: function (name) { return name.length > 3; },
+        foo: function (foo) { return typeof foo !== 'string'; }
+      };
+
     solder.injectMixins(['validator'], this); // injects 'this.validator'
 
     this.name = app.name; // m.prop() thingy
     this.foo = 5; // not a m.prop() thingy
-    this.validators = {
-      name: function (name) { return name.length > 3; },
-      foo: function (foo) { return typeof foo !== 'string'; }
-    };
 
     this.submit = function () {
-      this.validator.validate();
+      this.validator.validate(validators);
       if (!self.validator.hasErrors()) { app.name = self.name; }
     }.bind(this);
   },
