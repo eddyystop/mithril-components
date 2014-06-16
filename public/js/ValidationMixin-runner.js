@@ -31,8 +31,11 @@ var app = {
   view: function (ctrl) {
     return [
       m('div', 'name (4+ chars)'),
-      m('input' + (ctrl.validator.hasError('name') ? '.error' : ''),
-        { value: ctrl.name(), onchange: m.withAttr('value', ctrl.name ) }),
+      m('div', [
+        m('input' + (ctrl.validator.hasError('name') ? '.error' : ''),
+          { value: ctrl.name(), onchange: m.withAttr('value', ctrl.name ) }),
+        ctrl.validator.hasError('name') ? m('p.error.error-msg', 'The name must have at least 4 chars.') : '',
+      ]),
       m('button', {onclick: ctrl.submit}, 'Submit')
     ];
   }
