@@ -8,6 +8,17 @@ Components, mixins, patterns and code for
 bower install git://github.com/eddyystop/mithril-components
 ```
 
+## Running examples
+
+Many examples may be run without the server. Just run the HTML file.
+
+Others require the node.js server.
+You can install it from ```http://nodejs.org/```.
+Then load the this repo's dependencies with ```npm install```.
+
+Start the server with ```node app.js``` and point your
+browser to ```http://localhost:3000/public/FormMixin.html``` for example. 
+
 ## Components
 Component ```tableResponsive``` resides in ```components/tableResponsive/```.
 Docs are in the ```readme```.
@@ -34,6 +45,8 @@ A working example, if any, is located at ```public/ValidationMixin.html```.
 
 - ```mixins/Solder.js``` - A simple dependency injector used with these mixins.
 - ```ValidationMixin``` - A validator for the controller.
+- ```FormMixin``` - Adds support for forms, with or without a <form>.
+Requires the server.
 
 ## Patterns
 Pattern ```seo-by-cleanup``` resides in ```patterns/seo-by-cleanup.js``` .
