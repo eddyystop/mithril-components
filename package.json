@@ -1,0 +1,14 @@
+{
+  "name": "mithril-components",
+  "version": "0.1.0",
+  "repository": {
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "~3.5.1"
+  },
+  "devDependencies": {
+  }
+}
