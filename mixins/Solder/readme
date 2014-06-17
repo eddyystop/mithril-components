@@ -8,6 +8,9 @@
  *     {context}   this: where the mixins are injected, e.g. controller's 'this'
  *     Each mixin is injected as 'this[name]'. The mixin's own properties can be
  *     then referred to as 'this[name].prop
+ *   {fcn} extend (name, createChild): extend the mixin 'name'.
+ *     {str} name: mixin name.
+ *     {fcn} createChild (parentConstructor): returns an extended class
  *
  * SAMPLE USAGE ====================================================================
 
@@ -75,4 +78,23 @@
     };
 
     m.module(document.body, app);
+
+ * SAMPLE USAGE ====================================================================
+
+    var solder = new Solder();
+    solder.setMixin('validator', ValidationMixin);
+    solder.extend('validator', validatorPlus);
+
+    function validatorPlus (Parent) {
+      function ValidatorPlus (/*arguments*/) {
+        Parent.apply(this, arguments);
+        this.newProperty = true; // add a property
+      }
+      ValidatorPlus.prototype = Object.create(Parent.prototype);
+
+      ValidatorPlus.prototype.newFcn = function () {  // add a prototype fcn
+        return true;
+      };
+      return ValidatorPlus;
+    }
  */
