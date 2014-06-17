@@ -43,7 +43,8 @@ Mixin ```ValidationMixin``` resides in ```mixins/ValidationMixins/```.
 Docs are in the ```readme```.
 A working example, if any, is located at ```public/ValidationMixin.html```.
 
-- ```mixins/Solder.js``` - A simple dependency injector used with these mixins.
+- ```mixins/Solder.js``` - A simple dependency injector for mixins. 
+Mixin extension is supported.
 - ```Solder-extend``` - Extending a mixin with new features.
 - ```ValidationMixin``` - A validator for the controller.
 - ```FormMixin``` - Adds support for forms, with or without a <form>.
