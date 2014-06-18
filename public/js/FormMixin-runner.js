@@ -8,10 +8,14 @@ solder.setMixin('form', FormMixin);
 // app =========================================================================
 var app = {
   controller: function () {
-    var self = this,
-      validators = { name: function (name) { return name.length > 3; } };
+    var self = this;
 
     solder.injectMixins(['validator', 'form'], this); // injects this.validator & this.form
+    var v = this.validator.checks;
+
+    var validations = {
+      name: function (name) { return v.isLength(self.name(),4, 10); }
+    };
 
     this.name = m.prop(window.performance.now() + '');
 
@@ -20,10 +24,12 @@ var app = {
       e.stopPropagation();
 
       // validate
-      this.validator.validate(validators);
+      this.validator.validate(validations);
       if (!self.validator.hasErrors()) {
         // post
-        this.form.submitForm({ method: 'POST', url: '/form' }, success, failure);
+        this.form.submitForm(
+          { method: 'POST', url: '/form', data: { name: this.name() }, contentType: 'application/json; charset=utf-8' },
+          success, failure);
       }
 
       function success () {
@@ -41,7 +47,7 @@ var app = {
       m('div', [
         m('input' + (ctrl.validator.hasError('name') ? '.error' : ''),
           { value: ctrl.name(), onchange: m.withAttr('value', ctrl.name ) }),
-        ctrl.validator.hasError('name') ? m('p.error.error-msg', 'The name must have at least 4 chars.') : ''
+        ctrl.validator.hasError('name') ? m('p.error.error-msg', 'The name must be 4 to 10 chars.') : ''
       ]),
       m('button[type=button]', { onclick: ctrl.submit, disabled: !ctrl.form.isEditable() }, 'Submit [type=button]'),
       m('button[type=submit]', { onclick: ctrl.submit, disabled: !ctrl.form.isEditable() }, 'Submit [type=submit]'),

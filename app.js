@@ -20,6 +20,8 @@ var day = (hour * 24);
 var month = (day * 30);
 
 app.set('port', process.env.PORT || 3000);
+app.use(express.json());
+app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname), { maxAge: month }));
 app.use(express.errorHandler());
@@ -29,7 +31,7 @@ app.use(express.errorHandler());
  */
 
 app.get('/user', function (req, res) {
-  console.log('route /user');
+  console.log('.....route /user');
   res.send([
     { id: 1, name: 'John' },
     { id: 2, name: 'Mary' },
@@ -40,7 +42,10 @@ app.get('/user', function (req, res) {
 });
 
 app.post('/form', function (req, res) {
-  console.log('route POST /form');
+  console.log('.....route POST /form');
+  console.log(req.originalUrl); // /form
+  console.log(req.body); // undefined
+  console.log(req.query); // {}
   res.send([
     { id: 1, name: 'John' },
     { id: 2, name: 'Mary' },
@@ -51,7 +56,10 @@ app.post('/form', function (req, res) {
 });
 
 app.get('/form', function (req, res) {
-  console.log('route GET /form');
+  console.log('.....route GET /form');
+  console.log(req.originalUrl); // /form?name=514.9999999994179
+  console.log(req.body); // {}
+  console.log(req.query); // {}
   res.json({
     data: [
       { id: 1, name: 'John' },

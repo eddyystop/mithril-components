@@ -32,8 +32,7 @@ Mithril = m = new function app(window) {
 		}
 		return cell
 	}
-	var configs = []
-	function build(parentElement, parentTag, parentCache, parentIndex, data, cached, shouldReattach, index, editable, namespace) {
+	function build(parentElement, parentTag, parentCache, parentIndex, data, cached, shouldReattach, index, editable, namespace, configs) {
 		if (data === null || data === undefined) data = ""
 		if (data.subtree === "retain") return
 
@@ -52,8 +51,53 @@ Mithril = m = new function app(window) {
 
 		if (dataType == "[object Array]") {
 			var nodes = [], intact = cached.length === data.length, subArrayCount = 0
+
+			var DELETION = 1, INSERTION = 2 , MOVE = 3
+			var existing = {}, shouldMaintainIdentities = false
+			for (var i = 0; i < cached.length; i++) {
+				if (cached[i] && cached[i].attrs && cached[i].attrs.key !== undefined) {
+					shouldMaintainIdentities = true
+					existing[cached[i].attrs.key] = {action: DELETION, index: i}
+				}
+			}
+			if (shouldMaintainIdentities) {
+				for (var i = 0; i < data.length; i++) {
+					if (data[i] && data[i].attrs && data[i].attrs.key !== undefined) {
+						var key = data[i].attrs.key
+						if (!existing[key]) existing[key] = {action: INSERTION, index: i}
+						else existing[key] = {action: MOVE, index: i, from: existing[key].index, element: parentElement.childNodes[existing[key].index]}
+					}
+				}
+				var actions = Object.keys(existing).map(function(key) {return existing[key]})
+				var changes = actions.sort(function(a, b) {return a.action - b.action || b.index - a.index})
+				var newCached = new Array(cached.length)
+
+				for (var i = 0, change; change = changes[i]; i++) {
+					if (change.action == DELETION) {
+						clear(cached[change.index].nodes)
+						newCached.splice(change.index, 1)
+					}
+					if (change.action == INSERTION) {
+						var dummy = window.document.createElement("div")
+						dummy.key = data[change.index].attrs.key.toString()
+						parentElement.insertBefore(dummy, parentElement.childNodes[change.index])
+						newCached.splice(change.index, 0, {attrs: {key: data[change.index].attrs.key}, nodes: [dummy]})
+					}
+
+					if (change.action == MOVE) {
+						if (parentElement.childNodes[change.index] !== change.element) {
+							parentElement.insertBefore(change.element, parentElement.childNodes[change.index])
+						}
+						newCached[change.index] = cached[change.from]
+					}
+				}
+				cached = newCached
+				cached.nodes = []
+				for (var i = 0, child; child = parentElement.childNodes[i]; i++) cached.nodes.push(child)
+			}
+
 			for (var i = 0, cacheCount = 0; i < data.length; i++) {
-				var item = build(parentElement, null, cached, index, data[i], cached[cacheCount], shouldReattach, index + subArrayCount || subArrayCount, editable, namespace)
+				var item = build(parentElement, parentTag, cached, index, data[i], cached[cacheCount], shouldReattach, index + subArrayCount || subArrayCount, editable, namespace, configs)
 				if (item === undefined) continue
 				if (!item.nodes.intact) intact = false
 				subArrayCount += item instanceof Array ? item.length : 1
@@ -72,6 +116,7 @@ Mithril = m = new function app(window) {
 				if (data.length < cached.length) cached.length = data.length
 				cached.nodes = nodes
 			}
+
 		}
 		else if (dataType == "[object Object]") {
 			if (data.tag != cached.tag || Object.keys(data.attrs).join() != Object.keys(cached.attrs).join() || data.attrs.id != cached.attrs.id) clear(cached.nodes)
@@ -85,7 +130,7 @@ Mithril = m = new function app(window) {
 				cached = {
 					tag: data.tag,
 					attrs: setAttributes(node, data.tag, data.attrs, {}, namespace),
-					children: data.children !== undefined ? build(node, data.tag, undefined, undefined, data.children, cached.children, true, 0, data.attrs.contenteditable ? node : editable, namespace) : undefined,
+					children: data.children !== undefined ? build(node, data.tag, undefined, undefined, data.children, cached.children, true, 0, data.attrs.contenteditable ? node : editable, namespace, configs) : undefined,
 					nodes: [node]
 				}
 				parentElement.insertBefore(node, parentElement.childNodes[index] || null)
@@ -93,7 +138,7 @@ Mithril = m = new function app(window) {
 			else {
 				node = cached.nodes[0]
 				setAttributes(node, data.tag, data.attrs, cached.attrs, namespace)
-				cached.children = build(node, data.tag, undefined, undefined, data.children, cached.children, false, 0, data.attrs.contenteditable ? node : editable, namespace)
+				cached.children = build(node, data.tag, undefined, undefined, data.children, cached.children, false, 0, data.attrs.contenteditable ? node : editable, namespace, configs)
 				cached.nodes.intact = true
 				if (shouldReattach === true) parentElement.insertBefore(node, parentElement.childNodes[index] || null)
 			}
@@ -102,41 +147,40 @@ Mithril = m = new function app(window) {
 			}
 		}
 		else {
-			var node
+			var nodes
 			if (cached.nodes.length === 0) {
 				if (data.$trusted) {
-					node = injectHTML(parentElement, index, data)
+					nodes = injectHTML(parentElement, index, data)
 				}
 				else {
-					node = window.document.createTextNode(data)
-					parentElement.insertBefore(node, parentElement.childNodes[index] || null)
+					nodes = [window.document.createTextNode(data)]
+					parentElement.insertBefore(nodes[0], parentElement.childNodes[index] || null)
 				}
 				cached = "string number boolean".indexOf(typeof data) > -1 ? new data.constructor(data) : data
-				cached.nodes = [node]
+				cached.nodes = nodes
 			}
 			else if (cached.valueOf() !== data.valueOf() || shouldReattach === true) {
+				nodes = cached.nodes
 				if (!editable || editable !== window.document.activeElement) {
 					if (data.$trusted) {
-						var current = cached.nodes[0], nodes = [current]
-						if (current) {
-							while (current = current.nextSibling) nodes.push(current)
-							clear(nodes)
-							node = injectHTML(parentElement, index, data)
-						}
-						else parentElement.innerHTML = data
+						clear(nodes)
+						nodes = injectHTML(parentElement, index, data)
 					}
 					else {
-						node = cached.nodes[0]
 						if (parentTag === "textarea") parentElement.value = data
 						else if (editable) editable.innerHTML = data
 						else {
-							parentElement.insertBefore(node, parentElement.childNodes[index] || null)
-							node.nodeValue = data
+							if (nodes[0].nodeType == 1 || nodes.length > 1) { //was a trusted string
+								clear(cached.nodes)
+								nodes = [window.document.createTextNode(data)]
+							}
+							parentElement.insertBefore(nodes[0], parentElement.childNodes[index] || null)
+							nodes[0].nodeValue = data
 						}
 					}
 				}
 				cached = new data.constructor(data)
-				cached.nodes = [node]
+				cached.nodes = nodes
 			}
 			else cached.nodes.intact = true
 		}
@@ -178,14 +222,28 @@ Mithril = m = new function app(window) {
 		return cachedAttrs
 	}
 	function clear(nodes) {
-		for (var i = nodes.length - 1; i > -1; i--) if (nodes[i]) nodes[i].parentNode.removeChild(nodes[i])
+		for (var i = nodes.length - 1; i > -1; i--) if (nodes[i] && nodes[i].parentNode) nodes[i].parentNode.removeChild(nodes[i])
 		nodes.length = 0
 	}
 	function injectHTML(parentElement, index, data) {
 		var nextSibling = parentElement.childNodes[index]
-		if (nextSibling) nextSibling.insertAdjacentHTML("beforebegin", data)
+		if (nextSibling) {
+			var isElement = nextSibling.nodeType != 1
+			var placeholder = window.document.createElement("span")
+			if (isElement) {
+				parentElement.insertBefore(placeholder, nextSibling)
+				placeholder.insertAdjacentHTML("beforebegin", data)
+				parentElement.removeChild(placeholder)
+			}
+			else nextSibling.insertAdjacentHTML("beforebegin", data)
+		}
 		else parentElement.insertAdjacentHTML("beforeend", data)
-		return nextSibling ? nextSibling.previousSibling : parentElement.firstChild
+		var nodes = []
+		while (parentElement.childNodes[index] !== nextSibling) {
+			nodes.push(parentElement.childNodes[index])
+			index++
+		}
+		return nodes
 	}
 	function clone(object) {
 		var result = {}
@@ -222,13 +280,13 @@ Mithril = m = new function app(window) {
 	}
 	var nodeCache = [], cellCache = {}
 	m.render = function(root, cell) {
+		var configs = []
 		if (!root) throw new Error("Please ensure the DOM element exists before rendering a template into it.")
 		var index = nodeCache.indexOf(root)
 		var id = index < 0 ? nodeCache.push(root) - 1 : index
 		var node = root == window.document || root == window.document.documentElement ? documentNode : root
-		cellCache[id] = build(node, null, undefined, undefined, cell, cellCache[id], false, 0, null, undefined)
+		cellCache[id] = build(node, null, undefined, undefined, cell, cellCache[id], false, 0, null, undefined, configs)
 		for (var i = 0; i < configs.length; i++) configs[i]()
-		configs.length = 0
 	}
 
 	m.trust = function(value) {
@@ -239,14 +297,22 @@ Mithril = m = new function app(window) {
 
 	var roots = [], modules = [], controllers = [], now = 0, lastRedraw = 0, lastRedrawId = 0, computePostRedrawHook = null
 	m.module = function(root, module) {
-		m.startComputation()
 		var index = roots.indexOf(root)
 		if (index < 0) index = roots.length
-		roots[index] = root
-		modules[index] = module
-		if (controllers[index] && typeof controllers[index].onunload == "function") controllers[index].onunload()
-		controllers[index] = new module.controller
-		m.endComputation()
+		var isPrevented = false
+		if (controllers[index] && typeof controllers[index].onunload == "function") {
+			var event = {
+				preventDefault: function() {isPrevented = true}
+			}
+			controllers[index].onunload(event)
+		}
+		if (!isPrevented) {
+			m.startComputation()
+			roots[index] = root
+			modules[index] = module
+			controllers[index] = new module.controller
+			m.endComputation()
+		}
 	}
 	m.redraw = function() {
 		now = window.performance && window.performance.now ? window.performance.now() : new window.Date().getTime()
@@ -260,7 +326,7 @@ Mithril = m = new function app(window) {
 	}
 	function redraw() {
 		for (var i = 0; i < roots.length; i++) {
-			m.render(roots[i], modules[i].view(controllers[i]))
+			if (controllers[i]) m.render(roots[i], modules[i].view(controllers[i]))
 		}
 		if (computePostRedrawHook) {
 			computePostRedrawHook()
@@ -302,7 +368,7 @@ Mithril = m = new function app(window) {
 					redirect(window.location[m.route.mode])
 				}
 			}
-			computePostRedrawHook = scrollToHash
+			computePostRedrawHook = setScroll
 			window[listener]()
 			currentRoute = normalizeRoute(window.location[m.route.mode])
 		}
@@ -310,7 +376,7 @@ Mithril = m = new function app(window) {
 			var element = arguments[0]
 			var isInitialized = arguments[1]
 			if (element.href.indexOf(modes[m.route.mode]) < 0) {
-				element.href = location.pathname + modes[m.route.mode] + element.pathname
+				element.href = window.location.pathname + modes[m.route.mode] + element.pathname
 			}
 			if (!isInitialized) {
 				element.removeEventListener("click", routeUnobtrusive)
@@ -327,7 +393,7 @@ Mithril = m = new function app(window) {
 			if (window.history.pushState) {
 				computePostRedrawHook = function() {
 					window.history[shouldReplaceHistoryEntry ? "replaceState" : "pushState"](null, window.document.title, modes[m.route.mode] + currentRoute)
-					scrollToHash()
+					setScroll()
 				}
 				redirect(modes[m.route.mode] + currentRoute)
 			}
@@ -367,8 +433,9 @@ Mithril = m = new function app(window) {
 		e.preventDefault()
 		m.route(e.currentTarget[m.route.mode].slice(modes[m.route.mode].length))
 	}
-	function scrollToHash() {
+	function setScroll() {
 		if (m.route.mode != "hash" && window.location.hash) window.location.hash = window.location.hash
+		else window.scrollTo(0, 0)
 	}
 	function buildQueryString(object, prefix) {
 		var str = []
@@ -471,15 +538,19 @@ Mithril = m = new function app(window) {
 	function identity(value) {return value}
 
 	function ajax(options) {
-		var xhr = window.XDomainRequest ? new window.XDomainRequest : new window.XMLHttpRequest
+		var xhr = new window.XMLHttpRequest
 		xhr.open(options.method, options.url, true, options.user, options.password)
+    if (options.contentType) xhr.setRequestHeader('Content-type',options.contentType)
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState === 4) {
 				if (xhr.status >= 200 && xhr.status < 300) options.onload({type: "load", target: xhr})
 				else options.onerror({type: "error", target: xhr})
 			}
 		}
-		if (typeof options.config == "function") options.config(xhr, options)
+		if (typeof options.config == "function") {
+			var maybeXhr = options.config(xhr, options)
+			if (maybeXhr !== undefined) xhr = maybeXhr
+		}
 		xhr.send(options.data)
 		return xhr
 	}
@@ -519,10 +590,12 @@ Mithril = m = new function app(window) {
 				e = e || event
 				var unwrap = (e.type == "load" ? xhrOptions.unwrapSuccess : xhrOptions.unwrapError) || identity
 				var response = unwrap(deserialize(extract(e.target, xhrOptions)))
-				if (response instanceof Array && xhrOptions.type) {
-					for (var i = 0; i < response.length; i++) response[i] = new xhrOptions.type(response[i])
+				if (e.type == "load") {
+					if (response instanceof Array && xhrOptions.type) {
+						for (var i = 0; i < response.length; i++) response[i] = new xhrOptions.type(response[i])
+					}
+					else if (xhrOptions.type) response = new xhrOptions.type(response)
 				}
-				else if (xhrOptions.type) response = new xhrOptions.type(response)
 				deferred[e.type == "load" ? "resolve" : "reject"](response)
 			}
 			catch (e) {

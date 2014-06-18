@@ -1,3 +1,5 @@
+/* globals m */
+
 // FormMixin ===================================================================
 function FormMixin (ctrl) {
   if (!(this instanceof FormMixin)) { return new FormMixin(ctrl); }

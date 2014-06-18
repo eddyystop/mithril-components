@@ -46,7 +46,8 @@ A working example, if any, is located at ```public/ValidationMixin.html```.
 - ```mixins/Solder.js``` - A simple dependency injector for mixins. 
 Mixin extension is supported.
 - ```Solder-extend``` - Extending a mixin with new features.
-- ```ValidationMixin``` - A validator for the controller.
+- ```ValidationMixin``` - A data validator
+integrated with [validator.js](https://github.com/chriso/validator.js)
 - ```FormMixin``` - Adds support for forms, with or without a < form >.
 Requires the server.
 

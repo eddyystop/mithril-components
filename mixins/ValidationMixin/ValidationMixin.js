@@ -6,19 +6,20 @@ function ValidationMixin (ctrl) {
 }
 
 ValidationMixin.prototype = {
-  clearErrors : function () { this.errors = []; },
-  hasErrors : function () { return this.errors.length; },
-  hasError : function (key) { return this.errors.indexOf(key) !== -1; },
+  clearErrors: function () { this.errors = []; },
+  hasErrors: function () { return this.errors.length; },
+  hasError: function (key) { return this.errors.indexOf(key) !== -1; },
 
-  validate : function (validators) {
+  validate: function (validations) {
     var ctrl = this.ctrl;
-    this.errors = Object.keys(validators).filter(function (key) {
-        var validator = validators[key],
-          value = ctrl[key];
-
+    this.errors = Object.keys(validations).filter(function (key) {
+        var value = ctrl[key];
         if (typeof value === 'function') { value = value(); }
-        return !validator(value);
+
+        return !validations[key](value);
       }
     );
-  }
+  },
+
+  checks: window.validator || {} // github.com/chriso/validator.js
 };
