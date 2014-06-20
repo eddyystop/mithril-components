@@ -1,6 +1,15 @@
 /**
  * A simple table.
  *
+ * new mc.Table.controller(table)
+ *   {array} table: table values, an array of arrays.
+ *             The numbers of columns is determined from the first row.
+ *
+ * mc.Table.view(table, selector, attrs)
+ *   {array} table: overrides controller's table. Optional.
+ *   {str}   selector: tag selector string for <select>. Optional.
+ *   {obj}   attrs: attr object for <select>. Optional.
+ *
  * SAMPLE USAGE ================================================================
 
     <script src="js/vendor/mithril.js"></script>

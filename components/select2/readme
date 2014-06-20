@@ -3,7 +3,13 @@
  * The options may be provided either when controller is instantiated,
  * or when the component is rendered.
  *
- * A shim is required for Object.create() if it is not native.
+ * Copied for convenience from http://lhorie.github.io/mithril/integration.html
+ *
+ * select2 config factory. The params in this doc refer to properties of the `ctrl` argument
+ * @param {Object} data - the data with which to populate the <option> list
+ * @param {number} value - the id of the item in `data` that we want to select
+ * @param {function(Object id)} onchange - the event handler to call when the selection changes.
+ * `id` is the the same as `value`
  *
  * SAMPLE USAGE ================================================================
 

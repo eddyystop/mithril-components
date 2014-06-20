@@ -3,7 +3,21 @@
  * The options may be provided either when controller is instantiated,
  * or when the component is rendered.
  *
- * A shim is required for Object.create() if it is not native.
+ * new mc.Select.controller(value, options, caption)
+ *   {*}   value: the value to select. Maybe a {str} or a m.prop().
+ *   {obj} options: { value1: legend1, value2: legend2, ... }
+ *           {str} value: the value returned for this option.
+ *           {str} legend: the text for the option.
+ *   {str} caption: the caption to display as the first option. Optional.
+ *
+ * mc.Select.view(ctrl, options)
+ *   {obj} ctrl: select's controller.
+ *   {obj} options: { options:..., caption:..., selector:..., attrs:... }
+ *           Options overriding controller's options, plus. Optional.
+ *           {obj} options: overrides controller's options. Optional.
+ *           {str} caption: overrides controller's caption. Optional.
+ *           {str} selector: tag selector string for <select>. Optional.
+ *           {obj} attrs: attr object for <select>. Optional.
  *
  * SAMPLE USAGE ================================================================
 

@@ -2,7 +2,7 @@
  * A simple tab control.
  * Calls view associated with selected tab.
  *
- * new mc.Tabs.controller (tabs, activeTab)
+ * new mc.Tabs.controller(tabs, activeTab)
  *   {obj} tabs: tab options { tabName1:..., tabName2:..., ... } where each tab's value is
  *              {view: {fcn} viewFcn, ctrl: {obj} ctrl for viewFcn, label: {str} tabLabel }
  *           || {view: {fcn} viewFcn, ctrl: {obj} ctrl for viewFcn }
