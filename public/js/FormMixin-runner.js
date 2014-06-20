@@ -40,7 +40,9 @@ var app = {
           {
             method: 'POST', url: '/form',
             data: { name: this.name(), dept: this.dept() },
-            contentType: 'application/json; charset=utf-8'
+            config: function(xhr) {
+              xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+            }
           },
           function (obj) { log('success', obj); },
           function (str) { log('failure', str); }
