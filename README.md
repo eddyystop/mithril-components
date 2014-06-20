@@ -47,10 +47,10 @@ A working example, if any, is located at ```public/ValidationMixin.html```.
 Mixin extension is supported.
 - ```Solder-extend``` - Extending a mixin with new features.
 - ```ValidationMixin``` - A data validator, for one field or the entire form. 
-Can be used to display error messages on (e.g.) onchange. 
+Can be used to display error messages as user is entering data, e.g. onchange. 
 Integrated with [validator.js](https://github.com/chriso/validator.js).
 - ```FormMixin``` - Adds support for forms, with or without a < form >.
-Requires the server.
+Example requires the server.
 
 ## Patterns
 Pattern ```seo-by-cleanup``` resides in ```patterns/seo-by-cleanup.js``` .
