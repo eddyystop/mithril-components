@@ -12,8 +12,8 @@ Solder.prototype = {
   injectMixins: function (names, ctrl) {
     if (typeof names === 'string') { names = [names]; }
     for (var i = 0, len = names.length; i < len; i += 1) {
-      var ctrlName = ctrl[names[i]] = new this._constructors[names[i]](ctrl);
-      if (ctrlName._onInjection) ctrlName._onInjection();
+      var instance = ctrl[names[i]] = new this._constructors[names[i]](ctrl);
+      if (instance._onInjection) { instance._onInjection(ctrl, instance); }
     }
   },
 

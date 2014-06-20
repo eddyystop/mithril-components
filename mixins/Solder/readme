@@ -34,13 +34,22 @@
         var v = this.validator.checks;
 
         var validations = {
-          name: function (name) { return v.isLength(self.name(),4, 10); }
+          name: function (nameValue) { return v.isLength(nameValue,4, 10); }, // name refers to this.name
+          dept: function (deptValue) { return v.isLength(deptValue, 1); }
         };
 
-        this.name = m.prop(window.performance.now() + '');
+        this.name = m.prop('John');
+        this.dept = m.prop('dev');
+
+        this.check = function (attr, key) {
+          return function (e) {
+            m.withAttr(attr, self[key])(e);
+            self.validator.validateValue(key, validations);
+          };
+        };
 
         this.submit = function (e) {
-          e.preventDefault(); // in case its a submit
+          e.preventDefault();
           e.stopPropagation();
 
           // validate
@@ -48,33 +57,42 @@
           if (!self.validator.hasErrors()) {
             // post
             this.form.submitForm(
-              { method: 'POST', url: '/form', data: { name: this.name() }, contentType: 'application/json; charset=utf-8' },
-              success, failure);
-          }
-
-          function success () {
-            console.log('success. state=', self.form._formState, 'status=', self.form._xhrStatus, 'error=', self.form._formError);
-          }
-          function failure () {
-            console.log('failure. state=', self.form._formState, 'status=', self.form._xhrStatus, 'error=', self.form._formError);
+              {
+                method: 'POST', url: '/form',
+                data: { name: this.name(), dept: this.dept() },
+                contentType: 'application/json; charset=utf-8'
+              },
+              function (obj) { log('success', obj); },
+              function (str) { log('failure', str); }
+            );
           }
         }.bind(this);
+
+        function log (str, load) {
+          console.log(str + '. form.state=', self.form._formState, 'status=', self.form._xhrStatus, 'error=', self.form._formError);
+          console.log('load=', load);
+        }
       },
 
       view: function (ctrl) {
         return m('form', [ // <form> is optional
-          m('div', 'name (4+ chars)'),
+          m('div', 'name (4 to 10 chars)'),
           m('div', [
             m('input' + (ctrl.validator.hasError('name') ? '.error' : ''),
-              { value: ctrl.name(), onchange: m.withAttr('value', ctrl.name ) }),
+              { value: ctrl.name(), onchange: ctrl.check('value', 'name') }),
             ctrl.validator.hasError('name') ? m('p.error.error-msg', 'The name must be 4 to 10 chars.') : ''
+          ]),
+          m('div', [
+            m('input' + (ctrl.validator.hasError('dept') ? '.error' : ''),
+              { value: ctrl.dept(), onchange: ctrl.check('value', 'dept') }),
+            ctrl.validator.hasError('dept') ? m('p.error.error-msg', 'A department name is required.') : ''
           ]),
           m('button[type=button]', { onclick: ctrl.submit, disabled: !ctrl.form.isEditable() }, 'Submit [type=button]'),
           m('button[type=submit]', { onclick: ctrl.submit, disabled: !ctrl.form.isEditable() }, 'Submit [type=submit]'),
-          msg()
+          postStatus()
         ]);
 
-        function msg () {
+        function postStatus () {
           var status = '';
           if (ctrl.form.getError()) { status = 'An error has occurred. Please try again.'; }
           else if (ctrl.form.isSubmitting()) { status = 'Processing ...'; }
@@ -86,13 +104,13 @@
 
     m.module(document.body, app);
 
- * SAMPLE USAGE ====================================================================
+ * SAMPLE USAGE: extend a mixin ====================================================
 
     var solder = new Solder();
     solder.setMixin('validator', ValidationMixin);
     solder.extend('validator', validatorPlus);
 
-    function validatorPlus (Parent) {
+    function validatorPlus (Parent) { // Parent -> 'validator's ValidationMixin
       function ValidatorPlus (/*arguments*/) {
         Parent.apply(this, arguments);
         this.newProperty = true; // add a property
