@@ -11,8 +11,8 @@ mc.Select = {
     this.caption = caption || '';
   },
 
-  view: function (ctrl, optsParam) {
-    var opts = Object.create(optsParam || {}); // don't change param
+  view: function (ctrl, options) {
+    var opts = Object.create(options || {}); // don't change param
     opts.attrs = opts.attrs || {};
     opts.attrs.onchange = m.withAttr('value', ctrl.value);
     opts.attrs.value = ctrl.value();

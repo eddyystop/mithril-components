@@ -63,7 +63,7 @@ A working example, if any, is located at ```public/seo-by-cleanup.html```
 
 ### Services - just throwing things inline for now 
 
--```progress bars``` - How to show a progress bar.
+- ```progress bars``` - How to show a progress bar.
 
 ```
 var Thing = {
@@ -97,7 +97,6 @@ function requestWithXhr(options) {
   req.xhr = xhr;
   return req;
 }
-
 ChainedAndXhrPromise(requestWithXhr(args))
   .then(foo)
   .then(bar)

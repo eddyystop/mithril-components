@@ -25,19 +25,26 @@ FormMixin.prototype = {
   getError: function () { return this._formError; },
 
   submitForm: function (options, success, failure) {
-    var self = this;
+    var self = this,
+      opts = Object.create(options);
     if (!self.isEditable()) { throw new Error(self._FORM_NOT_EDITABLE); }
 
     self._setSubmitting();
     self.setError(null);
 
-    options.extract = options.extract || function (xhr) {
+    opts.extract = opts.extract || function (xhr) {
       self._xhrStatus = xhr.status;
-      var isJson = "\"[{".indexOf(xhr.responseText.charAt(0)) !== -1; // fragile but fast
+      var isJson = '"[{'.indexOf(xhr.responseText.charAt(0)) !== -1; // fragile but fast
       return isJson ? xhr.responseText : JSON.stringify(xhr.responseText);
     };
 
-    m.request(options).then(
+    if (opts.methods !== 'GET' && !opts.config) {
+      opts.config = function(xhr) {
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+      };
+    }
+
+    m.request(opts).then(
       function () {
         self._setSubmitted();
       },
