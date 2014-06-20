@@ -4,9 +4,8 @@
 var mc = mc || {};
 
 mc.Tabs = {
-  controller: function (tabs, viewsCtrl, activeTab) {
+  controller: function (tabs, activeTab) {
     this.tabs = tabs || [];
-    this.viewsCtrl = viewsCtrl || {};
     this.activeTab = activeTab || '';
   },
 
@@ -17,9 +16,7 @@ mc.Tabs = {
       activeTab = opts.activeTab || ctrl.activeTab || m.route.param('tab') || Object.keys(tabs)[0];
 
     return [
-      m('.tabs', [
-        m('ul', Object.keys(tabs).map(tab))
-      ]),
+      m('.tabs', m('ul', Object.keys(tabs).map(tab))),
       tabs[activeTab].view(tabs[activeTab].ctrl)
     ];
 
