@@ -1,6 +1,7 @@
 // ValidationMixin =============================================================
 function ValidationMixin (ctrl) {
   if (!(this instanceof ValidationMixin)) { return new ValidationMixin(ctrl); }
+  this.self = this;
   this.ctrl = ctrl;
   this.errors = [];
 }
@@ -11,14 +12,24 @@ ValidationMixin.prototype = {
   hasError: function (key) { return this.errors.indexOf(key) !== -1; },
 
   validate: function (validations) {
-    var ctrl = this.ctrl;
+    var self = this;
     this.errors = Object.keys(validations).filter(function (key) {
-        var value = ctrl[key];
-        if (typeof value === 'function') { value = value(); }
+      return !validations[key](self._resolveKey(key));
+    });
+    return this.errors.length;
+  },
 
-        return !validations[key](value);
-      }
-    );
+  validateValue: function (key, validations) {
+    var i = this.errors.indexOf(key);
+    if (i !== -1) { this.errors.splice(i, 1); }
+    var result = validations[key](this._resolveKey(key));
+    if (!result) this.errors.push(key);
+    return result;
+  },
+
+  _resolveKey: function (key) {
+    var value = this.ctrl[key];
+    return typeof value === 'function' ? value() : value;
   },
 
   checks: window.validator || {} // github.com/chriso/validator.js

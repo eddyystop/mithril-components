@@ -32,6 +32,8 @@ app.use(express.errorHandler());
 
 app.get('/user', function (req, res) {
   console.log('.....route /user');
+  console.log('body=', req.body);
+  console.log('query=', req.query);
   res.send([
     { id: 1, name: 'John' },
     { id: 2, name: 'Mary' },
@@ -43,23 +45,15 @@ app.get('/user', function (req, res) {
 
 app.post('/form', function (req, res) {
   console.log('.....route POST /form');
-  console.log(req.originalUrl); // /form
-  console.log(req.body); // undefined
-  console.log(req.query); // {}
-  res.send([
-    { id: 1, name: 'John' },
-    { id: 2, name: 'Mary' },
-    { id: 3, name: 'Nick' },
-    { id: 4, name: 'Stephane' },
-    { id: 5, name: 'Jessica' }
-  ]);
+  console.log('body=', req.body);
+  console.log('query=', req.query);
+  res.send({ appReply: 'okay' });
 });
 
 app.get('/form', function (req, res) {
   console.log('.....route GET /form');
-  console.log(req.originalUrl); // /form?name=514.9999999994179
-  console.log(req.body); // {}
-  console.log(req.query); // {}
+  console.log('body=', req.body);
+  console.log('query=', req.query);
   res.json({
     data: [
       { id: 1, name: 'John' },

@@ -46,8 +46,9 @@ A working example, if any, is located at ```public/ValidationMixin.html```.
 - ```mixins/Solder.js``` - A simple dependency injector for mixins. 
 Mixin extension is supported.
 - ```Solder-extend``` - Extending a mixin with new features.
-- ```ValidationMixin``` - A data validator
-integrated with [validator.js](https://github.com/chriso/validator.js)
+- ```ValidationMixin``` - A data validator, for one field or the entire form. 
+Can be used to display error messages on (e.g.) onchange. 
+Integrated with [validator.js](https://github.com/chriso/validator.js).
 - ```FormMixin``` - Adds support for forms, with or without a < form >.
 Requires the server.
 
@@ -58,6 +59,19 @@ A working example, if any, is located at ```public/seo-by-cleanup.html```
 ### Basic
 
 - ```service-error-handling``` - Handle web-server and app errors
+
+## Services
+
+-```progress bars``` - How to show a progress bar.
+
+```
+var Thing = {
+  list: function(options) {
+    return m.request({method: "GET", url: "/thing", config: function(xhr) { xhr.onprogress = options.progress }})
+  }
+}
+Thing.list({progress: function(e) { console.log("progress: ", e) }})
+```
 
 ### SEO / server rendered first page
 

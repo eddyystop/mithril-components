@@ -220,7 +220,6 @@
   };
 
   validator.isLength = function (str, min, max) {
-    console.log('.in isLength arguments=', arguments );
     var surrogatePairs = str.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g) || [];
     var len = str.length - surrogatePairs.length;
     return len >= min && (typeof max === 'undefined' || len <= max);
