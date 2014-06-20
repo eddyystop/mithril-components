@@ -61,7 +61,7 @@ A working example, if any, is located at ```public/seo-by-cleanup.html```
 
 - ```service-error-handling``` - Handle web-server and app errors
 
-### Services
+### Services - just throwing things inline for now 
 
 -```progress bars``` - How to show a progress bar.
 
@@ -72,6 +72,36 @@ var Thing = {
   }
 }
 Thing.list({progress: function(e) { console.log("progress: ", e) }})
+```
+- ```run m.request in background``` - Do not wait for completion to trigger an update of the view.
+https://github.com/lhorie/mithril.js/pull/62
+```
+m.request({method: "GET", url: "/foo", background: true})
+    .then(m.redraw); //force redraw
+```
+- ```abort request ``` - Abort a running request (https://github.com/lhorie/mithril.js/issues/63)
+```
+var transport = m.prop();
+m.request({method: "GET", url: "/foo", config: transport}); // transport <- xhr
+transport().abort();
+```
+
+#### More obscure
+
+- ```attach XHR to m.request promise chain``` - (https://github.com/lhorie/mithril.js/issues/63)
+```
+function requestWithXhr(options) {
+  var xhr
+  options.config = function(x) {xhr = x};
+  var req = m.request(options);
+  req.xhr = xhr;
+  return req;
+}
+
+ChainedAndXhrPromise(requestWithXhr(args))
+  .then(foo)
+  .then(bar)
+  .xhr.agawjkgahwjkg
 ```
 
 ### SEO / server rendered first page
