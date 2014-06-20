@@ -60,7 +60,7 @@ A working example, if any, is located at ```public/seo-by-cleanup.html```
 
 - ```service-error-handling``` - Handle web-server and app errors
 
-## Services
+### Services
 
 -```progress bars``` - How to show a progress bar.
 
