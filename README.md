@@ -37,6 +37,7 @@ Supports searching, remote data, and infinite scrolling. jQuery based.
 - ```tableResponsive``` - Responsive table.
 - ```imageResponsive``` - [Responsive image polyfill] 
 (https://github.com/scottjehl/picturefill)  for < picture > and more.
+- ```tabs``` - Tab control. Renders active view. Routing via m.route().
 
 ## Mixins
 Mixin ```ValidationMixin``` resides in ```mixins/ValidationMixins/```.
