@@ -34,7 +34,7 @@ var app = {
 
       // validate
       this.validator.validate(validations);
-      if (!self.validator.hasErrors()) {
+      if (!this.validator.hasErrors()) {
         // post
         this.form.submitForm(
           {

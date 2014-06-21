@@ -4,7 +4,7 @@
  * or when the component is rendered.
  *
  * new mc.Select.controller(value, options, caption)
- *   {*}   value: the value to select. Maybe a {str} or a m.prop().
+ *   {*}   value: the value to show as selected. May be {str} or m.prop(). Optional.
  *   {obj} options: { value1: legend1, value2: legend2, ... }
  *           {str} value: the value returned for this option.
  *           {str} legend: the text for the option.
@@ -13,7 +13,7 @@
  * mc.Select.view(ctrl, options)
  *   {obj} ctrl: select's controller.
  *   {obj} options: { options:..., caption:..., selector:..., attrs:... }
- *           Options overriding controller's options, plus. Optional.
+ *           Options overriding controller's options and more. Optional.
  *           {obj} options: overrides controller's options. Optional.
  *           {str} caption: overrides controller's caption. Optional.
  *           {str} selector: tag selector string for <select>. Optional.

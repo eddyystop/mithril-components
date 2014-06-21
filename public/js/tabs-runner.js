@@ -15,7 +15,6 @@ var app = {
   ]),
 
   controller: function () {
-    console.log('controller name=', app.name());
     this.tabs = new mc.Tabs.controller({
       list: { view: app.listView, ctrl: this, legend: 'theList' },
       settings: { view: app.settingsView },

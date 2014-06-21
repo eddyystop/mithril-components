@@ -10,7 +10,7 @@
  *   {fcn} validateValue (name, { name1: fcn1, name2: fcn2, ... })
  *     {str} name: data to validate, either this[name] or this[name]() if m.prop-like.
  *     {str} name1: as in .validate above.
- *     {fcn} fcn: as in .validate above.
+ *     {fcn} fcn1: as in .validate above.
  *     returns {bin} if value is valid.
  *   {fcn} hasErrors: if any data is invalid.
  *   {fcn} hasError (name): if field 'name' is invalid.
@@ -59,7 +59,7 @@
 
           // validate
           this.validator.validate(validations);
-          if (!self.validator.hasErrors()) {
+          if (!this.validator.hasErrors()) {
             // post
             this.form.submitForm(
               {
