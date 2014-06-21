@@ -4,18 +4,28 @@
  *
  * new mc.Tabs.controller(tabs, activeTab)
  *   {obj} tabs: tab options { tabName1:..., tabName2:..., ... } where each tab's value is
- *              { view: {fcn} viewFcn, ctrl: {obj} ctrl for viewFcn, label: {str} tabLabel }
- *           || { view: {fcn} viewFcn, ctrl: {obj} ctrl for viewFcn }
+ *              { view: {fcn} viewFcn, ctrl: {obj} viewFcnCtrl, label: {str} tabLabel }
+ *           || { view: {fcn} viewFcn, ctrl: {obj} viewFcnCtrl }
  *           || { view: {fcn} viewFcn }
  *           || {fcn} viewFcn
  *           tabLabel defaults to tabName.
- *           ctrl defaults to the last ctrl provided.
+ *           ctrl defaults to the last viewFcnCtrl provided.
  *   {str} activeTab: name of active tab. Defaults to m.route.param('tab') and
  *           then to the first tabName in tabs.
  *
- * mc.Tabs.view(ctrl, options)
+ * mc.Tabs.view(ctrl, selectors, attrs, overrides)
  *   {obj} ctrl: Tabs's controller.
- *   {obj} options: options overriding controller's options. Optional.
+ *   {obj} selectors: Selectors to add to tags. Optional.
+ *           { _parent:..., _item:, _anchor:, _activeAnchor: }
+ *             {str} _parent: selector string for outer <div> wrapper.
+ *             {str} _item: selector for each <li>.
+ *             {str} _anchor: selector for each <a>.
+ *             {str} _activeAnchor: selector for <a> of active tab. Used instead of _anchor.
+ *   {obj} attrs: Attrs for elements. Optional.
+ *           { _parent:{...}, _item:{}, _anchor:{}, _activeAnchor:{} }
+ *             {obj} _parent: attrs for outer <div> wrapper.
+ *             attrs has the same keys as 'selectors' with corresponding meanings.
+ *   {obj} overrides: override controller's values. Optional.
  *           options.tabs
  *           options.activeTab
  *
@@ -40,19 +50,22 @@
       ]),
 
       controller: function () {
-        this.tabs = new mc.Tabs.controller({
-          list: { view: app.listView, legend: 'theList' },
+        var tabs = {
+          list: { view: app.listView, ctrl: this, legend: 'theList' },
           settings: { view: app.settingsView },
           about: app.aboutView
-        }, this);
+        };
 
         this.name = m.prop(app.name());
         this.dept = m.prop(app.dept());
         this.list = m.prop(app.list());
+
+        this.tabs = new mc.Tabs.controller(tabs);
       },
 
       view: function (ctrl) {
-        return mc.Tabs.view(ctrl.tabs);
+        var selectors = { _parent: '.tabs', _activeAnchor: '.selected' };
+        return mc.Tabs.view(ctrl.tabs, selectors);
       },
 
       listView: function (ctrl) {

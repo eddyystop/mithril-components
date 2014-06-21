@@ -1,4 +1,5 @@
-/* global $ */
+/* global m:false */
+
 var app = {
   name: m.prop('John'),
   dept: m.prop('dev'),
@@ -15,19 +16,22 @@ var app = {
   ]),
 
   controller: function () {
-    this.tabs = new mc.Tabs.controller({
+    var tabs = {
       list: { view: app.listView, ctrl: this, legend: 'theList' },
       settings: { view: app.settingsView },
       about: app.aboutView
-    });
+    };
 
     this.name = m.prop(app.name());
     this.dept = m.prop(app.dept());
     this.list = m.prop(app.list());
+
+    this.tabs = new mc.Tabs.controller(tabs);
   },
 
   view: function (ctrl) {
-    return mc.Tabs.view(ctrl.tabs);
+    var selectors = { _parent: '.tabs', _activeAnchor: '.selected' };
+    return mc.Tabs.view(ctrl.tabs, selectors);
   },
 
   listView: function (ctrl) {

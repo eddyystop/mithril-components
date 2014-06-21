@@ -2,7 +2,19 @@
  * Mithril.js integration to http://scottjehl.github.com/picturefill/
  * a responsive image polyfill for <picture>, srcset, sizes, and more.
  *
- * A shim is required for Object.create() if it is not native.
+ * new mc.ImageResponsive.controller(sources, img)
+ *   {array} sources: alternative images to display
+ *             { srcset: 'images/extralarge.jpg', media: '(min-width: 1000px)' }
+ *             See scottjehl.github.io/picturefill/ for details.
+ *   {obj}   img: base image
+ *             { srcset: "images/medium.jpg", alt: 'alt desc' }
+ *             See scottjehl.github.io/picturefill/ for details.
+ *
+ * mc.ImageResponsive.view(ctrl, overrides)
+ *   {obj} ctrl: image's controller.
+ *   {obj} overrides: override ctrl's values. Optional.
+ *           { sources:..., img:... }
+ *           Use these values instead of ctrl's.
  *
  * You can read more about <picture> at
  * - http://scottjehl.github.io/picturefill/
@@ -20,15 +32,16 @@
       { srcset: "images/medium.jpg" }
     ];
 
-    var img = { srcset: "images/medium.jpg",
-      alt: "A giant stone face at The Bayon temple in Angkor Thom, Cambodia" };
+    var img = {
+      srcset: "images/medium.jpg",
+      alt: "A giant stone face at The Bayon temple in Angkor Thom, Cambodia"
+    };
 
     var app = {
       controller: function () {
-        // options provided when select controlled is instantiated
+        // options provided when component is instantiated
         this.image1 = new mc.ImageResponsive.controller(sources, img);
-
-        // options will be provided when select component is rendered
+        // options will be provided when component is rendered
         this.image2 = new mc.ImageResponsive.controller();
       },
 

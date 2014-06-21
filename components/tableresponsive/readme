@@ -11,7 +11,7 @@
  *   {obj} ctrl: table's controller.
  *   {*}   isPlain: {bin} or {fcn} returning a {bin}.
  *           true = plain table, false = table designed for narrow widths.
- *   {obj} selectors: Selectors to add to tag names. Optional.
+ *   {obj} selectors: Selectors to add to tags. Optional.
  *           { _parent:..., _tr:, _even:, _odd:, '0':, '1': }
  *             {str} _parent: selector string for <table>
  *             {str} _tr: selector for each table row.
@@ -21,7 +21,7 @@
  *   {obj} attrs: Attrs for elements. Optional.
  *           { _parent:{...}, _tr:{}, _even:{}, _odd:{}, '0':{}, '1':{} }
  *             {obj} _parent: attrs for <table>
- *             attrs has the same keys as selectors with corresponding meanings.
+ *             attrs has the same keys as 'selectors' with corresponding meanings.
  * SAMPLE USAGE ================================================================
 
     <link href="TableResponsive.css" rel="stylesheet" type="text/css">

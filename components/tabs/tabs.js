@@ -1,4 +1,4 @@
-/*global m */
+/*global m:false */
 
 // Select ======================================================================
 var mc = mc || {};
@@ -9,31 +9,43 @@ mc.Tabs = {
     this.activeTab = activeTab || '';
   },
 
-  view: function (ctrl, opts) {
-    opts = opts || {};
-    var tabs = normalizeTabs(opts.tabs || ctrl.tabs),
-    // default to tab param on URL, then to first tab
-      activeTab = opts.activeTab || ctrl.activeTab || m.route.param('tab') || Object.keys(tabs)[0];
+  view: function (ctrl, selectors, attrs, overrides) {
+    selectors = selectors || {};
+    attrs = attrs || {};
+    overrides = overrides || {};
+
+    var tabs = normalizeTabs(overrides.tabs || ctrl.tabs, ctrl),
+      activeTab = overrides.activeTab || ctrl.activeTab ||
+        m.route.param('tab') || Object.keys(tabs)[0];
 
     return [
-      m('.tabs', m('ul', Object.keys(tabs).map(tab))),
+      m( 'div' + (selectors._parent || ''), attrs._parent || {},
+        m('ul', Object.keys(tabs).map(tab))
+      ),
       tabs[activeTab].view(tabs[activeTab].ctrl)
     ];
 
     function tab (name) {
-      return m('li', [
-        m('a',
-          { class: activeTab === name ? 'selected' : '', href: '/' + name, config: m.route },
-          tabs[name].label
-        )
-      ]);
+      var selected = activeTab === name,
+        selector = (selected && selectors._activeAnchor ?
+          selectors._activeAnchor : selectors._anchor) || '',
+        attrParam = (selected && attrs._activeAnchor ?
+          attrs._activeAnchor : attrs._anchor) || '',
+        attr = {};
+
+      if (attrParam) { merge(attr, attrParam); }
+      merge(attr, { href: '/' + name, config: m.route });
+
+      return m('li' + (selectors._item || ''), attrs._item || {},
+        m('a' + selector, attr, tabs[name].label || '')
+      );
     }
 
-    function normalizeTabs (tabs) {
+    function normalizeTabs (tabs, ctrl) {
       var norm = {},
-        lastCtrl = {};
+        lastCtrl = ctrl || {};
 
-      Object.keys(tabs).forEach(function (key) { // depends on .keys() returning keys in stored order
+      Object.keys(tabs).forEach(function (key) { // depends on .keys() returning keys in order defined
         var tab = tabs[key];
         if (typeof tab === 'function') {
           norm[key] = { view: tab, ctrl: lastCtrl, label: key };
@@ -44,6 +56,11 @@ mc.Tabs = {
       });
 
       return norm;
+    }
+
+
+    function merge (to, from) {
+      for (var key in from) { to[key] = from[key]; }  // jshint ignore:line
     }
   }
 };

@@ -15,7 +15,7 @@
  *             {str} _tr: selector for each table row.
  *             {str} _even: selector for even rows.
  *             {str} _odd: selector for odd rows.
- *             {str} '2': selector string for row 2 (-based).
+ *             {str} '2': selector string for row 2 (0-based).
  *   {obj} attrs: Attrs for elements. Optional.
  *           { _parent:{...}, _tr:{}, _even:{}, _odd:{}, '0':{}, '1':{} }
  *             {obj} _parent: attrs for <table>
