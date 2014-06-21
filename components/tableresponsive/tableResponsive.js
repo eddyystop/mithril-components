@@ -1,4 +1,4 @@
-/*global m, $ */
+/*global m:false */
 
 // TableResponsive =============================================================
 var mc = mc || {};
@@ -8,45 +8,53 @@ mc.TableResponsive = {
     this.table = table || [];
   },
 
-  view: function (ctrl, opts) {
-    opts = opts || {};
+  view: function (ctrl, isPlain, selectors, attrs) {
+    selectors = selectors || {};
+    attrs = attrs || {};
 
-    if (!opts.isPlain || opts.isPlain()) {
-      return _plainTable(ctrl.table, opts.selector, opts.attrs);
+    var selectorParent = selectors._parent || '',
+      attrParent = attrs._parent || {},
+      cols = ctrl.table[0].length;
+
+    if (!isPlain || isPlain()) {
+      return m('table' + selectorParent, attrParent, _tableRows(0, cols));
     } else {
       return m('div.mc-TableResponsive', [
         m('div.scrollable',
-          _scrollableTable(ctrl.table, '.responsive' + (opts.selector || ''), opts.attrs)),
+          m('table.responsive' + selectorParent, attrParent, _tableRows(1, cols))
+        ),
         m('div.pinned',
-          _pinnedTable(ctrl.table, opts.selector,opts.attrs))
+          m('table' + selectorParent, attrParent, _tableRows(0, 1))
+        )
       ]);
     }
 
-    function _plainTable (table, selector, attrs) {
-      return m('table' + (selector || ''), attrs || {},
-        _tableCols(table, 0, table[0].length));
-    }
-
-    function _pinnedTable (table, selector, attrs) {
-      return m('table' + (selector || ''), attrs || {},
-        _tableCols(table, 0, 1));
-    }
-
-    function _scrollableTable (table, selector, attrs) {
-      return m('table' + (selector || ''), attrs || {},
-        _tableCols(table, 1, table[0].length));
-    }
-
-    function _tableCols (table, begin, end) {
+    function _tableRows (begin, end) {
       return m('tbody',
-        table.map(function (row, i) {
-          return m('tr',
+        ctrl.table.map(function (row, i) {
+
+          var oddEven = i & 1 ? '_odd' : '_even', // jshint ignore:line
+            selector = (selectors._tr || '') + (selectors[oddEven] || '') +
+              (selectors[i] || ''),
+            attr = {};
+
+          if (attrs._tr) { merge(attr, attrs._tr); }
+          if (attrs[oddEven]) { merge(attr, attrs[oddEven]); }
+          if (attrs[i]) { merge(attr, attrs[i]); }
+
+          return m('tr' + selector, attr,
+
+            // render cells
             row.slice(begin, end).map(function (cell) {
-              return m(i ? 'td' : 'th', cell + ''); //todo mithril does not allow type number
+              return m(i ? 'td' : 'th', cell + ''); // Mithril only supports strings
             })
           );
         })
       );
+    }
+
+    function merge (to, from) {
+      for (var key in from) { to[key] = from[key]; }  // jshint ignore:line
     }
   }
 };

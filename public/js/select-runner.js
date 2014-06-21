@@ -12,7 +12,7 @@ var app = {
       'audi' : 'Audi'
     };
 
-    // options provided when select controlled is instantiated
+    // options provided when select component is instantiated
     this.select1 = new mc.Select.controller(app.car, options1, 'Choose a car');
 
     // options will be provided when select component is rendered
@@ -26,10 +26,18 @@ var app = {
       'human': 'Human',
       'dwarf': 'Dwarf'
     };
+    var selectors2 = {
+      _parent: '.selectClass#selectId'
+    };
+    var attrs2 = {
+      _parent: { style: {color: 'red'} },
+      undead: { style: {color: 'blue'} },
+      orc: { style: {color: 'green'} }
+    };
 
     return m('div', [
       mc.Select.view(ctrl.select1),
-      mc.Select.view(ctrl.select2, { options: options2 }),
+      mc.Select.view(ctrl.select2, selectors2, attrs2, { options: options2 }),
       m('div', {}, app.car() || 'no car selected'),
       m('div', {}, app.race() || 'no race selected')
     ]);

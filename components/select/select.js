@@ -1,4 +1,4 @@
-/*global m, $ */
+/*global m */
 
 // Select ======================================================================
 var mc = mc || {};
@@ -11,23 +11,29 @@ mc.Select = {
     this.caption = caption || '';
   },
 
-  view: function (ctrl, optsParam) {
-    var opts = Object.create(optsParam || {}); // don't change param
-    opts.attrs = opts.attrs || {};
-    opts.attrs.onchange = m.withAttr('value', ctrl.value);
-    opts.attrs.value = ctrl.value();
+  view: function (ctrl, selectors, attrs, overrides) {
+    selectors = selectors || {};
+    attrs = JSON.parse(JSON.stringify(attrs || {})); // fastest way to clone
+    overrides = overrides || {};
 
-    var caption = opts.caption || ctrl.caption,
-      options = opts.options || ctrl.options || [];
+    var attrsParent = attrs._parent || {};
+    attrsParent.onchange = attrsParent.onchange || m.withAttr('value', ctrl.value);
+    attrsParent.value = attrsParent.value || ctrl.value;
 
-    return m('select' + (opts.selector || ''), opts.attrs, [
-        caption ? m('option', { value: '' }, caption) : '',
+    var caption = overrides.caption || ctrl.caption,
+      options = overrides.options || ctrl.options;
+
+    return m('select' + (selectors._parent || ''), attrsParent, [
+        caption ? m('option', caption) : '',
         Object.keys(options).map(composeOption)
       ]
     );
 
     function composeOption(key) {
-      return m('option', { value: key, selected: key == (ctrl.value() + '') }, options[key] + ''); // jshint ignore:line
+      var attrsOption = attrs[key] || {};
+      attrsOption.value = key;
+      attrsOption.selected = key === (attrsParent.value() + '');
+      return m('option' + (selectors[key] || ''), attrsOption, options[key] + '');
     }
   }
 };

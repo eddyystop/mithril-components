@@ -10,14 +10,20 @@
  *           {str} legend: the text for the option.
  *   {str} caption: the caption to display as the first option. Optional.
  *
- * mc.Select.view(ctrl, options)
+ * mc.Select.view(ctrl, selectors, attrs, overrides)
  *   {obj} ctrl: select's controller.
- *   {obj} options: { options:..., caption:..., selector:..., attrs:... }
- *           Options overriding controller's options and more. Optional.
- *           {obj} options: overrides controller's options. Optional.
- *           {str} caption: overrides controller's caption. Optional.
- *           {str} selector: tag selector string for <select>. Optional.
- *           {obj} attrs: attr object for <select>. Optional.
+ *   {obj} selectors: Selectors to add to tag names. Optional.
+ *           { _parent:..., value1:..., value2:..., ... }
+ *             {str} _parent: selector string for <select>
+ *             {str} value1: selector string for <option value=value1>.
+ *   {obj} attrs: Attrs for elements. Optional.
+ *           { _parent:{...}, value1:{...}, value2:{...}, ... }
+ *             {obj} _parent: attrs for <select>
+ *             {obj} value1: attrs for <option value=value1>.
+ *   {obj} overrides: Overriding controller's props. Optional.
+ *           { options:..., caption:... }
+ *             {obj} options: overrides controller's options. Optional.
+ *             {str} caption: overrides controller's caption. Optional.
  *
  * SAMPLE USAGE ================================================================
 
@@ -36,7 +42,7 @@
           'audi' : 'Audi'
         };
 
-        // options provided when select controlled is instantiated
+        // options provided when select component is instantiated
         this.select1 = new mc.Select.controller(app.car, options1, 'Choose a car');
 
         // options will be provided when select component is rendered
@@ -50,10 +56,18 @@
           'human': 'Human',
           'dwarf': 'Dwarf'
         };
+        var selectors2 = {
+          _parent: '.selectClass#selectId'
+        };
+        var attrs2 = {
+          _parent: { style: {color: 'red'} },
+          undead: { style: {color: 'blue'} },
+          orc: { style: {color: 'green'} }
+        };
 
         return m('div', [
           mc.Select.view(ctrl.select1),
-          mc.Select.view(ctrl.select2, { options: options2 }),
+          mc.Select.view(ctrl.select2, selectors2, attrs2, { options: options2 }),
           m('div', {}, app.car() || 'no car selected'),
           m('div', {}, app.race() || 'no race selected')
         ]);
