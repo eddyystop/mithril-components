@@ -11,9 +11,8 @@ mc.Select = {
     this.caption = caption || '';
   },
 
-  view: function (ctrl, selectors, attrs, overrides) {
+  view: function (ctrl, selectors, attrs, overrides) { // props are added to attrs!!
     selectors = selectors || {};
-    attrs = JSON.parse(JSON.stringify(attrs || {})); // fastest way to clone
     overrides = overrides || {};
 
     var attrsParent = attrs._parent || {};

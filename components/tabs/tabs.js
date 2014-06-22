@@ -29,15 +29,12 @@ mc.Tabs = {
       var selected = activeTab === name,
         selector = (selected && selectors._activeAnchor ?
           selectors._activeAnchor : selectors._anchor) || '',
-        attrParam = (selected && attrs._activeAnchor ?
-          attrs._activeAnchor : attrs._anchor) || '',
-        attr = {};
-
-      if (attrParam) { merge(attr, attrParam); }
-      merge(attr, { href: '/' + name, config: m.route });
+        attr = extend({}, { href: '/' + name, config: m.route },
+          (selected && attrs._activeAnchor ? attrs._activeAnchor : attrs._anchor)
+        );
 
       return m('li' + (selectors._item || ''), attrs._item || {},
-        m('a' + selector, attr, tabs[name].label || '')
+        m('a' + selector, attr, tabs[name].label)
       );
     }
 
@@ -58,9 +55,15 @@ mc.Tabs = {
       return norm;
     }
 
-
-    function merge (to, from) {
-      for (var key in from) { to[key] = from[key]; }  // jshint ignore:line
+    function extend (to /* arguments */) {
+      Array.prototype.slice.call(arguments, 1).forEach(function (obj, i) {
+        if (typeof obj === 'object') {
+          for (var key in obj) { // jshint ignore:line
+            if (obj[key]) { to[key] = obj[key]; } // jshint ignore:line
+          }
+        }
+      });
+      return to;
     }
   }
 };
