@@ -17,7 +17,7 @@ var app = {
 
   controller: function () {
     var tabs = {
-      list: { view: app.listView, ctrl: this, legend: 'theList' },
+      list: { view: app.listView, ctrl: this, label: 'theList' },
       settings: { view: app.settingsView },
       about: app.aboutView
     };
