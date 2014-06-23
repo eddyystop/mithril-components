@@ -28,9 +28,7 @@ var app = {
 		this.tabsCtrl = new mc.Tabs.controller();
 		
 		this.activeTab = m.prop('settings');
-		this.tabsCtrl1 = new mc.Tabs.controller(this.activeTab, function () {
-			console.log(arguments);
-		});
+		this.tabsCtrl1 = new mc.Tabs.controller(this.activeTab, this.activeTab);
 		
 		var t = 0, self = this;
 		setInterval(function () {
