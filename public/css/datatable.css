@@ -1,0 +1,49 @@
+.datatable {
+    border-collapse: collapse;
+    border-spacing: 0;
+    empty-cells: show;
+    border: 1px solid #cbcbcb;
+}
+
+.datatable caption {
+    color: #000;
+    font: italic 85%/1 arial, sans-serif;
+    padding: 1em 0;
+    text-align: center;
+}
+
+.datatable td,
+.datatable th {
+    border: 1px solid #cbcbcb;
+    font-size: inherit;
+    margin: 0;
+    overflow: visible; /*to make ths where the title is really long work*/
+    padding: 0.5em 1em;
+}
+
+
+.datatable thead {
+    background: #e0e0e0;
+    color: #000;
+}
+
+.datatable td {
+    background-color: transparent;
+}
+.datatable-odd td {
+    background-color: #f2f2f2;
+}
+
+.datatable tr.even td {
+    background-color: #fff;
+}
+.datatable tr.odd td {
+    background-color: #f2f2f2;
+}
+
+.datatable th i.fa-sort-asc,
+.datatable th i.fa-sort-desc,
+.datatable th i.fa-sort {
+	cursor:pointer;
+}
+
