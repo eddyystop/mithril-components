@@ -6,7 +6,9 @@ var app = {
 	controller: function () {
 
 		this.datatable = new mc.Datatable.controller([
-			{key:"Empty"},
+			{key:"Enough?", formatter: function (value, row) {
+				return (row.Quantity > 30 ? 'plenty':'scarce');
+			}},
 			{key:"Numbers", children:[
 				{key:"SKU", label:"SKU", sortable:true},
 				{key:"Quantity", sortable:true, class:'right-aligned'}
@@ -48,7 +50,8 @@ var app = {
 
 	view: function (ctrl) {
 		return mc.Datatable.view(ctrl.datatable,  {
-			caption:'this is the caption'
+			caption:'this is the caption',
+			width:'40em'
 		});
 	}
 };

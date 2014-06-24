@@ -14,7 +14,7 @@ mc.Datatable = {
 			});
 		}
 		if (config.data) {
-			this.data = m.prop(config.data);
+			this.data = (typeof config.data == 'function' ? config.data:  m.prop(config.data));
 		}
 		
 		this.sort = function (target) {
@@ -45,23 +45,35 @@ mc.Datatable = {
 		this.onclick = function (e) {
 			var target = e.target;
 			if (target.nodeName == 'I') return this.sort(target);
-			if (this.config.onclick) return this.onCellClick(target);
+			if (typeof this.config.onclick == 'function') return this.onCellClick(target);
 		}.bind(this);
 
+		this.setWidth = function (attrs, width) {
+			if (!width) return;
+			if (/^\d+$/.test(width)) width += 'px';
+			if (!attrs.style) attrs.style = '';
+			if (width) attrs.style += 'width:' + width +';';
+		};
 	},
 	view: function (ctrl, options) {
 		var cols = ctrl.cols;
 		
+		if (!ctrl.data()) {
+			return m('div','Sorry, no data to display');
+		}
 		options = options || {};
 		options.classNames = options.classNames || {};
+		var attrs =				{
+			class: options.classNames.table || 'datatable',
+			onclick: ctrl.onclick
+		};
 		
+		ctrl.setWidth(attrs, options.width);
+	
 		return m('div', [
 			m(
 				'table',
-				{
-					class: options.classNames.table || 'datatable',
-					onclick: ctrl.onclick
-				},
+				attrs,
 				[
 					this.headView(ctrl, cols, options),
 					this.bodyView(ctrl, cols, options, ctrl.data()),
@@ -108,8 +120,9 @@ mc.Datatable = {
 				if (col._colspan && col._colspan > 1) attrs.colspan = col._colspan;
 				if (!col._depth) {
 					attrs['data-colKey'] = col.key;
-					if (col.width) attrs.width = col.width;
+					ctrl.setWidth(attrs, col.width);
 					if (rowNum < maxDepth) attrs.rowspan = maxDepth - rowNum + 1;
+					if (col._sorted && col._sorted != 'none') attrs.class = options.classNames.sorted || 'sorted';
 				}
 				
 				return m(
@@ -121,7 +134,7 @@ mc.Datatable = {
 								class: {asc:'fa-sort-asc',desc:'fa-sort-desc',none:'fa-sort'}[col._sorted || 'none']
 							}
 						) : ''),
-						' ',
+						m.trust(' '),
 						col.label || col.key
 					]
 				);
@@ -139,13 +152,20 @@ mc.Datatable = {
 	bodyView: function (ctrl, cols, options, data) {
 			
 		var buildRow = function (row, index) {
-			var buildCell = function (cell) {
+			var buildCell = function (col) {
+				var value = row[col.field || col.key];
+				if (typeof col.formatter == 'function') {
+					value = col.formatter(value, row, col);
+				}
+						
+
 				return m(
 					'td',
 					{
-						class:(cell._sorted && cell._sorted != 'none ' ? 'sorted ':'') + (cell.class ? cell.class : '')
-					},	
-					row[cell.field || cell.key]
+						class:(col._sorted && col._sorted != 'none' ? (options.classNames.sorted || 'sorted'):'') + 
+						' ' + (col.class ? col.class : '')
+					},
+					value
 				);
 			};
 			return m(
