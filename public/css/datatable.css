@@ -30,9 +30,6 @@
 .datatable td {
     background-color: transparent;
 }
-.datatable-odd td {
-    background-color: #f2f2f2;
-}
 
 .datatable tr.even td {
     background-color: #fff;
@@ -40,10 +37,20 @@
 .datatable tr.odd td {
     background-color: #f2f2f2;
 }
+.datatable tr.even td.sorted {
+    background-color: #eef;
+}
+.datatable tr.odd td.sorted {
+    background-color: #e2e2f2;
+}
 
 .datatable th i.fa-sort-asc,
 .datatable th i.fa-sort-desc,
 .datatable th i.fa-sort {
 	cursor:pointer;
+}
+
+.datatable td.right-aligned {
+	text-align: right;
 }
 

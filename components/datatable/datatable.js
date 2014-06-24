@@ -4,6 +4,7 @@ var mc = mc || {};
 mc.Datatable = {
 	controller: function (cols, config) {
 		this.cols = cols;
+		this.config = config = config || {};
 		
 		
 		if (config.url) {
@@ -16,9 +17,7 @@ mc.Datatable = {
 			this.data = m.prop(config.data);
 		}
 		
-		this.onclick = function (e) {
-			var target = e.target;
-			if (target.nodeName != 'I') return;
+		this.sort = function (target) {
 			var key = target.parentNode.getAttribute('data-colkey'),
 				col = this.activeCols[key];
 			if (this.lastSorted && this.lastSorted != key) {
@@ -31,6 +30,22 @@ mc.Datatable = {
 			}));
 			col._sorted = (reverse > 0?'asc':'desc');
 			this.lastSorted = key;
+		};
+		
+		this.onCellClick = function (target) {
+			while (target.nodeName != 'TD' && target.nodeName != 'TABLE') target = target.parentNode;
+			if (target.nodeName == 'TABLE') return;
+			var colIndex = target.cellIndex,
+				col = this.dataRow[colIndex],
+				rowIndex = target.parentNode.sectionRowIndex,
+				row = this.data()[rowIndex];
+			this.config.onclick(row[col.key],row, col);
+		};
+		
+		this.onclick = function (e) {
+			var target = e.target;
+			if (target.nodeName == 'I') return this.sort(target);
+			if (this.config.onclick) return this.onCellClick(target);
 		}.bind(this);
 
 	},
@@ -93,6 +108,7 @@ mc.Datatable = {
 				if (col._colspan && col._colspan > 1) attrs.colspan = col._colspan;
 				if (!col._depth) {
 					attrs['data-colKey'] = col.key;
+					if (col.width) attrs.width = col.width;
 					if (rowNum < maxDepth) attrs.rowspan = maxDepth - rowNum + 1;
 				}
 				
@@ -118,12 +134,17 @@ mc.Datatable = {
 		};
 		return m('thead', matrix.map(buildRow));
 	},
+	
+	
 	bodyView: function (ctrl, cols, options, data) {
 			
 		var buildRow = function (row, index) {
 			var buildCell = function (cell) {
 				return m(
 					'td',
+					{
+						class:(cell._sorted && cell._sorted != 'none ' ? 'sorted ':'') + (cell.class ? cell.class : '')
+					},	
 					row[cell.field || cell.key]
 				);
 			};

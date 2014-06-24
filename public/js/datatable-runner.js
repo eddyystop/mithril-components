@@ -9,10 +9,10 @@ var app = {
 			{key:"Empty"},
 			{key:"Numbers", children:[
 				{key:"SKU", label:"SKU", sortable:true},
-				{key:"Quantity", sortable:true}
+				{key:"Quantity", sortable:true, class:'right-aligned'}
 			]},
 			{key:"Text", children:[
-				{key:"Item", sortable:true, className:"myClass"},
+				{key:"Item", sortable:true},
 				{key:"Description", sortable:true, width:200}
 			]}
 		],{
@@ -38,7 +38,10 @@ var app = {
 				{"SKU":"82-38333", "Quantity":288, "Item":"Lip balm", "Description":"Lip balm. Flavor: Cherry."},
 				{"SKU":"21-38485", "Quantity":177, "Item":"Ping Pong Ball", "Description":""},
 				{"SKU":"83-38285", "Quantity":87, "Item":"Hockey Puck", "Description":"Glow-in-the-dark hockey puck."}
-			]
+			],
+			onclick: function (content, row, col) {
+				console.log(content, row, col);
+			}
 		});
 		
 	},
