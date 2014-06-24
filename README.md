@@ -30,10 +30,10 @@ A working example, if any, is located at ```public/tableResponsive.html```.
 
 ### UI Components
 
-- ```table``` - Simple table.
 - ```select``` - Simple select.
 - ```select2``` - [Select replacement.] (https://github.com/ivaynberg/select2) 
 Supports searching, remote data, and infinite scrolling. jQuery based.
+- ```table``` - Simple table.
 - ```tableResponsive``` - Responsive table.
 - ```datatable``` - Table with sortable columns, AJAX population 
 and multi-row headings.

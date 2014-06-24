@@ -8,7 +8,7 @@
  *                    Define a column displaying property {str} key from the data.
  *                    Column heading is {str} label. It may be {bol} sortable.
  *                    classname ?????????? width ?????????????
- *             || { key:{str}, children:{array of {obj} like the one above}
+ *             || { key:{str}, children:{array of {obj} like cols}
  *                    {array} children define columns to display.
  *                    {str}   key is a heading displayed over the columns.
  *             || { key:{str}
