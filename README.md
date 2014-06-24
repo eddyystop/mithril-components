@@ -37,6 +37,8 @@ Supports searching, remote data, and infinite scrolling. jQuery based.
 - ```tableResponsive``` - Responsive table.
 - ```imageResponsive``` - [Responsive image polyfill] 
 (https://github.com/scottjehl/picturefill)  for < picture > and more.
+- ```datatable``` - Table with sortable columns, AJAX population 
+and multi-row headings.
 - ```tabs``` - Tab control. Renders active view. Routing via m.route().
 
 ## Mixins
