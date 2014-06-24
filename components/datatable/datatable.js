@@ -39,7 +39,7 @@ mc.Datatable = {
 				col = this.dataRow[colIndex],
 				rowIndex = target.parentNode.sectionRowIndex,
 				row = this.data()[rowIndex];
-			this.config.onclick(row[col.key],row, col);
+			this.config.onclick.call(this, row[col.key],row, col);
 		};
 		
 		this.onclick = function (e) {
