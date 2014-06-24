@@ -157,7 +157,7 @@ mc.Datatable = {
 					attrs = {};
 				
 				if (typeof col.formatter == 'function') {
-					value = col.formatter(value, row, col, attrs);
+					value = col.formatter.call(ctrl, value, row, col, attrs);
 				}
 				if (!attrs.class) attrs.class = '';
 				if (col._sorted && col._sorted != 'none') attrs.class += ' ' + (options.classNames.sorted || 'sorted');

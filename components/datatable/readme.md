@@ -83,7 +83,7 @@ A column definition may contain the following properties:
 * `width` {Integer | CSS with spec} width of the column.  If a plain number, it will assumed to be in pixels.
 * `class` {String}  additional CSS class names to be added to each cell.
 * `sortable` {Boolean} the contents of the column can be sorted.
-* `formatter` {Function} function to format the value to be shown. It should return the value formatted for display. It will be called with the following arguments:
+* `formatter` {Function} function to format the value to be shown. It should return the value formatted for display. It will be called in the context (`this`) of the Datatable instance and will receive the following arguments:
 	* `value` {Any} value from the data store.
 	* `row` {Object} row to which the cell belongs.
 	* `col` {Object} column definition.
