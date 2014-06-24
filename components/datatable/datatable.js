@@ -153,18 +153,20 @@ mc.Datatable = {
 			
 		var buildRow = function (row, index) {
 			var buildCell = function (col) {
-				var value = row[col.field || col.key];
+				var value = row[col.field || col.key],
+					attrs = {};
+				
 				if (typeof col.formatter == 'function') {
-					value = col.formatter(value, row, col);
+					value = col.formatter(value, row, col, attrs);
 				}
-						
-
+				if (!attrs.class) attrs.class = '';
+				if (col._sorted && col._sorted != 'none') attrs.class += ' ' + (options.classNames.sorted || 'sorted');
+				if (col.class) attrs.class += ' ' + col.class;
+				
+				if (!attrs.class) delete attrs.class;
 				return m(
 					'td',
-					{
-						class:(col._sorted && col._sorted != 'none' ? (options.classNames.sorted || 'sorted'):'') + 
-						' ' + (col.class ? col.class : '')
-					},
+					attrs,
 					value
 				);
 			};

@@ -85,8 +85,9 @@ A column definition may contain the following properties:
 * `sortable` {Boolean} the contents of the column can be sorted.
 * `formatter` {Function} function to format the value to be shown. It should return the value formatted for display. It will be called with the following arguments:
 	* `value` {Any} value from the data store.
-	* `row` {Object} row to which the cell belongs
-	* `col` {Object} column definition
+	* `row` {Object} row to which the cell belongs.
+	* `col` {Object} column definition.
+	* `attrs` {Object} empty object later to be used to set the attributes on the cell.
 
 The second argument to the controller is an object with the following properties:
 
@@ -120,18 +121,27 @@ Cell Formatting
 
 A formatter can create contents for a column that has no value in the data store.  The formatter function will receive an `undefined` `value` but may return a value to display based on the data in other fields in the row, for example:
 
-	formatter: function (value, row, col) {
+	formatter: function (value, row, col, attrs) {
 		return row.firstName + ' ' + row.lastName;
 	}
 
 It may also help to extract a value deep down in the object hierarchy of the received data.  
 
-	formatter: function (value, row, col) {
+	formatter: function (value, row, col, attrs) {
 		return value.firstName + ' ' + value.lastName;
 	}
 
 
 The formatter has access to the column definition where the user can store extra information to help the formatter. In order to avoid compatibility issues with future features, it is recommended that custom user data in the columns definition be prefixed with the `'$'` sign since datatable already uses `'_'` for internal properties.
+
+The formatter also receives an empty object which will be later used in the creation of the TD element. The user may set the attributes on the cell, for example:
+
+	formatter: function (value, row, col, attrs) {
+		if (value < 0) attrs.style = 'background-color: red';
+		return (Math.round(value * 10000) / 100) + '%';
+	}
+
+Datatable will further add CSS class names to those attributes, the user is free to add classnames but note that certain attributes might be overridden by Datatable's own styles.  Either proper prioritization or the `!important` attribute might be required to make a style visible.  Using the `style` attribute does have priority over styles set by CSS stylesheets and Datatable doesn't use it.
 
 Pre-prossesing the received data
 --------------------------------

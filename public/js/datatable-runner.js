@@ -6,16 +6,20 @@ var app = {
 	controller: function () {
 
 		this.datatable = new mc.Datatable.controller([
-			{key:"Enough?", formatter: function (value, row) {
-				return (row.Quantity > 30 ? 'plenty':'scarce');
+			{key:"Enough?", formatter: function (value, row, col, attrs) {
+				if (row.Quantity < 30) {
+					attrs.style = 'background-color: red';
+					return 'scarce';
+				}
+				return 'plenty';
 			}},
 			{key:"Numbers", children:[
 				{key:"SKU", label:"SKU", sortable:true},
 				{key:"Quantity", sortable:true, class:'right-aligned'}
 			]},
-			{key:"Text", children:[
-				{key:"Item", sortable:true},
-				{key:"Description", sortable:true, width:200}
+			{key:"Description", children:[
+				{key:"xx", field:"Item", label:"Short", sortable:true},
+				{key:"Description", label: "Long", sortable:true, width:200}
 			]}
 		],{
 			/*
@@ -51,7 +55,7 @@ var app = {
 	view: function (ctrl) {
 		return mc.Datatable.view(ctrl.datatable,  {
 			caption:'this is the caption',
-			width:'40em'
+			width:'60em'
 		});
 	}
 };
