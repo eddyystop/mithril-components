@@ -35,10 +35,10 @@ A working example, if any, is located at ```public/tableResponsive.html```.
 - ```select2``` - [Select replacement.] (https://github.com/ivaynberg/select2) 
 Supports searching, remote data, and infinite scrolling. jQuery based.
 - ```tableResponsive``` - Responsive table.
-- ```imageResponsive``` - [Responsive image polyfill] 
-(https://github.com/scottjehl/picturefill)  for < picture > and more.
 - ```datatable``` - Table with sortable columns, AJAX population 
 and multi-row headings.
+- ```imageResponsive``` - [Responsive image polyfill] 
+(https://github.com/scottjehl/picturefill)  for < picture > and more.
 - ```tabs``` - Tab control. Renders active view. Routing via m.route().
 
 ## Mixins
