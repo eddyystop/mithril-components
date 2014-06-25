@@ -44,7 +44,9 @@ and multi-row headings.
 #### Occlusion components
 
 Occlusion implementations helps you implement efficient components that render 
-only what is visible on screen.
+only what is visible on the screen. 
+They are useful for large tables, large lists, infinite scrolling, 
+deferring rendering of below-the-fold content, and parallax sites.
 
 - ```occlusionContainer``` - A container to hold components able to render only what is visible.
 
