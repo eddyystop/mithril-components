@@ -31,8 +31,7 @@ mc.occlusionListSub = {
         self.pxPerItem = sizes.pxPerItem;
         self.occlusion.contentsHeight = self.items.length * self.pxPerItem;
       }
-      m.startComputation();
-      m.endComputation();
+      m.redraw();
     };
   },
 
