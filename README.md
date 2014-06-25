@@ -30,14 +30,25 @@ A working example, if any, is located at ```public/tableResponsive.html```.
 
 ### UI Components
 
-- ```table``` - Simple table.
 - ```select``` - Simple select.
 - ```select2``` - [Select replacement.] (https://github.com/ivaynberg/select2) 
 Supports searching, remote data, and infinite scrolling. jQuery based.
+- ```table``` - Simple table.
 - ```tableResponsive``` - Responsive table.
+- ```datatable``` - Table with sortable columns, AJAX population 
+and multi-row headings.
 - ```imageResponsive``` - [Responsive image polyfill] 
 (https://github.com/scottjehl/picturefill)  for < picture > and more.
 - ```tabs``` - Tab control. Renders active view. Routing via m.route().
+
+#### Occlusion components
+
+Occlusion implementations helps you implement efficient components that render 
+only what is visible on the screen. 
+They are useful for large tables, large lists, infinite scrolling, 
+deferring rendering of below-the-fold content, and parallax sites.
+
+- ```occlusionContainer``` - A container to hold components able to render only what is visible.
 
 ## Mixins
 Mixin ```ValidationMixin``` resides in ```mixins/ValidationMixins/```.

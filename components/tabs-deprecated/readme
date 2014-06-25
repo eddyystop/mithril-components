@@ -1,0 +1,107 @@
+/**
+ * A simple tab control.
+ * Calls view associated with selected tab.
+ *
+ * new mc.Tabs.controller(tabs, activeTab)
+ *   {obj} tabs: tab options { tabName1:..., tabName2:..., ... } where each tab's value is
+ *              { view: {fcn} viewFcn, ctrl: {obj} viewFcnCtrl, label: {str} tabLabel }
+ *           || {fcn} viewFcn
+ *           ctrl and label are optional and they are resolved in mc.Tabs.view,
+ *           ctrl defaults initially to mc.Tabs.view's 'ctrl' and thereafter
+ *           to the last ctrl provided.
+ *   {str} activeTab: name of active tab. Defaults to m.route.param('tab') and
+ *           then to the first tabName in tabs.
+ *
+ * mc.Tabs.view(ctrl, selectors, attrs, overrides)
+ *   {obj} ctrl: Tabs's controller.
+ *   {obj} selectors: Selectors to add to tags. Optional.
+ *           { _parent:..., _item:, _anchor:, _activeAnchor: }
+ *             {str} _parent: selector string for outer <div> wrapper.
+ *             {str} _item: selector for each <li>.
+ *             {str} _anchor: selector for each <a>.
+ *             {str} _activeAnchor: selector for <a> of active tab. Used instead of _anchor.
+ *   {obj} attrs: Attrs for elements. Optional.
+ *           { _parent:{...}, _item:{}, _anchor:{}, _activeAnchor:{} }
+ *             {obj} _parent: attrs for outer <div> wrapper.
+ *             attrs has the same keys as 'selectors' with corresponding meanings.
+ *   {obj} overrides: override controller's values. Optional.
+ *           options.tabs
+ *           options.activeTab
+ *
+ * SAMPLE USAGE ================================================================
+
+    <script src="js/vendor/mithril.js"></script>
+    <script src="../components/tabs/tabs.js"></script>
+
+    var app = {
+      name: m.prop('John'),
+      dept: m.prop('dev'),
+      list: m.prop([
+        { "author": "Albert Camus",
+          "quote": "Those who lack the courage will always find a philosophy to justify it."
+        },
+        { "author": "Plato",
+          "quote": "You can discover more about a person in an hour of play than in a year of conversation."
+        },
+        { "author": "Ludwig Wittgenstein",
+          "quote": "If people never did silly things nothing intelligent would ever get done."
+        }
+      ]),
+
+      controller: function () {
+        var tabs = {
+          list: { view: app.listView, ctrl: this, label: 'theList' },
+          settings: { view: app.settingsView },
+          about: app.aboutView
+        };
+
+        this.name = m.prop(app.name());
+        this.dept = m.prop(app.dept());
+        this.list = m.prop(app.list());
+
+        this.tabs = new mc.Tabs.controller(tabs);
+      },
+
+      view: function (ctrl) {
+        var selectors = { _parent: '.tabs', _activeAnchor: '.selected' };
+        return mc.Tabs.view(ctrl.tabs, selectors);
+      },
+
+      listView: function (ctrl) {
+        return m('ul.itemlist',
+          ctrl.list().map(function (item) {
+            return m("li", item.quote + ' - ' + item.author);
+          })
+        );
+      },
+      settingsView: function (ctrl) {
+        return m('form', [ // <form> is optional
+          m('div', 'name (4 to 10 chars)'),
+          m('input',
+            { value: ctrl.name(),
+              onchange: m.withAttr('value', app.name) }),
+          m('div', 'department'),
+          m('input',
+            { value: ctrl.dept(), onchange: m.withAttr('value', app.dept) })
+        ]);
+      },
+      aboutView: function (ctrl) {
+        return m(
+          ".about", [
+            "Add a quote in JSON",
+            m("hr"),
+            m("textarea", { rows: 10, cols: 80,
+                onchange: function () { app.list(JSON.parse(this.value)); } },
+              JSON.stringify(ctrl.list())
+            ),
+            m('p', 'If you go to the [list] tab, you will see the changes at once.')
+          ]
+        );
+      }
+    };
+
+    m.route(document.body, '/', {
+      '/': app,
+      '/:tab': app
+    });
+ */

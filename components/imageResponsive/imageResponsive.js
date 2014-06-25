@@ -10,7 +10,6 @@ mc.ImageResponsive = {
   },
 
   view: function (ctrl, overrides) {
-    overrides = JSON.parse( JSON.stringify(overrides || {}) ); // fastest cloning
     var sources = overrides.sources || ctrl.sources,
       img = overrides.img || ctrl.img;
 
