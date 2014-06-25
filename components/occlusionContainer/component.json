@@ -1,0 +1,4 @@
+{
+  "name": "occlusionContainer",
+  "scripts": ["occlusionContainer.js"]
+}
