@@ -22,95 +22,26 @@
 <h1>scroll</h1>
 <script src="js/vendor/mithril.js"></script>
 <script src="js/vendor/jquery.js"></script>
+<script src="../components/occlusionContainer/occlusionContainer.js"></script>
+<script src="../components/occlusionList/occlusionList.js"></script>
 <script>
-    occlusionContainer = {
-        controller: function (options) {
-            this.contentsController = options.contentsController();
-            this.contentsView = options.contentsView;
-
-            var oc = this.contentsController.occlusion;
-            if (!oc || !oc.contentsHeight) { throw new Error('occlusionContainer\'s subcomponent controller must define this.occlusion.contentsHeight'); }
-            oc.containerHeight = options.containerHeight;
-            oc.containerWidth = options.containerWidth;
-            oc.scrollTop = 0;
-            oc.scrollHeight = 0;
-
-            this.onscroll = function (e) {
-                oc.scrollTop = e.target.scrollTop;
-                oc.scrollHeight = e.target.scrollHeight;
-            }
-        },
-
-        view: function (ctrl) {
-            var oc = ctrl.contentsController.occlusion;
-
-            return m('div',
-                    {   onscroll: ctrl.onscroll,
-                        style: {
-                            height: oc.containerHeight + 'px', width: oc.containerWidth ? oc.containerWidth : null,
-                            overflow: 'auto', position: 'relative', margin: 0, padding: 0
-                        }
-                    },
-                    m('div', {style: {
-                                height: (oc.contentsHeight - oc.scrollTop) + 'px',
-                                top: oc.scrollTop + 'px', position: 'relative'}
-                            },
-                            ctrl.contentsView(ctrl.contentsController)
-                    )
-            );
-        }
-    };
-
-    var occlusionList = {
-        controller: function (items, pxPerItem) {
-            this.items = items;
-            this.pxPerItem = pxPerItem;
-
-            this.occlusion = {};
-            this.occlusion.contentsHeight = this.items.length * this.pxPerItem;
-        },
-
-        view: function (ctrl, selectors, attrs) {
-            selectors = selectors || {};
-            attrs = attrs || {};
-
-            var begin = ctrl.occlusion.scrollTop / ctrl.pxPerItem  | 0, // floor, integer
-                    lines = ctrl.occlusion.containerHeight / ctrl.pxPerItem + 0.9 | 0;
-
-            return m('ul' + (selectors._parent || ''), attrs._parent || {},
-                    ctrl.items.slice(begin, begin + lines).map(function (item) {
-                        return m('li' + (selectors._item || ''), attrs._item || {},
-                                item)
-                    })
-            )
-        }
-    };
-
     app = {
+        // model
+        items: (function items () {
+            var items = [];
+            for (var i = 0; i < 1000; i += 1) { items.push('row ' + i); }
+            return items;
+        }()),
+        // app
         controller: function () {
-            this.component = new occlusionContainer.controller({
-                containerHeight: 250, // px
-                containerWidth: '250px', // string, optional
-                contentsController: function () {
-                    return new occlusionList.controller(items(), 38);
-                },
-                contentsView: function (ctrl) {
-                    return occlusionList.view(ctrl);
-                }
-            });
+            this.component = new mc.occlusionList.controller(app.items);
         },
         view: function (ctrl) {
-            return occlusionContainer.view(ctrl.component);
+            return mc.occlusionList.view(ctrl.component, 250, '250px',
+                    {_parent: '.parentSelector', _item: '.itemSelector'},
+                    {_parent: {parentAttr: ''}, _item: {itemAttr: ''}});
         }
     };
-
-    function items () {
-        var items = [];
-        for (var i = 0; i < 1000; i += 1) {
-            items.push('row ' + i);
-        }
-        return items;
-    }
 
     m.module(document.body, app);
 </script>

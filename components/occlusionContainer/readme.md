@@ -83,7 +83,7 @@ and the controller which renders its contents.
 A number is in px; a string is a valid CSS ```width``` property.
 * ```contentsController``` {function, required} returns the instantiated controller for the contents.
 Any params required by that controller may be passed to it here.
-* ```contentsController``` {function, required} calls the view for the contents
+* ```contentsView``` {function, required} calls the view for the contents
 and returns the results.
 Any params required by that view may be passed to it here.
 
