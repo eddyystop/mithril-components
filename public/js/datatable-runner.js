@@ -4,6 +4,7 @@
 var app = {
 
 	controller: function () {
+		this.count = 0;
 
 		this.datatable = new mc.Datatable.controller([
 			{key:"Enough?", formatter: function (value, row, col, attrs) {
@@ -53,10 +54,13 @@ var app = {
 	},
 
 	view: function (ctrl) {
-		return mc.Datatable.view(ctrl.datatable,  {
-			caption:'this is the caption',
-			width:'60em'
-		});
+		return [
+			m('p', ctrl.count++),
+			mc.Datatable.view(ctrl.datatable,  {
+				caption:'this is the caption',
+				width:'60em'
+			})]
+		;
 	}
 };
 
