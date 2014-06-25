@@ -25,7 +25,8 @@ mc.occlusionContainer = {
     return m('div',
       {   onscroll: ctrl.onscroll,
         style: {
-          height: oc.containerHeight + 'px', width: oc.containerWidth ? oc.containerWidth : null,
+          height: oc.containerHeight + 'px',
+          width: typeof oc.containerWidth === 'number' ? oc.containerWidth + 'px' : (oc.containerWidth || null),
           overflow: 'auto', position: 'relative', margin: 0, padding: 0
         }
       },

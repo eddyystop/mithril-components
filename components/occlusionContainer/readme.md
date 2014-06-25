@@ -78,9 +78,9 @@ controller: function () {
 ```options``` defines the size of the container,
 and the controller which renders its contents.
 
-* ```containerHeight``` {number, px, required} is the height of the container.
-* ```containerWidth``` {string, CSS, optional} is the width of the container.
-It may be anything valid for the CSS property ```width```.
+* ```containerHeight``` {number px, required} is the height of the container.
+* ```containerWidth``` {(number px)|(string CSS), optional} is the width of the container.
+A number is in px; a string is a valid CSS ```width``` property.
 * ```contentsController``` {function, required} returns the instantiated controller for the contents.
 Any params required by that controller may be passed to it here.
 * ```contentsController``` {function, required} calls the view for the contents
@@ -107,22 +107,23 @@ this.occlusion.contentsHeight = this.items.length * this.pxPerItem;
 
 The occlusionController will inject the following properties into this.occlusion:
 
-* ```containerHeight``` {number, px} as passed to occlusionContainer.controller.
-* ```containerWidth``` {string, optional} as passed to occlusionContainer.controller.
-* ```scrollTop``` {number, px} how far the top of the visible area is from the top of the virtual scrollable area.
-* ```scrollHeight``` {number,px} the height of the scrollable area.
+* ```containerHeight``` {number px} as passed to occlusionContainer.controller.
+* ```containerWidth``` {(number px)|(string CSS), optional} as passed to occlusionContainer.controller.
+* ```scrollTop``` {number px} how far the top of the visible area is from the top of the virtual scrollable area.
+* ```scrollHeight``` {number px} the height of the virtual scrollable area.
 
 ## View for the contents
 
-The contents consist of repeating rows, the content controller should be passed ```pxPerItem```,
-the height (px) of one row. It will need it to calculate ```contentsHeight```,
-the height of the scrollable area.
+If the contents consist of repeating rows, the content controller should have a ```pxPerItem``` parameter,
+the height, in px, of one row. It will need that to calculate ```contentsHeight```,
+the height of the virtual scrollable area.
 
-The view can then calculate the first visible row and the rows visible in the container
+The view can now calculate the first visible row and the number of visible rows in the container
 ```
 var begin = ctrl.occlusion.scrollTop / ctrl.pxPerItem  | 0, // floor, integer
   lines = ctrl.occlusion.containerHeight / ctrl.pxPerItem + 0.9 | 0;
 ```
 
-The view can also use the ratio between scrollTop and scrollHeight to calculate
-which contents it should start rendering at.
+Alternatively, the view can use the ratio ```scrollTop / scrollHeight``` to calculate
+which row it should start rendering with.
+However no ratio will calculate how many rows can be displayed in the container.
