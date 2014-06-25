@@ -41,6 +41,13 @@ and multi-row headings.
 (https://github.com/scottjehl/picturefill)  for < picture > and more.
 - ```tabs``` - Tab control. Renders active view. Routing via m.route().
 
+#### Occlusion components
+
+Occlusion implementations helps you implement efficient components that render 
+only what is visible on screen.
+
+- ```occlusionContainer``` - A container to hold components able to render only what is visible.
+
 ## Mixins
 Mixin ```ValidationMixin``` resides in ```mixins/ValidationMixins/```.
 Docs are in the ```readme```.
