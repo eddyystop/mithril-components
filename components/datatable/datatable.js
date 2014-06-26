@@ -31,9 +31,7 @@ mc.Datatable = {
 			}));
 			col._sorted = (reverse > 0 ? 'asc' : 'desc');
 			this.lastSorted = key;
-			while (target.nodeName != 'TABLE') target = target.parentNode;
-			//target.innerHTML = '';
-			m.render(target, mc.Datatable.contentsView(this));
+			m.render(this._tableEl, mc.Datatable.contentsView(this));
 		};
 
 		this.onCellClick = function (target) {
@@ -80,6 +78,8 @@ mc.Datatable = {
 			config: function (el, isOld) {
 				if (isOld) return;
 				el.addEventListener('click', ctrl.onclick);
+				ctrl._tableEl = el;
+				m.render(el,  mc.Datatable.contentsView(ctrl));
 			}
 
 		};
@@ -88,8 +88,7 @@ mc.Datatable = {
 
 		return m(
 			'table',
-			attrs,
-			this.contentsView(ctrl)
+			attrs
 		);
 	
 		 
