@@ -19,6 +19,8 @@ var app = {
 				{key:"Quantity", sortable:true, class:'right-aligned'}
 			]},
 			{key:"Description", children:[
+				// Both the `label` and the `field` name for the value default to the `key`
+				// but if you provide those, the `key` can be anything at all as long as it is unique.
 				{key:"xx", field:"Item", label:"Short", sortable:true},
 				{key:"Description", label: "Long", sortable:true, width:200}
 			]}
@@ -55,7 +57,11 @@ var app = {
 
 	view: function (ctrl) {
 		return [
-			m('p', ctrl.count++),
+			m('p', 'When clicking on any data cell, the count below will increment, ' +
+				'proving that a click does refresh the whole page.  ' +
+				'However, if you click on the sorting icon on any of the column headers ' +
+				'the table will sort but the refresh counter below will not increase.'),
+			m('p', 'Number of refreshes: ' + ctrl.count++),
 			mc.Datatable.view(ctrl.datatable,  {
 				caption:'this is the caption',
 				width:'60em'

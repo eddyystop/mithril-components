@@ -97,10 +97,10 @@ mc.Datatable = {
 		var cols = ctrl.cols,
 			options = ctrl.viewOptions;
 		return [
-				this.headView(ctrl, cols, options),
-				this.bodyView(ctrl, cols, options, ctrl.data()),
-				this.captionView(ctrl, options)
-			];
+			this.headView(ctrl, cols, options),
+			this.bodyView(ctrl, cols, options, ctrl.data()),
+			this.captionView(ctrl, options)
+		];
 	},
 	headView: function (ctrl, cols, options) {
 		var matrix = [],
