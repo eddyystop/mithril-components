@@ -37,21 +37,23 @@ mc.Datatable = {
 		this.onCellClick = function (target) {
 			while (target.nodeName != 'TD' && target.nodeName != 'TABLE') target = target.parentNode;
 			if (target.nodeName == 'TABLE') return;
+			
 			var colIndex = target.cellIndex,
 				col = this.dataRow[colIndex],
 				rowIndex = target.parentNode.sectionRowIndex,
 				row = this.data()[rowIndex];
-			return this.config.onclick.call(this, row[col.key], row, col);
+			
+			m.startComputation();
+			var ret = this.config.onCellClick.call(this, row[col.key], row, col);
+			m.endComputation();
+			return ret;
 		};
 
 		this.onclick = function (e) {
 			var target = e.target;
-			if (target.nodeName == 'I') return this.sort(target);
-			if (typeof this.config.onclick == 'function') {
-				m.startComputation();
-				var ret = this.onCellClick(target);
-				m.endComputation();
-				return ret;
+			if (target.nodeName == 'I' && /\bfa\-sort/.test(target.className)) return this.sort(target);
+			if (typeof this.config.onCellClick == 'function') {
+				return this.onCellClick(target);
 			}
 		}.bind(this);
 
@@ -135,10 +137,11 @@ mc.Datatable = {
 		});
 		ctrl.activeCols = activeCols;
 
-		var buildRow = function (row, rowNum) {
+		var buildHeaderRow = function (row, rowNum) {
 			var buildHeaderCell = function (col) {
 				var attrs = {};
 				if (col._colspan && col._colspan > 1) attrs.colspan = col._colspan;
+				if (col.class) attrs.class = col.class; 
 				if (!col._depth) {
 					attrs['data-colKey'] = col.key;
 					ctrl.setWidth(attrs, col.width);
@@ -169,14 +172,14 @@ mc.Datatable = {
 				row.map(buildHeaderCell)
 			);
 		};
-		return m('thead', matrix.map(buildRow));
+		return m('thead', matrix.map(buildHeaderRow));
 	},
 
 
 	bodyView: function (ctrl, cols, options, data) {
 
-		var buildRow = function (row, index) {
-			var buildCell = function (col) {
+		var buildDataRow = function (row, rowIndex) {
+			var buildDataCell = function (col) {
 				var value = row[col.field || col.key],
 					attrs = {};
 
@@ -194,14 +197,16 @@ mc.Datatable = {
 					value
 				);
 			};
+			var recordId = ctrl.config.recordId
 			return m(
 				'tr', {
-					class: (index & 1 ? options.classNames.odd || 'odd' : options.classNames.even || 'even')
+					'data-record-id': (recordId ? row[recordId] : rowIndex),
+					class: (rowIndex & 1 ? options.classNames.odd || 'odd' : options.classNames.even || 'even')
 				},
-				ctrl.dataRow.map(buildCell)
+				ctrl.dataRow.map(buildDataCell)
 			);
 		};
-		return m('tbody', data.map(buildRow));
+		return m('tbody', data.map(buildDataRow));
 	},
 	captionView: function (ctrl, options) {
 		if (options.caption) return m('caption', options.caption);

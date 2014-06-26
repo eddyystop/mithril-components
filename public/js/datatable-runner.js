@@ -48,9 +48,10 @@ var app = {
 				{"SKU":"21-38485", "Quantity":177, "Item":"Ping Pong Ball", "Description":""},
 				{"SKU":"83-38285", "Quantity":87, "Item":"Hockey Puck", "Description":"Glow-in-the-dark hockey puck."}
 			],
-			onclick: function (content, row, col) {
+			onCellClick: function (content, row, col) {
 				console.log(content, row, col);
-			}
+			},
+			recordId:'SKU'
 		});
 		
 	},

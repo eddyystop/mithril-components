@@ -45,7 +45,7 @@ Usage
 
 					// Handler of click event on data cell
 					// It receives the relevant information already resolved
-					onclick: function (content, row, col) {
+					onCellClick: function (content, row, col) {
 						console.log(content, row, col);
 					}
 				}
@@ -81,7 +81,7 @@ A column definition may contain the following properties:
 * `children` {Array}  array if further columns definitions nested under this table header.
 * `field` {String} name of the property in the data containing the text to be shown.
 * `width` {Integer | CSS with spec} width of the column.  If a plain number, it will assumed to be in pixels.
-* `class` {String}  additional CSS class names to be added to each cell.
+* `class` {String}  additional CSS class names to be added to each cell. This applies to the header cells as well as to the data cells.  Be sure to use the tagName along the className (`td.myClassName` or `th.myClassName`) in the CSS style sheet when defining the styles for each.
 * `sortable` {Boolean} the contents of the column can be sorted.
 * `formatter` {Function} function to format the value to be shown. It should return the value formatted for display. It will be called in the context (`this`) of the Datatable instance and will receive the following arguments:
 	* `value` {Any} value from the data store.
@@ -93,10 +93,13 @@ The second argument to the controller is an object with the following properties
 
 * `url` {String} address of the webservice providing the data to be displayed.  It is passed verbatim to `m.request` to perform a `GET` request.
 * `data` {Array} data to be displayed.  If both `url` and `data` are provided, the second prevails.  At least one must be given
-* `onclick` {function} listener for a click on a data cell.  The function is called in the context (`this`) of the Datatable instance and will receive:
+* `onCellClick` {function} listener for a click on a data cell.  The function is called in the context (`this`) of the Datatable instance and will receive:
 	* `content` {Any} the content of the cell read from the data store, formatting, if any (not implemented yet) will not affect it.
 	* `row` {Object} row within the data store corresponding to the cell.
 	* `col` {Object} column definition for the column.
+* `recordId` {String} If present, it should be the name of the field within the record that serves as a primary id for the record.  Each TR element in the data section of the table will have a `data-record-id` attribute set to the value of this key, otherwise, the rows will simply be numbered.
+
+A property getter/setter can be passed as a listener to the onCellClick event if only the cell contents is required, as the rest of the arguments would simply be ignored.
 
 View
 ----
