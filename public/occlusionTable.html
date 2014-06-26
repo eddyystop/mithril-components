@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+    <style>
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            top: 0;
+        }
+
+        ul li {
+            background-color: #f0f0f0;
+            margin-bottom: 1px;
+            padding-top: 7px;
+            padding-left: 20px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+<h1>scroll</h1>
+<script src="js/vendor/mithril.js"></script>
+<script src="js/vendor/jquery.js"></script>
+<script src="../components/utils/mcUtils.js"></script>
+<script src="../components/occlusionTable/occlusionTable.js"></script>
+<script>
+  app = {
+    // model
+    table: m.prop(
+        (function () {
+          var t = [ ['Header 1 aaaaaaaaaa', 'Header 2', 'Header 3', 'Header 4', 'Header 5', 'Header 6', 'Header 7'] ];
+          for (var i = 1; i <= 500; i += 1) {
+            var r = [];
+            for (var j = 1; j <= 7; j += 1) {
+              r.push('row ' + i + 'cell ' + j + (j === 1 ? 'aaaaaaaaaa' : ''));
+            }
+            t.push(r);
+          }
+          console.log(t);
+          return t;
+        }())
+    ),
+
+    // app
+    controller: function () {
+      this.ctrlTable = new mc.occlusionTable.controller(app.table, m.prop(1));
+    },
+    view: function (ctrl) {
+      return mc.occlusionTable.view(ctrl.ctrlTable, m.prop(250), m.prop('750px'),
+          {_wrapper: '.wrapperSelector', _parent: '.parentSelector', _heading: '.headingSelector', _tr: '.trSelector', _odd: '.oddSelector', _even: '.evenSelector'},
+          {_wrapper: {wrapperAttr: ''},  _parent: {parentAttr: ''},  _heading: {style:{backgroundColor:'Aqua', height: '40px'}},
+            _tr: {trAttr: ''},  _odd: {style:{backgroundColor:'LightGreen'}},  _even: {style:{backgroundColor:'Khaki'}},
+            '4': {style:{backgroundColor:'Red'}}
+          }
+      );
+    }
+  };
+
+  m.module(document.body, app);
+</script>
+
+</body>
+</html>
