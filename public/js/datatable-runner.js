@@ -4,6 +4,7 @@
 var app = {
 
 	controller: function () {
+		this.count = 0;
 
 		this.datatable = new mc.Datatable.controller([
 			{key:"Enough?", formatter: function (value, row, col, attrs) {
@@ -18,6 +19,8 @@ var app = {
 				{key:"Quantity", sortable:true, class:'right-aligned'}
 			]},
 			{key:"Description", children:[
+				// Both the `label` and the `field` name for the value default to the `key`
+				// but if you provide those, the `key` can be anything at all as long as it is unique.
 				{key:"xx", field:"Item", label:"Short", sortable:true},
 				{key:"Description", label: "Long", sortable:true, width:200}
 			]}
@@ -45,18 +48,26 @@ var app = {
 				{"SKU":"21-38485", "Quantity":177, "Item":"Ping Pong Ball", "Description":""},
 				{"SKU":"83-38285", "Quantity":87, "Item":"Hockey Puck", "Description":"Glow-in-the-dark hockey puck."}
 			],
-			onclick: function (content, row, col) {
+			onCellClick: function (content, row, col) {
 				console.log(content, row, col);
-			}
+			},
+			recordId:'SKU'
 		});
 		
 	},
 
 	view: function (ctrl) {
-		return mc.Datatable.view(ctrl.datatable,  {
-			caption:'this is the caption',
-			width:'60em'
-		});
+		return [
+			m('p', 'When clicking on any data cell, the count below will increment, ' +
+				'proving that a click does refresh the whole page.  ' +
+				'However, if you click on the sorting icon on any of the column headers ' +
+				'the table will sort but the refresh counter below will not increase.'),
+			m('p', 'Number of refreshes: ' + ctrl.count++),
+			mc.Datatable.view(ctrl.datatable,  {
+				caption:'this is the caption',
+				width:'60em'
+			})]
+		;
 	}
 };
 
