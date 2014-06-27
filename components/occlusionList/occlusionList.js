@@ -12,10 +12,10 @@ mc.occlusionList = {
     this.scrollHeight = 0;
 
     this.setPxPerItem = function (el) {
-      var sizes = mc.utils.getComputedSize(el);
-      if (sizes.pxPerItem) {
+      var sizes = mc.utils.getComputedHeight(el);
+      if (sizes.height) {
         self.isPxPerItemComputed = true;
-        self.pxPerItem = sizes.pxPerItem;
+        self.pxPerItem = sizes.height;
         self.contentsHeight = self.items.length * self.pxPerItem;
         m.redraw();
       }

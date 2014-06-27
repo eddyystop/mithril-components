@@ -49,6 +49,8 @@ They are useful for large tables, large lists, infinite scrolling,
 deferring rendering of below-the-fold content, and parallax sites.
 
 - ```occlusionList``` - Simple list, rendering only what is visible.
+- ```occlusionTable``` - Table which scrolls vertically and horizontally.
+Optional header rows always displayed. Pinned columns always appear. 
 
 ## Mixins
 Mixin ```ValidationMixin``` resides in ```mixins/ValidationMixins/```.
