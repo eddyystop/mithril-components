@@ -2,6 +2,7 @@
 var mc = mc || {};
 
 mc.Datatable = {
+
 	controller: function (cols, config) {
 		this.cols = cols;
 		this.config = config = config || {};
@@ -76,7 +77,6 @@ mc.Datatable = {
 
 		var attrs = {
 			class: options.classNames.table || 'datatable',
-			// onclick: ctrl.onclick
 			config: function (el, isOld) {
 				if (isOld) return;
 				el.addEventListener('click', ctrl.onclick);
@@ -197,7 +197,7 @@ mc.Datatable = {
 					value
 				);
 			};
-			var recordId = ctrl.config.recordId
+			var recordId = ctrl.config.recordId;
 			return m(
 				'tr', {
 					'data-record-id': (recordId ? row[recordId] : rowIndex),
