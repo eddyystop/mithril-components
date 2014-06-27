@@ -51,6 +51,12 @@ var app = {
 			onCellClick: function (content, row, col) {
 				console.log(content, row, col);
 			},
+			rowSelect: {
+				multiple:true,
+				callback: function () {
+					console.log('row select: ', arguments);
+				}
+			},
 			recordId:'SKU'
 		});
 		
