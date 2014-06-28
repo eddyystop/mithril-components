@@ -2,7 +2,7 @@ Temporary docs. Final will be available by July 1st.
 You can run this without a server from /public/occlusionTable.html
 
 ```
-    /* clippedTable ========================================================= */
+    /* occlusionTable ========================================================= */
     /* main configurable styling */
     div#table0,
     div#table1,
@@ -10,6 +10,23 @@ You can run this without a server from /public/occlusionTable.html
       height: 250px !important;
       width: 750px !important;
     }
+    @media all and (max-width: 800px) {
+      div#table0,
+      div#table1,
+      div#table2 {
+        height: 250px !important;
+        width: 650px !important;
+      }
+    }
+    @media all and (max-width: 700px) {
+      div#table0,
+      div#table1,
+      div#table2 {
+        height: 250px !important;
+        width: 450px !important;
+      }
+    }
+
     div.mc-clipped-table-pinned div.scrollable {
       margin-left:35%;
     }
@@ -95,7 +112,6 @@ You can run this without a server from /public/occlusionTable.html
           return t;
         }())
     ),
-    mediaChange: false,
 
     // app
     controller: function () {
@@ -104,9 +120,9 @@ You can run this without a server from /public/occlusionTable.html
       this.ctrlTable2 = new mc.occlusionTable.controller(app.table1, m.prop(1), m.prop(1));
     },
     view: function (ctrl) {
-      console.log('app view')
-
       return [
+        m('h3', 'Narrow browser window to see tables react twice to width reduction.'),
+        m('p'),
         mc.occlusionTable.view(ctrl.ctrlTable0, null, null,
             {_wrapper: '#table0', _parent: '.parentSelector', _heading: '.headingSelector',
               _tr: '.trSelector', _odd: '.oddSelector', _even: '.evenSelector',

@@ -10,6 +10,23 @@
       height: 250px !important;
       width: 750px !important;
     }
+    @media all and (max-width: 800px) {
+      div#table0,
+      div#table1,
+      div#table2 {
+        height: 250px !important;
+        width: 650px !important;
+      }
+    }
+    @media all and (max-width: 700px) {
+      div#table0,
+      div#table1,
+      div#table2 {
+        height: 250px !important;
+        width: 450px !important;
+      }
+    }
+
     div.mc-clipped-table-pinned div.scrollable {
       margin-left:35%;
     }
@@ -60,16 +77,6 @@
       white-space: nowrap;
       overflow: hidden;
     }
-
-    /* media queries ======================================================== */
-    @media all and (max-width: 760px) {
-      div#table0,
-      div#table1,
-      div#table2 {
-        height: 250px !important;
-        width: 500px !important;
-      }
-    }
   </style>
 </head>
 <body>
@@ -83,7 +90,7 @@
     // model
     table0: m.prop(
         (function () {
-          var t = [ ['Header 1 aaaaaaaaaa', 'Header 2', 'Header 3', 'Header 4', 'Header 5', 'Header 6'] ];
+          var t = [ ['Header 1 aaaaaaaaaa', 'Header 2', 'Header 3', 'Header 4', 'Header 5'] ];
           for (var i = 1; i < 501; i += 1) {
             var r = [];
             for (var j = 0; j < 7; j += 1) {
@@ -119,6 +126,8 @@
       console.log('app view')
 
       return [
+        m('h3', 'Narrow browser window to see tables react twice to width reduction.'),
+        m('p'),
         mc.occlusionTable.view(ctrl.ctrlTable0, null, null,
             {_wrapper: '#table0', _parent: '.parentSelector', _heading: '.headingSelector',
               _tr: '.trSelector', _odd: '.oddSelector', _even: '.evenSelector',
