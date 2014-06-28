@@ -1,0 +1,63 @@
+/* clippedTable ========================================================= */
+/* main configurable styling */
+div#_myOcclusionTableId {
+    height: 250px !important;
+    width: 750px !important;
+}
+@media all and (max-width: 800px) {
+    div#_myOcclusionTableId {
+        height: 250px !important;
+        width: 650px !important;
+    }
+}
+
+div.mc-clipped-table-pinned div.scrollable {
+    margin-left:35%;
+}
+div.mc-clipped-table-pinned div.pinned {
+    width: 35%;
+}
+
+/* other styling */
+div.mc-clipped-table div {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+div.mc-clipped-table-pinned {
+    position: relative;
+    overflow: hidden;
+    border-right: 1px solid #ccc;
+}
+div.mc-clipped-table-pinned div.scrollable {
+    overflow: scroll;
+    overflow-y: hidden;
+}
+div.mc-clipped-table-pinned div.pinned {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #fff;
+    border-right: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+
+    overflow: hidden;
+    overflow-x: scroll;
+}
+div.mc-clipped-table-pinned table.pinned {
+    border-right: none;
+    border-left: none;
+    width: 100%;
+}
+div.mc-clipped-table-pinned table,
+div.mc-clipped-table table {
+    margin-bottom:0;
+    overflow: hidden;
+}
+div.mc-clipped-table-pinned td,
+div.mc-clipped-table-pinned th,
+div.mc-clipped-table th,
+div.mc-clipped-table td {
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+}
