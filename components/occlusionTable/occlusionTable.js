@@ -60,6 +60,7 @@ mc.occlusionTable = {
     attrs = attrs || {};
     attrs._item = attrs._item || {};
 
+    var cols = ctrl.table()[0].length;
     var headersHeight = ctrl.headerRows() * ctrl.headerHeight;
     var contentNumbRows = ctrl.table().length - ctrl.headerRows();
     var contentRowsHeight = contentNumbRows * ctrl.rowHeight;
@@ -95,62 +96,64 @@ mc.occlusionTable = {
     }
     ctrl.isInitialized = true;
 
-
-    // wrappers
-    return m('div' + (selectors._wrapper || ''),
-      mc.utils.extend({}, attrs._wrapper || {}, {
-        onscroll: ctrl.onscroll,
-        config: !ctrl.isContainerSizeDone ? ctrl.setContainerSize : null,
-        style: {
-          height: typeof containerHeight === 'number' ? containerHeight + 'px' : (containerHeight || null),
-          width: typeof containerWidth === 'number' ? containerWidth + 'px' : (containerWidth || null),
-          overflow: 'auto', position: 'relative', margin: 0, padding: 0
-        }
-      }),
-      m('div', {
-          style: {
-            height: (contentHeight - ctrl.scrollTop) + 'px',
-            top: ctrl.scrollTop + 'px', position: 'relative'}
-        },
-        renderTable()
-      )
-    );
-
-    function renderTable () {
-      var cols = ctrl.table()[0].length;
-      if (ctrl.pinnedCols()) {
-
-        attrs._parent.style = {height: containerHeight - headersHeight + 'px'};
-        return m('div.mc-clipped-table-pinned', [
-          m('div.pinned', {style:{height: containerHeight + 'px'}},
-            m('table.pinned', attrs._parent || {},
-              _tableRows(startDataRow, rows, 0, ctrl.pinnedCols()))
-          ),
-          m('div.scrollable',
-            { config: !ctrl.isScrollHeightDone ? ctrl.setScrollbarSizes : null,
-              style:{height: containerHeight + 'px'}
-            },
-            m('table.data' + (selectors._parent || ''), attrs._parent || {},
-              _tableRows(startDataRow, rows, ctrl.pinnedCols(), cols))
-          )
-        ]);
-
-      } else {
-
-        return m('div.mc-clipped-table', { style:{height: containerHeight + 'px'}},
-          m('div',
-            { config: !ctrl.isScrollHeightDone ? ctrl.setScrollbarSizes : null,
-              style:{height: containerHeight + 'px'}
-            },
-            m('table' + (selectors._parent || ''), attrs._parent || {},
-              _tableRows(startDataRow, rows, 0, cols)
-            )
-          )
-        );
-      }
+    if (ctrl.pinnedCols()) {
+      return renderWrapper(renderResponsiveTable);
+    } else {
+      return renderWrapper(renderPlainTable);
     }
 
-    function _tableRows (startDataRow, rows, startCol, endCol) {
+    function renderWrapper (children) {
+      return m('div' + (selectors._wrapper || ''),
+        mc.utils.extend({}, attrs._wrapper || {}, {
+          onscroll: ctrl.onscroll,
+          config: !ctrl.isContainerSizeDone ? ctrl.setContainerSize : null,
+          style: {
+            height: typeof containerHeight === 'number' ? containerHeight + 'px' : (containerHeight || null),
+            width: typeof containerWidth === 'number' ? containerWidth + 'px' : (containerWidth || null),
+            overflow: 'auto', position: 'relative', margin: 0, padding: 0
+          }
+        }),
+        m('div', {
+            style: {
+              height: (contentHeight - ctrl.scrollTop) + 'px',
+              top: ctrl.scrollTop + 'px', position: 'relative'}
+          },
+          children()
+        )
+      );
+    }
+
+    function renderPlainTable () {
+      return m('div.mc-clipped-table', { style:{height: containerHeight + 'px'}},
+        m('div',
+          { config: !ctrl.isScrollHeightDone ? ctrl.setScrollbarSizes : null,
+            style:{height: containerHeight + 'px'}
+          },
+          m('table' + (selectors._parent || ''), attrs._parent || {},
+            renderTable(startDataRow, rows, 0, cols)
+          )
+        )
+      );
+    }
+
+    function renderResponsiveTable () {
+      attrs._parent.style = {height: containerHeight - headersHeight + 'px'};
+      return m('div.mc-clipped-table-pinned', [
+        m('div.pinned', {style:{height: containerHeight + 'px'}},
+          m('table.pinned', attrs._parent || {},
+            renderTable(startDataRow, rows, 0, ctrl.pinnedCols()))
+        ),
+        m('div.scrollable',
+          { config: !ctrl.isScrollHeightDone ? ctrl.setScrollbarSizes : null,
+            style:{height: containerHeight + 'px'}
+          },
+          m('table.data' + (selectors._parent || ''), attrs._parent || {},
+            renderTable(startDataRow, rows, ctrl.pinnedCols(), cols))
+        )
+      ]);
+    }
+
+    function renderTable (startDataRow, rows, startCol, endCol) {
       //console.log('slicer', startDataRow + ctrl.headerRows(), startDataRow + ctrl.headerRows() + rows, ctrl.table().slice(startDataRow, startDataRow + rows).length);
       return m('tbody', [
 

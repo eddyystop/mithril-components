@@ -1,27 +1,22 @@
 <!doctype html>
 <html>
 <head>
+  <link href="../components/occlusionTable/occlusionTable.css" rel="stylesheet" type="text/css">
   <style>
     /* clippedTable ========================================================= */
     /* main configurable styling */
-    div#table0,
-    div#table1,
-    div#table2 {
+    div#table0, div#table1, div#table2 {
       height: 250px !important;
       width: 750px !important;
     }
     @media all and (max-width: 800px) {
-      div#table0,
-      div#table1,
-      div#table2 {
+      div#table0, div#table1, div#table2 {
         height: 250px !important;
         width: 650px !important;
       }
     }
     @media all and (max-width: 700px) {
-      div#table0,
-      div#table1,
-      div#table2 {
+      div#table0, div#table1, div#table2 {
         height: 250px !important;
         width: 450px !important;
       }
@@ -33,50 +28,6 @@
     div.mc-clipped-table-pinned div.pinned {
       width: 35%;
     }
-
-    /* other styling */
-    div.mc-clipped-table div {
-      overflow-x: auto;
-      overflow-y: hidden;
-    }
-    div.mc-clipped-table-pinned {
-      position: relative;
-      overflow: hidden;
-      border-right: 1px solid #ccc;
-    }
-    div.mc-clipped-table-pinned div.scrollable {
-      overflow: scroll;
-      overflow-y: hidden;
-    }
-    div.mc-clipped-table-pinned div.pinned {
-      position: absolute;
-      left: 0;
-      top: 0;
-      background: #fff;
-      border-right: 1px solid #ccc;
-      border-left: 1px solid #ccc;
-
-      overflow: hidden;
-      overflow-x: scroll;
-    }
-    div.mc-clipped-table-pinned table.pinned {
-      border-right: none;
-      border-left: none;
-      width: 100%;
-    }
-    div.mc-clipped-table-pinned table,
-    div.mc-clipped-table table {
-      margin-bottom:0;
-      overflow: hidden;
-    }
-    div.mc-clipped-table-pinned td,
-    div.mc-clipped-table-pinned th,
-    div.mc-clipped-table th,
-    div.mc-clipped-table td {
-      position: relative;
-      white-space: nowrap;
-      overflow: hidden;
-    }
   </style>
 </head>
 <body>
@@ -86,35 +37,22 @@
 <script src="../components/utils/mcUtils.js"></script>
 <script src="../components/occlusionTable/occlusionTable.js"></script>
 <script>
+  function makeTable (cols) {
+    var t = [ ['Header 1 aaaaaaaaaa', 'Header 2', 'Header 3', 'Header 4', 'Header 5', 'Header 6', 'Header 7', 'Header 8', 'Header 9', 'Header 10'].slice(0, cols - 1) ];
+    for (var i = 1; i < 501; i += 1) {
+      var r = [];
+      for (var j = 0; j <= cols; j += 1) {
+        r.push('row ' + i + ' cell ' + j + (j === 0 ? ' aaaaaaaaaa' : ''));
+      }
+      t.push(r);
+    }
+    return t;
+  }
+
   app = {
     // model
-    table0: m.prop(
-        (function () {
-          var t = [ ['Header 1 aaaaaaaaaa', 'Header 2', 'Header 3', 'Header 4', 'Header 5'] ];
-          for (var i = 1; i < 501; i += 1) {
-            var r = [];
-            for (var j = 0; j < 7; j += 1) {
-              r.push('row ' + i + ' cell ' + j + (j === 0 ? ' aaaaaaaaaa' : ''));
-            }
-            t.push(r);
-          }
-          return t;
-        }())
-    ),
-    table1: m.prop(
-        (function () {
-          var t = [ ['Header 1 aaaaaaaaaa', 'Header 2', 'Header 3', 'Header 4', 'Header 5', 'Header 6', 'Header 7', 'Header 8', 'Header 9', 'Header 10'] ];
-          for (var i = 1; i < 501; i += 1) {
-            var r = [];
-            for (var j = 0; j < 11; j += 1) {
-              r.push('row ' + i + ' cell ' + j + (j === 0 ? ' aaaaaaaaaa' : ''));
-            }
-            t.push(r);
-          }
-          return t;
-        }())
-    ),
-    mediaChange: false,
+    table0: m.prop(makeTable(6)),
+    table1: m.prop(makeTable(11)),
 
     // app
     controller: function () {
@@ -123,8 +61,6 @@
       this.ctrlTable2 = new mc.occlusionTable.controller(app.table1, m.prop(1), m.prop(1));
     },
     view: function (ctrl) {
-      console.log('app view')
-
       return [
         m('h3', 'Narrow browser window to see tables react twice to width reduction.'),
         m('p'),

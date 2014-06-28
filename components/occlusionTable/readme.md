@@ -11,7 +11,7 @@ occlusionControl works well with tables having a very large number of rows,
 as its renders only the rows which are then visible. (Its also fine for small numbers of rows!)
 
 ## Sample usage
-### Result (at 2 CSS media query breakpoints)
+### Results (shown at 2 CSS media query breakpoints)
 ![occlusionTable sample](sample.jpg)
 
 ### Run it
@@ -22,29 +22,22 @@ Point browser at /mithril-components/public/occlusionTable.html .
 <link href="../components/occlusionTable/occlusionTable.css" rel="stylesheet" type="text/css">
 
 /* occlusionTable ========================================================= */
-div#table0,
-div#table1,
-div#table2 {
+div#table0, div#table1, div#table2 {
     height: 250px !important;
     width: 750px !important;
 }
 @media all and (max-width: 800px) {
-    div#table0,
-    div#table1,
-    div#table2 {
-    height: 250px !important;
-    width: 650px !important;
+    div#table0, div#table1, div#table2 {
+        height: 250px !important;
+        width: 650px !important;
     }
 }
 @media all and (max-width: 700px) {
-    div#table0,
-    div#table1,
-    div#table2 {
-    height: 250px !important;
-    width: 450px !important;
+    div#table0, div#table1, div#table2 {
+        height: 250px !important;
+        width: 450px !important;
     }
 }
-
 div.mc-clipped-table-pinned div.scrollable {
     margin-left:35%;
 }
@@ -57,34 +50,22 @@ div.mc-clipped-table-pinned div.pinned {
 <script src="../components/utils/mcUtils.js"></script>
 <script src="../components/occlusionTable/occlusionTable.js"></script>
 
-app = {
+  function makeTable (cols) {
+    var t = [ ['Header 1 aaaaaaaaaa', 'Header 2', 'Header 3', 'Header 4', 'Header 5', 'Header 6', 'Header 7', 'Header 8', 'Header 9', 'Header 10'].slice(0, cols - 1) ];
+    for (var i = 1; i < 501; i += 1) {
+      var r = [];
+      for (var j = 0; j <= cols; j += 1) {
+        r.push('row ' + i + ' cell ' + j + (j === 0 ? ' aaaaaaaaaa' : ''));
+      }
+      t.push(r);
+    }
+    return t;
+  }
+  
+  app = {
     // model
-    table0: m.prop(
-        (function () {
-          var t = [ ['Header 1 aaaaaaaaaa', 'Header 2', 'Header 3', 'Header 4', 'Header 5'] ];
-          for (var i = 1; i < 501; i += 1) {
-            var r = [];
-            for (var j = 0; j < 6; j += 1) {
-              r.push('row ' + i + ' cell ' + j + (j === 0 ? ' aaaaaaaaaa' : ''));
-            }
-            t.push(r);
-          }
-          return t;
-        }())
-    ),
-    table1: m.prop(
-        (function () {
-          var t = [ ['Header 1 aaaaaaaaaa', 'Header 2', 'Header 3', 'Header 4', 'Header 5', 'Header 6', 'Header 7', 'Header 8', 'Header 9', 'Header 10'] ];
-          for (var i = 1; i < 501; i += 1) {
-            var r = [];
-            for (var j = 0; j < 11; j += 1) {
-              r.push('row ' + i + ' cell ' + j + (j === 0 ? ' aaaaaaaaaa' : ''));
-            }
-            t.push(r);
-          }
-          return t;
-        }())
-    ),
+    table0: m.prop(makeTable(6)),
+    table1: m.prop(makeTable(11)),
     
     // app
     controller: function () {

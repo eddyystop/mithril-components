@@ -1,5 +1,6 @@
 /* clippedTable ========================================================= */
 /* main configurable styling */
+/*
 div#_myOcclusionTableId {
     height: 250px !important;
     width: 750px !important;
@@ -10,7 +11,7 @@ div#_myOcclusionTableId {
         width: 650px !important;
     }
 }
-
+*/
 div.mc-clipped-table-pinned div.scrollable {
     margin-left:35%;
 }

@@ -35,8 +35,8 @@ A working example, if any, is located at ```public/tableResponsive.html```.
 Supports searching, remote data, and infinite scrolling. jQuery based.
 - ```table``` - Simple table.
 - ```tableResponsive``` - Responsive table.
-- ```datatable``` - Table with sortable columns, AJAX population 
-and multi-row headings.
+- ```datatable``` - Table with sortable columns, AJAX population, 
+row selection and multi-row, nested headings.
 - ```imageResponsive``` - [Responsive image polyfill] 
 (https://github.com/scottjehl/picturefill)  for < picture > and more.
 - ```tabs``` - Tab control. Renders active view. Routing via m.route().
