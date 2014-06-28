@@ -11,7 +11,7 @@ occlusionControl works well with tables having a very large number of rows,
 as its renders only the rows which are then visible. (Its also fine for small numbers of rows!)
 
 ## Sample usage
-### Result
+### Result (at 2 CSS media query breakpoints)
 ![occlusionTable sample](sample.jpg)
 
 ### Code
