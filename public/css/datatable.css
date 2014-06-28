@@ -44,6 +44,10 @@
     background-color: #e2e2f2;
 }
 
+.datatable tbody tr.selected td ,
+.datatable tbody tr.selected td.sorted {
+	background-color: lightcyan;
+}
 .datatable th i.fa-sort-asc,
 .datatable th i.fa-sort-desc,
 .datatable th i.fa-sort {
@@ -53,4 +57,6 @@
 .datatable td.right-aligned {
 	text-align: right;
 }
+
+
 
