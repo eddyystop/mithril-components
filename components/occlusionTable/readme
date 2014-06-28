@@ -1,7 +1,7 @@
-<!doctype html>
-<html>
-<head>
-  <style>
+Temporary docs. Final will be available by July 1st.
+You can run this without a server from /public/occlusionTable.html
+
+```
     /* clippedTable ========================================================= */
     /* main configurable styling */
     div#table0,
@@ -61,24 +61,12 @@
       overflow: hidden;
     }
 
-    /* media queries ======================================================== */
-    @media all and (max-width: 760px) {
-      div#table0,
-      div#table1,
-      div#table2 {
-        height: 250px !important;
-        width: 500px !important;
-      }
-    }
-  </style>
-</head>
-<body>
-<h1>scroll</h1>
+
 <script src="js/vendor/mithril.js"></script>
 <script src="js/vendor/jquery.js"></script>
 <script src="../components/utils/mcUtils.js"></script>
 <script src="../components/occlusionTable/occlusionTable.js"></script>
-<script>
+
   app = {
     // model
     table0: m.prop(
@@ -131,53 +119,15 @@
         ),
         m('p'),
         mc.occlusionTable.view(ctrl.ctrlTable1, null, null,
-            {_wrapper: '#table1', _parent: '.parentSelector', _heading: '.headingSelector',
-              _tr: '.trSelector', _odd: '.oddSelector', _even: '.evenSelector',
-              '4': '.row4Selector'
-            },
-            {_wrapper: {wrapperAttr: ''},  _parent: {parentAttr: ''},  _heading: {style:{backgroundColor:'Aqua', height: '40px'}},
-              _tr: {trAttr: ''},  _odd: {style:{backgroundColor:'LightGreen'}},  _even: {style:{backgroundColor:'Khaki'}},
-              '4': {style:{backgroundColor:'Red'}}
-            }
+            {_wrapper: '#table1'}
         ),
         m('p'),
         mc.occlusionTable.view(ctrl.ctrlTable2, null, null,
-            {_wrapper: '#table2', _parent: '.parentSelector', _heading: '.headingSelector',
-              _tr: '.trSelector', _odd: '.oddSelector', _even: '.evenSelector',
-              '4': '.row4Selector'
-            },
-            {_wrapper: {wrapperAttr: ''},  _parent: {parentAttr: ''},  _heading: {style:{backgroundColor:'Aqua', height: '40px'}},
-              _tr: {trAttr: ''},  _odd: {style:{backgroundColor:'LightGreen'}},  _even: {style:{backgroundColor:'Khaki'}},
-              '4': {style:{backgroundColor:'Red'}}
-            }
+            {_wrapper: '#table2'}}
         )
       ];
     }
   };
 
-  /* reposnsiveness not working yet
-  // browser support, IE10+: http://caniuse.com/matchmedia
-  // polyfills: http://flippinawesome.org/2014/03/24/using-media-queries-in-javascript/
-  console.log('windows.matchMedia=', !!window.matchMedia);
-  var mq = window.matchMedia('(max-width: 760px)');
-  console.log('max 760px=', mq.matches);
-
-  mq.addListener(function(changed) {
-    console.log('========== media change');
-    if(changed.matches) {
-      // the width of browser is more then 760px
-    } else {
-      // the width of browser is less then 760px
-    }
-    alert('media change')
-    app.mediaChange = true;
-    m.startComputation();
-    m.endComputation();
-  });
-  */
-
   m.module(document.body, app);
-</script>
-
-</body>
-</html>
+```

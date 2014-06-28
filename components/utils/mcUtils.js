@@ -1,7 +1,9 @@
 /*global m:false */
 var mc = mc || {};
-mc.utils = mc.utils || {};
+mc._internals = mc._internals || {};
+mc._internals.redrawScheduled = false;
 
+mc.utils = mc.utils || {};
 mc.utils.extend = function extend (to /* arguments */) {
   Array.prototype.slice.call(arguments, 1).forEach(function (obj) {
     if (typeof obj === 'object') {
