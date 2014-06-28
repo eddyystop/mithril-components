@@ -14,6 +14,9 @@ as its renders only the rows which are then visible. (Its also fine for small nu
 ### Result (at 2 CSS media query breakpoints)
 ![occlusionTable sample](sample.jpg)
 
+### Run it
+Point browser at /mithril-components/public/occlusionTable.html .
+
 ### Code
 ```
 <link href="../components/occlusionTable/occlusionTable.css" rel="stylesheet" type="text/css">
@@ -104,9 +107,9 @@ app = {
             }
         ),
         m('p'),
-        mc.occlusionTable.view(ctrl.ctrlTable1, null, null, {_wrapper: '#table1'}),
+        mc.occlusionTable.view(ctrl.ctrlTable1, null, null, {_wrapper: '#table1', ...}),
         m('p'),
-        mc.occlusionTable.view(ctrl.ctrlTable2, null, null, {_wrapper: '#table2'}})
+        mc.occlusionTable.view(ctrl.ctrlTable2, null, null, {_wrapper: '#table2', ...}})
       ];
     }
 };
