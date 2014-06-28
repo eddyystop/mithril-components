@@ -11,6 +11,7 @@ occlusionControl works well with tables having a very large number of rows,
 as its renders only the rows which are then visible. (Its also fine for small numbers of rows!)
 
 ## Sample usage
+![occlusionTable sample](https://github.com/eddyystop/mithril-components/blob/master/components/occlusionTable/sample.jpg)
 ```
 <link href="../components/occlusionTable/occlusionTable.css" rel="stylesheet" type="text/css">
 
