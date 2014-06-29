@@ -1,46 +1,50 @@
 <!doctype html>
 <html>
 <head>
-    <style>
-        ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            top: 0;
-        }
-
-        ul li {
-            background-color: #f0f0f0;
-            margin-bottom: 1px;
-            padding-top: 7px;
-            padding-left: 20px;
-            height: 30px;
-        }
-    </style>
+  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+  <style>
+    li {
+      white-space: nowrap;
+    }
+  </style>
 </head>
 <body>
-<h1>scroll</h1>
+<h1>occlusionList</h1>
 <script src="js/vendor/mithril.js"></script>
 <script src="js/vendor/jquery.js"></script>
 <script src="../components/utils/mcUtils.js"></script>
 <script src="../components/occlusionList/occlusionList.js"></script>
 <script>
     app = {
-        // model
-        items: (function items () {
-            var items = [];
-            for (var i = 0; i < 1000; i += 1) { items.push('row ' + i); }
-            return items;
-        }()),
+      // model
+      items: (function () {
+        var r = [
+          'Free Domain Name Registration',
+          'Free Window Space hosting',
+          'Number of Images',
+          [m('span.badge', 'New'), m('span','24*7 support')],
+          'Renewal cost per year',
+          [m('span.badge', 'New'), m('span','Discount offer')]
+        ];
+        for (var i = 0; i < 15; i += 1) { r.push('extra item ' + 1); }
+        return r;
+      }()),
 
         // app
         controller: function () {
             this.ctrlList = new mc.occlusionList.controller(app.items);
         },
         view: function (ctrl) {
-            return mc.occlusionList.view(ctrl.ctrlList, 250, '250px',
-                    {_wrapper: '.wrapperSelector', _parent: '.parentSelector', _item: '.itemSelector'},
-                    {_wrapper: {wrapperAttr: ''}, _parent: {parentAttr: ''}, _item: {itemAttr: ''}});
+          return [
+              m('p', ''),
+            m('.container',
+                m('.row',
+                    mc.occlusionList.view(ctrl.ctrlList, 250, '250px',
+                        {_wrapper: '.wrapperSelector', _parent: '.list-group', _item: '.list-group-item'},
+                        {_wrapper: {wrapperAttr: ''}, _parent: {parentAttr: ''}, _item: {itemAttr: ''}})
+                )
+            )
+          ];
         }
     };
 

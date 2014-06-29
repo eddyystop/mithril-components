@@ -14,6 +14,8 @@ mc.occlusionTable = {
     this.containerHeight = this.containerWidth = this.bottomScrollHeight = 0;
     this.scrollTop = this.scrollHeight = 0;
 
+    //todo support row selection
+    //todo on scroll just re-render table not entire module
     //todo put these fcns into prototype
 
     this.getElSize = function (el) {

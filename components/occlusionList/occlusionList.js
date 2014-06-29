@@ -11,11 +11,20 @@ mc.occlusionList = {
     this.scrollTop = 0;
     this.scrollHeight = 0;
 
+    //todo put these fcns into prototype
+
+    this.getElSize = function (el) {
+      var props = document.defaultView.getComputedStyle(el, '');
+      return [parseFloat(props.getPropertyValue('height')), parseFloat(props.getPropertyValue('width'))];
+    };
+
     this.setPxPerItem = function (el) {
-      var sizes = mc.utils.getComputedHeight(el);
-      if (sizes.height) {
+      var height = self.getElSize(el)[0];
+      console.log(el)
+      console.log('height=', height)
+      if (height) {
         self.isPxPerItemComputed = true;
-        self.pxPerItem = sizes.height;
+        self.pxPerItem = height;
         self.contentsHeight = self.items.length * self.pxPerItem;
         m.redraw();
       }
