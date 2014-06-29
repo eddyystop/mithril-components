@@ -28,13 +28,11 @@ div#table0, div#table1, div#table2 {
 }
 @media all and (max-width: 800px) {
     div#table0, div#table1, div#table2 {
-        height: 250px !important;
         width: 650px !important;
     }
 }
 @media all and (max-width: 700px) {
     div#table0, div#table1, div#table2 {
-        height: 250px !important;
         width: 450px !important;
     }
 }

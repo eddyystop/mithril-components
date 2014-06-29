@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+</head>
+<body>
+<script src="js/vendor/mithril.js"></script>
+<script src="../mixins/Solder/Solder.js"></script>
+<script src="../mixins/FormMixin/FormMixin.js"></script>
+<script src="../components/bsform2/bsform.js"></script>
+<script>
+  // mixins ======================================================================
+  var solder = new Solder();
+  solder.setMixin('form', FormMixin);
+
+  var app = {
+
+    controller: function () {
+      var self = this;
+      solder.injectMixins(['form'], this); // injects this.form
+
+      this.firstName = m.prop('John');
+      this.lastName = m.prop('Doe');
+      this.active = m.prop();
+      this.lorenIpsum = m.prop('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.');
+      this.size = m.prop('M');
+
+      this.submit = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // validate
+        if (true) {
+          // post
+          this.form.submitForm(
+              {
+                method: 'POST', url: '/form',
+                data: { firstName: this.firstName(), lastName: this.lastName, active: this.active,
+                  lorenIpsum: this.lorenIpsum, size: this.size
+                }
+              },
+              function (obj) { log('success', obj); },
+              function (str) { log('failure', str); }
+          );
+        }
+      }.bind(this);
+
+      function log (str, load) {
+        console.log(str + '. form.state=', self.form._formState, 'status=', self.form._xhrStatus, 'error=', self.form._formError);
+        console.log('load=', load);
+      }
+    },
+
+    view: function (ctrl) {
+      var bsf = mc.BootstrapForm;
+      return [
+        bsf.form({
+          style: 'border: thin solid gray;padding:1em'
+        }, [
+          bsf.input(ctrl, {
+            label: 'First Name',
+            value: 'firstName'
+          }),
+          bsf.input(ctrl, {
+            label: 'Last Name',
+            value: 'lastName'
+          }),
+          bsf.checkbox(ctrl, {
+            label: 'Active',
+            value: 'active'
+          }),
+          bsf.input(ctrl, {
+            label: 'Something really long',
+            value: 'lorenIpsum',
+            rows: 5
+          }),
+          bsf.radio(ctrl, {
+            label: 'T-shirt size',
+            value: 'size',
+            options: [
+              {label: 'Extra-small', value:'XS'},
+              {label: 'Small', value:'S'},
+              {label: 'Medium', value:'M'},
+              {label: 'Large', value:'L'},
+              {label: 'Extra-large', value:'XL'}
+            ]
+          })
+        ]),
+        m('button[type=submit]', { onclick: ctrl.submit, disabled: !ctrl.form.isEditable() }, 'Submit [type=submit]'),
+        m('p', postStatus())
+      ];
+
+      function postStatus () {
+        var status = '';
+        if (ctrl.form.getError()) { status = 'An error has occurred. Please try again.'; }
+        else if (ctrl.form.isSubmitting()) { status = 'Processing ...'; }
+        else if (ctrl.form.isSubmitted()) { status = 'Data updated.'; }
+        return m('p', status);
+      }
+    }
+  };
+
+  m.module(document.body, app);
+</script>
+</body>
+</html>
