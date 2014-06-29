@@ -20,8 +20,6 @@ mc.occlusionList = {
 
     this.setPxPerItem = function (el) {
       var height = self.getElSize(el)[0];
-      console.log(el)
-      console.log('height=', height)
       if (height) {
         self.isPxPerItemComputed = true;
         self.pxPerItem = height;
@@ -63,10 +61,12 @@ mc.occlusionList = {
         // list
         m('ul' + (selectors._parent || ''), attrs._parent || {},
           ctrl.items.slice(begin, begin + lines).map(function (item, i) {
-            return m('li' + (selectors._item || ''),
-              mc.utils.extend({}, attrs._items, {
+            var attr = mc.utils.extend({}, attrs._items || {}, {
                 config: !ctrl.isPxPerItemComputed && i === 0 ? ctrl.setPxPerItem : null
-              }),
+              });
+            attr.style = mc.utils.extend({}, attr.style || {}, {'white-space': 'nowrap'});
+
+            return m('li' + (selectors._item || ''), attr,
               item);
           })
         )
