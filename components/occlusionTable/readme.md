@@ -174,7 +174,7 @@ div.mc-clipped-table-pinned div.pinned {
 }
 ````
 
-* The table height and width at specified are 2 media widths.
+* The table height and width are specified at 2 media widths.
 * The pinned columns are allocated 35% of the table width.
 
 All other styling is in `/components/occlusionTable/occlusionTable.css`.
