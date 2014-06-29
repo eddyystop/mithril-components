@@ -99,7 +99,7 @@ m.module(document.body, app);
 ## Controller
 ```
 controller: function () {
-  this.component = new mc.occlusionTable(table, headerRows, pinnedCols)
+  this.component = new mc.occlusionTable.controller(table, headerRows, pinnedCols)
 }
 ```
 
@@ -108,6 +108,7 @@ An array of table rows.
 The number of columns is computed from the length of the first row..
 * `headerRows {fcn | numb | null default 0}`
 The number of leading rows which form the column headings.
+These rows always appear at the top of the table.
 * `pinnedCols {fcn | number | null default 0}`
 The number of pinned leading columns. 
 These columns always appear at the left of the table.
@@ -129,24 +130,26 @@ If null, the height is that rendered as a result of all the CSS styling.
 A numeric value specifies the size in px.
 A string contains a valid CSS width property value.
 If null, the width is that rendered as a result of all the CSS styling.
-* `selectors {obj}` are the selectors attached to various elements in the table.
-* `attrs {obj}` are the attrs attached to various elements in the table.
+* `selectors {obj}` are the Mithril selectors attached to various elements in the table.
+* `attrs {obj}` are the Mithril attrs attached to various elements in the table.
 
 `selectors` and `attrs` specify the Mithril selectors and attrs to be attached to 
 different parts of the table, e.g. {_wrapper: 'table0', _odd:'.oddRow', _even:'.evenRow'}
 
 The locations are:
-* `_wrapper` The div wrapping the table
-* `_parent` The < table > tags. Note that 2 tables are created when pinned columns are specified.
-* '_heading` The < tr> for heading rows.
-* `_tr` The < tr > for data rows.
-* `_odd` The < tr > for odd numbered data rows.
-* `_even` The < tr > for even numbered data rows.
+* `_wrapper` The outermost < div> wrapping the table.
+* `_parent` The < table> tags. Note that 2 tables are created when pinned columns are specified.
+* `_heading` The < tr> for heading rows.
+* `_tr` The < tr> for data rows.
+* `_odd` The < tr> for odd numbered data rows.
+* `_even` The < tr> for even numbered data rows.
 * `{number}` The < tr> for that data row. 
+
+Any `_tr, _even, {number}` values appropriate for a row are combined.
 
 ## Styling the table with CSS
 
-It is usually preferable to control table height, width using CSS, 
+It is usually preferable to control table height and width using CSS, 
 even though it can be done programmatically.
 CSS also gives you the flexibility to make the table width responsive to
 media width.
@@ -171,7 +174,7 @@ div.mc-clipped-table-pinned div.pinned {
 }
 ````
 
-* The table height and width are specified are 2 media widths.
+* The table height and width at specified are 2 media widths.
 * The pinned columns are allocated 35% of the table width.
 
 All other styling is in `/components/occlusionTable/occlusionTable.css`.
