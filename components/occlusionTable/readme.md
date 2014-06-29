@@ -103,12 +103,12 @@ controller: function () {
 }
 ```
 
-* `table`   (fcn | array of arrays} The table or a function returning the table.
+* `table` **{fcn | array of arrays}** The table or a function returning the table.
 An array of table rows.
 The number of columns is computed from `table[0].length`.
-* `headerRows {fcn | number | null default 0} 
+* `headerRows` **{fcn | number | null default 0}** 
 The number of leading rows which form the column headings.
-* `pinnedCols {fcn | number | null default 0} 
+* `pinnedCols` **{fcn | number | null default 0}** 
 The number of pinned leading columns. 
 These columns always appear at the left of the table.
 They do not scroll along with the remaining columns. 
