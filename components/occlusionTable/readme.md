@@ -129,13 +129,13 @@ If null, the height is that rendered as a result of all the CSS styling.
 A numeric value specifies the size in px.
 A string contains a valid CSS width property value.
 If null, the width is that rendered as a result of all the CSS styling.
-* `selectors {obj querySelector}` are the selectors attached to various elements in the table.
+* `selectors {obj of location:querySelector}` are the selectors attached to various elements in the table.
 
-            {_wrapper: '#table0', _parent: '.parentSelector', _heading: '.headingSelector',
-              _tr: '.trSelector', _odd: '.oddSelector', _even: '.evenSelector',
-              '4': '.row4Selector'
-            },
-            {_wrapper: {wrapperAttr: ''},  _parent: {parentAttr: ''},  _heading: {style:{backgroundColor:'Aqua', height: '40px'}},
+- {_wrapper: '#table0', _parent: '.parentSelector', _heading: '.headingSelector',
+- _tr: '.trSelector', _odd: '.oddSelector', _even: '.evenSelector',
+- '4': '.row4Selector'
+- },
+- {_wrapper: {wrapperAttr: ''},  _parent: {parentAttr: ''},  _heading: {style:{backgroundColor:'Aqua', height: '40px'}},
               _tr: {trAttr: ''},  _odd: {style:{backgroundColor:'LightGreen'}},  _even: {style:{backgroundColor:'Khaki'}},
               '4': {style:{backgroundColor:'Red'}}
             }
