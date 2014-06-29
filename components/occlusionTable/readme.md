@@ -105,13 +105,41 @@ controller: function () {
 
 * `table {fcn | array of arrays}` The table or a function returning the table.
 An array of table rows.
-The number of columns is computed from `table[0].length`.
-* `headerRows {fcn | number | null default 0}`
+The number of columns is computed from the length of the first row..
+* `headerRows {fcn | numb | null default 0}`
 The number of leading rows which form the column headings.
 * `pinnedCols {fcn | number | null default 0}`
 The number of pinned leading columns. 
 These columns always appear at the left of the table.
 They do not scroll along with the remaining columns. 
 
+## View
+```
+view: function (ctrl) {
+  return mc.occlusionTable.view(ctrl, containerHeight, containerWidth, selectors, attrs);
+}
+```
+
+* `ctrl {obj}` is the controller.
+* `containerHeight {numb px | str CSS | null default CSS}` is the display height of the table.
+A numeric value specifies the size in px.
+A string contains a valid CSS height property value.
+If null, the height is that rendered as a result of all the CSS styling.
+* `containerWeight {numb px | str CSS | null default CSS}` is the display width of the table..
+A numeric value specifies the size in px.
+A string contains a valid CSS width property value.
+If null, the width is that rendered as a result of all the CSS styling.
+* `selectors {obj querySelector}` are the selectors attached to various elements in the table.
+
+            {_wrapper: '#table0', _parent: '.parentSelector', _heading: '.headingSelector',
+              _tr: '.trSelector', _odd: '.oddSelector', _even: '.evenSelector',
+              '4': '.row4Selector'
+            },
+            {_wrapper: {wrapperAttr: ''},  _parent: {parentAttr: ''},  _heading: {style:{backgroundColor:'Aqua', height: '40px'}},
+              _tr: {trAttr: ''},  _odd: {style:{backgroundColor:'LightGreen'}},  _even: {style:{backgroundColor:'Khaki'}},
+              '4': {style:{backgroundColor:'Red'}}
+            }
+            
+* `selectors {str querySelector}` are the selectors attached to various elements in the table.
 
 ## Rest coming in a few hours
