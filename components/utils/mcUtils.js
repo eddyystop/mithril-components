@@ -4,6 +4,8 @@ mc._internals = mc._internals || {};
 mc._internals.redrawScheduled = false;
 
 mc.utils = mc.utils || {};
+
+// extend an object with others
 mc.utils.extend = function extend (to /* arguments */) {
   Array.prototype.slice.call(arguments, 1).forEach(function (obj) {
     if (typeof obj === 'object') {
@@ -11,6 +13,22 @@ mc.utils.extend = function extend (to /* arguments */) {
     }
   });
   return to;
+};
+
+// resolve m('', '', child)
+mc.utils.resolveChild = function resolveChild (child) {
+  switch (typeof child) {
+    case 'array':
+      return child;
+    case 'function':
+      return child();
+    case 'number':
+      return child + '';
+    case 'string':
+      return child;
+    default:
+      return child;
+  }
 };
 
 /*

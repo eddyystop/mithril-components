@@ -43,11 +43,9 @@ app = {
       return [
         m('p', ''),
         m('.container',
-           m('.row',
-             mc.occlusionList.view(ctrl.ctrlList, 250, '250px',
-               {_wrapper: '.wrapperSelector', _parent: '.list-group', _item: '.list-group-item'},
-               {_wrapper: {wrapperAttr: ''}, _parent: {parentAttr: ''}, _item: {itemAttr: ''}}
-        )))
+          m('.row',
+            mc.occlusionList.view(ctrl.ctrlList, 250, '250px')
+        ))
       ];
     }
 };

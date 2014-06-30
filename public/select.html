@@ -1,8 +1,48 @@
 <!doctype html>
+<head>
+  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+</head>
 <body>
 <h1>select</h1>
 <script src="js/vendor/mithril.js"></script>
-<script src="js/vendor/jquery.js"></script> <!-- not a dependency for component -->
+<script src="../components/utils/mcUtils.js"></script>
 <script src="../components/select/select.js"></script>
-<script src="js/select-runner.js"></script>
+<script>
+  var app = {
+    car: m.prop(''),
+
+    controller: function () {
+      this.select = new mc.Select.controller(app.car);
+    },
+
+    view: function (ctrl) {
+      var items = {
+        'volvo' : 'Volvo',
+        'saab' : 'Saab',
+        'mercedes' : 'Mercedes',
+        'audi' : [m('span','Audi'), m('span', ' -- New')]
+      };
+      return m('.container', [
+          m('p'),
+          mc.Select.view(ctrl.select, {
+            items: items,
+            caption: 'Select a car',
+            selectors: {
+              parent: '.list-group#selectId',
+              item: '.list-group-item'
+            },
+            attrs: {
+              parent: { style: {color: 'red'} },
+              volvo: { style: {color: 'blue'} },
+              audi: { style: {color: 'green'} }
+            }
+          }),
+          m('div', {}, app.car() || 'no car selected')
+        ]
+      );
+    }
+  };
+
+  m.module(document.body, app);
+</script>
 </body>

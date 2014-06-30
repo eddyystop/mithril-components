@@ -61,6 +61,7 @@ mc.occlusionList = {
         // list
         m('ul' + (selectors._parent || ''), attrs._parent || {},
           ctrl.items.slice(begin, begin + lines).map(function (item, i) {
+
             var attr = mc.utils.extend({}, attrs._items || {}, {
                 config: !ctrl.isPxPerItemComputed && i === 0 ? ctrl.setPxPerItem : null
               });
