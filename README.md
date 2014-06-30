@@ -31,9 +31,9 @@ A working example, if any, is located at ```public/tableResponsive.html```.
 ### UI Components
 
 - ```select``` - Simple select.
-[Sample usage](/public/select.html)
-[Results](/components/select/sample.png)
-[Source and readme](https://github.com/eddyystop/mithril-components/tree/master/components/select)
+[(Sample usage.)](/public/select.html)
+[(Results.)](/components/select/sample.png)
+[(Source and readme.)](https://github.com/eddyystop/mithril-components/tree/master/components/select)
 - ```select2``` - [Select replacement.] (https://github.com/ivaynberg/select2) 
 Supports searching, remote data, and infinite scrolling. jQuery based.
 - ```table``` - Simple table.
