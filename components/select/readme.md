@@ -74,7 +74,7 @@ view: function (ctrl) {
 ```
 
 * `ctrl {obj}` is the controller.
-* `options {obj}` contains the following properties:
+* `options {obj}` contains the following optional properties:
     * `items {array of {str | numb | fcn | m() | array of m()} }` the items.
     A fcn is called. The m() frankly won't do much inside an < option>.
     * `caption {str | numb | fcn | m() | array of m()}` the caption.
@@ -82,8 +82,8 @@ view: function (ctrl) {
     * `attrs {obj}` are the Mithril attrs attached to various elements in the table.
 
 `selectors` and `attrs` specify the Mithril selectors and attrs to be attached to 
-different parts of the table, e.g. {parent: '.list-group#selectId', item: '.list-group-item'}
+different locations in the structure, e.g. `{parent: '.list-group#selectId', item: '.list-group-item'}`
 
 The locations are:
-* `_parent` The < select> for the select.
-* `item` The < option> for an item. 
+* `parent` The < select>.
+* `item` The < option> for every item. 
