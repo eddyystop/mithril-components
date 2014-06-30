@@ -1,27 +1,81 @@
 <!doctype html>
 <head>
-    <link href="../components/tableResponsive/tableResponsive.css" rel="stylesheet" type="text/css">
-    <style>
-        table th{
-            font-weight:bold;
-        }
-        table td,
-        table th {
-            padding: 1px;
-            text-align: left;
-        }
-        table {
-            border-top: 1px solid red !important;
-            border-bottom: 1px solid red !important;
-            border-left: 1px solid red !important;
-            border-right: 1px solid red;
-        }
-    </style>
+  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+  <link href="../components/tableResponsive/occlusionTable.css" rel="stylesheet" type="text/css">
+  <style>
+    #table0, #table1, #table2 {
+      width: 900px !important;
+    }
+    @media all and (max-width: 800px) {
+      #table0, #table1, #table2  {
+        width: 650px !important;
+      }
+    }
+    @media all and (max-width: 700px) {
+      #table0, #table1, #table2 {
+        width: 450px !important;
+      }
+    }
+  </style>
 </head>
 <body>
 <h1>tableResponsive</h1>
 <script src="js/vendor/mithril.js"></script>
 <script src="js/vendor/jquery.js"></script> <!-- not a dependency for component -->
+<script src="../components/utils/mcUtils.js"></script>
 <script src="../components/tableResponsive/tableResponsive.js"></script>
-<script src="js/tableResponsive-runner.js"></script>
+<script>
+  $(window).on('resize', function () {
+    m.startComputation();
+    m.endComputation();
+  });
+
+  var app = {
+    controller: function () {
+      var table = [
+        ['Header 1 aaaaaaaaaa', 'Header 2', 'Header 3', 'Header 4', 'Header 5', 'Header 6', 'Header 7'],
+        ['row 1 cell 1 aaaaaaaaaa', '(row 1, col 2)', '(row 1, col 3)', '(row 1, col 4)', '(row 1, col 5)', '(row 1, col 6)', '(row 1, col 7)'],
+        ['row 2 cell 1 aaaaaaaaaa', '(row 2, col 2)', '(row 2, col 3)', 'xxxxxxxxxxxxxx', '(row 2, col 5)', '(row 2, col 6)', '(row 2, col 7)'],
+        ['row 3 cell 1 aaaaaaaaaa', '(row 3, col 2)', '(row 3, col 3)', '(row 3, col 4)', '(row 3, col 5)', '(row 3, col 6)', '(row 3, col 7)'],
+        ['row 4 cell 1 aaaaaaaaaa', '(row 4, col 2)', '(row 4, col 3)', '(row 4, col 4)', '(row 4, col 5)', '(row 4, col 6)', '(row 4, col 7)']
+      ];
+      table[2][3] = [m('span','(row 2, col 4)'), m('span.badge', 'New')];
+
+      this.table0 = new mc.TableResponsive.controller(table);
+      this.table1 = new mc.TableResponsive.controller(table);
+      this.table2 = new mc.TableResponsive.controller(table);
+    },
+
+    view: function (ctrl) {
+      var attrs2 = {
+        '2': {style: {color: 'red'}}
+      };
+
+      return m('.container', [
+        m('p'),
+        // a plain table
+        mc.TableResponsive.view(ctrl.table0, {
+          selectors: {wrapper: '#table0', parent: '.table .table-bordered .table-striped .table-bordered'},
+          attrs: attrs2
+        }),
+        m('p'),
+        // a pinned table
+        mc.TableResponsive.view(ctrl.table1, {
+          isPlain: false,
+          selectors: {wrapper: '#table1', parent: '.table .table-bordered .table-striped .table-bordered'},
+          attrs: attrs2
+        }),
+        m('p'),
+        // a table responsive to media width
+        mc.TableResponsive.view(ctrl.table2, {
+          isPlain: function () { return $(window).width() >= 760; },
+          selectors: {wrapper: '#table2', parent: '.table .table-bordered .table-striped .table-bordered'},
+          attrs: attrs2
+        })
+      ]);
+    }
+  };
+
+  m.module(document.body, app);
+</script>
 </body>

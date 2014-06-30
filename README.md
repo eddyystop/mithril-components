@@ -41,6 +41,9 @@ Supports searching, remote data, and infinite scrolling. jQuery based.
 [(Results.)](/components/table/sample.png)
 [(Source and readme.)](https://github.com/eddyystop/mithril-components/tree/master/components/table)
 - ```tableResponsive``` - Responsive table.
+[(Sample usage.)](/public/tableResponsive.html)
+[(Results.)](/components/table/sample.png)
+[(Source and readme.)](https://github.com/eddyystop/mithril-components/tree/master/components/tableResponsive)
 - ```datatable``` - Table with sortable columns, AJAX population, 
 row selection and multi-row, nested headings.
 - ```imageResponsive``` - [Responsive image polyfill] 

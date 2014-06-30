@@ -70,6 +70,7 @@ controller: function () {
 * `table {fcn | array of arrays}` 
 The table to display. 
 It is or returns an array of rows, each row containing column cells.
+The number of columns in the table is taken from the first row.
     * `cell {str | numb | fcn | m() | array of m()}` the cell value.
     A fcn is called.
 
