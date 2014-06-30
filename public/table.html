@@ -1,8 +1,50 @@
 <!doctype html>
+<head>
+  <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+</head>
 <body>
 <h1>table</h1>
 <script src="js/vendor/mithril.js"></script>
-<script src="js/vendor/jquery.js"></script> <!-- not a dependency for component -->
+<script src="../components/utils/mcUtils.js"></script>
 <script src="../components/table/table.js"></script>
-<script src="js/table-runner.js"></script>
+<script>
+  var app = {
+    controller: function () {
+      var table = [
+        ['Header 1 aaaaaaaaaa', 'Header 2', 'Header 3', 'Header 4', 'Header 5', 'Header 6', 'Header 7'],
+        ['row 1 cell 1 aaaaaaaaaa', '(row 1, col 2)', '(row 1, col 3)', '(row 1, col 4)', '(row 1, col 5)', '(row 1, col 6)', '(row 1, col 7)'],
+        ['row 2 cell 1 aaaaaaaaaa', '(row 2, col 2)', '(row 2, col 3)', '(row 2, col 4)', '(row 2, col 5)', '(row 2, col 6)', '(row 2, col 7)'],
+        ['row 3 cell 1 aaaaaaaaaa', '(row 3, col 2)', '(row 3, col 3)', '(row 3, col 4)', '(row 3, col 5)', '(row 3, col 6)', '(row 3, col 7)'],
+        ['row 4 cell 1 aaaaaaaaaa', '(row 4, col 2)', '(row 4, col 3)', '(row 4, col 4)', '(row 4, col 5)', '(row 4, col 6)', '(row 4, col 7)']
+      ];
+
+      this.table1 = new mc.Table.controller(table);
+      this.table2 = new mc.Table.controller(m.prop(table));
+    },
+
+    view: function (ctrl) {
+      var selectors2 = {
+        parent: '.myTable',
+        tr: '.myTr',
+        even: '.myTrEven',
+        odd: '.myTrOdd',
+        '2': '.myTrRow2'
+      };
+      var attrs2 = {
+        parent: {style: {color: 'red'}},
+        odd: {style: {backgroundColor: 'pink'}},
+        '2': {style: {color: 'green', backgroundColor: 'yellow'}}
+      };
+
+      return m('.container', [
+        m('p'),
+        mc.Table.view(ctrl.table1, {startCol:2, cols: 3, selectors: {parent: '.table .table-bordered .table-striped'}}),
+        m('p'),
+        mc.Table.view(ctrl.table2, {selectors: selectors2, attrs: attrs2})
+      ]);
+    }
+  };
+
+  m.module(document.body, app);
+</script>
 </body>

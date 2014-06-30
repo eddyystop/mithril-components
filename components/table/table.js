@@ -5,44 +5,40 @@ var mc = mc || {};
 
 mc.Table = {
   controller: function (table) {
-    this.table = table || [];
+    this.table = mc.utils.setParam(table);
   },
 
-  view: function (ctrl, selectors, attrs) {
-    selectors = selectors || {};
-    attrs = attrs || {};
+  view: function (ctrl, options) {
+    options = options || {};
+    var startRow = options.startRow || 0,
+      rows = options.rows || (ctrl.table().length - startRow),
+      startCol = options.startCol || 0,
+      endCol = (options.cols ? startCol + options.cols : ctrl.table()[0].length) - 1,
+      selectors = options.selectors || {},
+      attrs = options.attrs || {};
 
-    return m('table' + (selectors._parent || ''), attrs._parent || {},
-      _tableRows()
+    return m('table' + (selectors.parent || ''), attrs.parent || {},
+      renderTable(startRow, rows, startCol, endCol)
     );
 
-    function _tableRows () {
+    function renderTable (startDataRow, rows, startCol, endCol) {
       return m('tbody',
         // render rows
-        ctrl.table.map(function (row, i) {
+        ctrl.table().slice(startDataRow, startDataRow + rows + 1).map(function (row, i) {
 
-          var oddEven = i & 1 ? '_odd' : '_even', // jshint ignore:line
-            selector = (selectors._tr || '') + (selectors[oddEven] || '') +
+          var oddEven = i & 1 ? 'odd' : 'even',
+            selector = (selectors.tr || '') + (selectors[oddEven] || '') +
               (selectors[i] || ''),
-            attr = extend({}, attrs._tr, attrs[oddEven], attrs[i]);
+            attr = mc.utils.extend({}, attrs.tr, attrs[oddEven], attrs[i]);
 
           return m('tr' + selector, attr,
-            // render cells
-            row.map(function (cell) {
-              return m(i ? 'td' : 'th', cell + ''); // Mithril only supports strings
+            row.slice(startCol, endCol + 1).map(function (cell) {
+              //render cells
+              return m(i ? 'td' : 'th', mc.utils.resolveChild(cell));
             })
           );
         })
       );
-    }
-
-    function extend (to /* arguments */) {
-      Array.prototype.slice.call(arguments, 1).forEach(function (obj) {
-        if (typeof obj === 'object') {
-          Object.keys(obj).forEach(function (key) { to[key] = obj[key]; });
-        }
-      });
-      return to;
     }
   }
 };

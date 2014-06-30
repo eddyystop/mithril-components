@@ -15,6 +15,11 @@ mc.utils.extend = function extend (to /* arguments */) {
   return to;
 };
 
+// ensure params are m.prop()
+mc.utils.setParam = function setParam(param) {
+  return typeof param === 'function' ? param : m.prop(param);
+};
+
 // resolve m('', '', child)
 mc.utils.resolveChild = function resolveChild (child) {
   switch (typeof child) {

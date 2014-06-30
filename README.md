@@ -37,6 +37,9 @@ A working example, if any, is located at ```public/tableResponsive.html```.
 - ```select2``` - [Select replacement.] (https://github.com/ivaynberg/select2) 
 Supports searching, remote data, and infinite scrolling. jQuery based.
 - ```table``` - Simple table.
+[(Sample usage.)](/public/table.html)
+[(Results.)](/components/table/sample.png)
+[(Source and readme.)](https://github.com/eddyystop/mithril-components/tree/master/components/table)
 - ```tableResponsive``` - Responsive table.
 - ```datatable``` - Table with sortable columns, AJAX population, 
 row selection and multi-row, nested headings.

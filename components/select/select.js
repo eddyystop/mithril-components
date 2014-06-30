@@ -5,7 +5,7 @@ var mc = mc || {};
 
 mc.Select = {
   controller: function (value) {
-    this.value = typeof value === 'function' ? value : m.prop(value);
+    this.value = mc.utils.setParam(value);
   },
 
   view: function (ctrl, options) {
