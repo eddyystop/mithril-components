@@ -18,8 +18,10 @@
         ['row 4 cell 1 aaaaaaaaaa', '(row 4, col 2)', '(row 4, col 3)', '(row 4, col 4)', '(row 4, col 5)', '(row 4, col 6)', '(row 4, col 7)']
       ];
 
-      this.table1 = new mc.Table.controller(table);
       this.table2 = new mc.Table.controller(m.prop(table));
+
+      table[2][3] = [m('span','(row 2, col 4)'), m('span.badge', 'New')];
+      this.table1 = new mc.Table.controller(table);
     },
 
     view: function (ctrl) {

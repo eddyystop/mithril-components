@@ -28,8 +28,10 @@ controller: function () {
     ['row 4 cell 1 aaaaaaaaaa', '(row 4, col 2)', '(row 4, col 3)', '(row 4, col 4)', '(row 4, col 5)', '(row 4, col 6)', '(row 4, col 7)']
   ];
 
-  this.table1 = new mc.Table.controller(table);
-  this.table2 = new mc.Table.controller(m.prop(table));
+    this.table2 = new mc.Table.controller(m.prop(table));
+
+    table[2][3] = [m('span','(row 2, col 4)'), m('span.badge', 'New')];
+    this.table1 = new mc.Table.controller(table);
 },
 
 view: function (ctrl) {
@@ -66,8 +68,11 @@ controller: function () {
 }
 ```
 
-* `table {fcn | str | number}` 
-The table to display.
+* `table {fcn | array of arrays}` 
+The table to display. 
+It is or returns an array of rows, each row containing column cells.
+    * `cell {str | numb | fcn | m() | array of m()}` the cell value.
+    A fcn is called.
 
 ## View
 ```
