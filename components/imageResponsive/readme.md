@@ -3,7 +3,7 @@
 Mithril.js integration to [picturefill](http://scottjehl.github.com/picturefill/)
 a responsive image polyfill for <picture>, srcset, sizes, and more.
 
-You can read more about <picture>
+You can read more about < picture>
 [here](http://scottjehl.github.io/picturefill/)
 and [here](http://picture.responsiveimages.org/).
 
@@ -50,25 +50,25 @@ m.module(document.body, app);
 ## Controller
 ```
 controller: function () {
-  this.component = new mc.tableResponsive.controller()
+  this.component = new mc.imageResponsive.controller()
 }
 ```
 
 ## View
 ```
 view: function (ctrl) {
-  return mc.tableResponsive.view(ctrl, options);
+  return mc.imageResponsive.view(ctrl, options);
 }
 ```
 
 * `ctrl {obj}` is the controller.
-* `options {obj}` contains the following mandatory properties:
-    * `sources {array of source}` the alternate images depending on the media width.
+* `options {obj}` contains the following properties:
+    * `sources {array of "source" | default empty}` the potential images depending on the media width.
     The image displayed is the first one satisfying its media query.
-        * `source {obj {srcset:..., media:...} } the image for this media query
-            * `srcset {URL | default is empty str}` the URL of the image.
+        * `source {obj {srcset:..., media:...} }` the image for this media query
+            * `srcset {URL | default empty str}` the URL of the image.
             * `media {media query | default is empty str}` 
             the media condition to be satisfied, e.g. `media: "(min-width: 1000px)"`.
-    * `img {obj {srcset:..., alt:...} }` The standard image.
-        * `srcset {URL | default is empty str}` the URL of the image.
-        * `alt {str | default is empty str} a description of the image.
+    * `img {obj {srcset:..., alt:...} | default empty}` The standard image.
+        * `srcset {URL | default empty str}` the URL of the image.
+        * `alt {str | default is empty str}` a description of the image.
