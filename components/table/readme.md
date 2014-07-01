@@ -2,14 +2,21 @@
 
 A simple table.
 
+##### Alternatives
+
+If you want to scroll the table horizontally, 
+if you want the table width to react to the width of the media,
+or if you need pinned columns, consider
+[tableResponsive](../tableResponsive).
+
 ## Sample usage
-### Results (with Bootstrap 3.2)
+#### Results (with Bootstrap 3.2)
 ![table sample](sample.png)
 
-### Run it
+#### Run it
 Point browser at /mithril-components/public/table.html .
 
-### Code
+#### Code
 ```
 <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
 

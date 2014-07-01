@@ -10,14 +10,20 @@ occlusionTable may be used in responsive designs as the table width reacts to CS
 occlusionControl works well with tables having a very large number of rows, 
 as its renders only the rows which are then visible. (Its also fine for small numbers of rows!)
 
+##### Alternatives
+
+If the table does not have a large number of rows,
+or if you don't want to scroll the table both horizontally and vertically,
+consider [tableResponsive](../tableResponsive).
+
 ## Sample usage
-### Results (shown at 2 CSS media query breakpoints)
+#### Results (shown at 2 CSS media query breakpoints)
 ![occlusionTable sample](sample.jpg)
 
-### Run it
+#### Run it
 Point browser at /mithril-components/public/occlusionTable.html .
 
-### Code
+#### Code
 ```
 <link href="../components/occlusionTable/occlusionTable.css" rel="stylesheet" type="text/css">
 
