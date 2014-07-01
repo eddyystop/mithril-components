@@ -6,13 +6,13 @@ occlusionControl works well with lists having a very large number of items,
 as its renders only those items then visible. (Its also fine for small numbers of items!)
 
 ## Sample usage
-### Results (with Bootstrap 3.2)
+#### Results (with Bootstrap 3.2)
 ![occlusionList sample](sample.png)
 
-### Run it
+#### Run it
 Point browser at /mithril-components/public/occlusionList.html .
 
-### Code
+#### Code
 ```
 <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
 

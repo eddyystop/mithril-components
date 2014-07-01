@@ -3,13 +3,13 @@
 A simple select.
 
 ## Sample usage
-### Results (with Bootstrap 3.2)
+#### Results (with Bootstrap 3.2)
 ![select sample](sample.png)
 
-### Run it
+#### Run it
 Point browser at /mithril-components/public/select.html .
 
-### Code
+#### Code
 ```
 <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
 

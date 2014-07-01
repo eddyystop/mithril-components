@@ -19,7 +19,7 @@ consider [occlusionTable](../occlusionTable).
 
 ## Sample usage
 #### Results (shown at 2 CSS media query breakpoints)
-![tableResponsive sample](sample.jpg)
+![tableResponsive sample](sample.png)
 
 #### Run it
 Point browser at /mithril-components/public/tableResponsive.html .

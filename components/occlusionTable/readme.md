@@ -13,7 +13,7 @@ as its renders only the rows which are then visible. (Its also fine for small nu
 ##### Alternatives
 
 If the table does not have a large number of rows,
-or if you don't want to scroll the table both horizontally and vertically,
+and you don't want to scroll the table both horizontally and vertically,
 consider [tableResponsive](../tableResponsive).
 
 ## Sample usage
