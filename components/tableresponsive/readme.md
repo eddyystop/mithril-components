@@ -6,14 +6,25 @@ Optional pinned columns are always displayed.
 The table width and other properties are defined in the CSS, so web designers may control the styling.
 tableresponsive may be used in responsive designs as the table width reacts to CSS media query changes.
 
+#### Alternatives
+
+If you don't need pinned columns, consider
+[table](https://github.com/eddyystop/mithril-components/tree/master/components/table)
+perhaps wrapping it in a vertically or horizontally scrolling div.
+
+If the table has many rows, 
+or if you want to restrict scroll the table both horizontally and vertically,
+consider [occlusionTable](../occlusionTable).
+
+
 ## Sample usage
-### Results (shown at 2 CSS media query breakpoints)
+#### Results (shown at 2 CSS media query breakpoints)
 ![tableResponsive sample](sample.jpg)
 
-### Run it
+#### Run it
 Point browser at /mithril-components/public/tableResponsive.html .
 
-### Code
+#### Code
 ```
 <link href="vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
 <link href="../components/tableResponsive/occlusionTable.css" rel="stylesheet" type="text/css">
