@@ -4,14 +4,11 @@
 var mc = mc || {};
 
 mc.ImageResponsive = {
-  controller: function (sources, img) {
-    this.sources = sources || [];
-    this.img = img || {};
-  },
+  controller: function () { },
 
-  view: function (ctrl, overrides) {
-    var sources = overrides.sources || ctrl.sources,
-      img = overrides.img || ctrl.img;
+  view: function (ctrl, options) {
+    var sources = options.sources || {},
+      img = options.img || {};
 
     var children = sources.map(function (source) {
       return m('source', { srcset: source.srcset || '', media: source.media || '' });

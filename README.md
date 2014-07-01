@@ -39,18 +39,21 @@ Supports searching, remote data, and infinite scrolling. jQuery based.
 - ```table``` - Simple table.
 [(Sample usage.)](/public/table.html)
 [(Results.)](/components/table/sample.png)
-[(Source and readme.)](https://github.com/eddyystop/mithril-components/tree/master/components/table)
+[(Source and readme.)](/components/table)
 - ```tableResponsive``` - Responsive table.
 [(Sample usage.)](/public/tableResponsive.html)
 [(Results.)](/components/tableResponsive/sample.png)
-[(Source and readme.)](https://github.com/eddyystop/mithril-components/tree/master/components/tableresponsive)
+[(Source and readme.)](/components/tableresponsive)
 - ```datatable``` - Table with sortable columns, AJAX population, 
 row selection and multi-row, nested headings.
 [(Sample usage.)](/public/datatable.html)
 [(Results.)](/components/datatable/sample.png)
-[(Source and readme.)](https://github.com/eddyystop/mithril-components/tree/master/components/datatable)
+[(Source and readme.)](/components/datatable)
 - ```imageResponsive``` - [Responsive image polyfill] 
 (https://github.com/scottjehl/picturefill)  for < picture > and more.
+[(Sample usage.)](/public/imageResponsive.html)
+[(Results.)](/components/imageResponsive/sample.png)
+[(Source and readme.)](/components/imageresponsive)
 - ```tabs``` - Tab control. Renders active view. Routing via m.route().
 
 #### Occlusion components

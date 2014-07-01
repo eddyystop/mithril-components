@@ -2,8 +2,32 @@
 <body>
 <h1>imageResponsive</h1>
 <script src="js/vendor/mithril.js"></script>
-<script src="js/vendor/jquery.js"></script> <!-- not a dependency for component -->
 <script src="js/vendor/picturefill.js"></script>
 <script src="../components/imageResponsive/imageResponsive.js"></script>
-<script src="js/imageResponsive-runner.js"></script>
+<script>
+  var app = {
+    controller: function () {
+      this.image = new mc.ImageResponsive.controller();
+    },
+
+    view: function (ctrl) {
+      return [
+        m('h3', 'You will see 3 different sized images as you narrow the browser width'),
+        m('div', mc.ImageResponsive.view(ctrl.image, {
+          sources: [
+            { srcset: "images/extralarge.jpg", media: "(min-width: 1000px)" },
+            { srcset: "images/large.jpg", media: "(min-width: 800px)" },
+            { srcset: "images/medium.jpg" }
+          ],
+          img: img = {
+            srcset: "images/medium.jpg",
+            alt: "A giant stone face at The Bayon temple in Angkor Thom, Cambodia"
+          }
+        }))
+      ];
+    }
+  };
+
+  m.module(document.body, app);
+</script>
 </body>
