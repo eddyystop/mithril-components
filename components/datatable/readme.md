@@ -18,6 +18,8 @@ Features
 	* set table width
 	* set function to respond to click events on data cells
 	
+<img src="../../public/images/datatable.png">
+
 Usage
 -----
 
