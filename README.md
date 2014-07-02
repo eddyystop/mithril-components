@@ -43,8 +43,8 @@ Supports searching, remote data, and infinite scrolling. jQuery based.
 [(Source and readme.)](/components/tableresponsive)
 - ```datatable``` - Table with sortable columns, AJAX population, 
 row selection and multi-row, nested headings.
-[(Sample usage.)](/public/datatable.html)
-[(Results.)](/components/datatable/sample.png)
+[(Sample usage.)](/public/Datatable.html)
+[(Results.)](/public/images/datatable.png)
 [(Source and readme.)](/components/datatable)
 - ```imageResponsive``` - [Responsive image polyfill] 
 (https://github.com/scottjehl/picturefill)  for < picture > and more.
