@@ -51,7 +51,9 @@ row selection and multi-row, nested headings.
 [(Sample usage.)](/public/imageResponsive.html)
 [(Results.)](/components/imageResponsive/sample.png)
 [(Source and readme.)](/components/imageResponsive)
-- ```tabs``` - Tab control. Renders active view. Routing via m.route().
+- ```tabs``` - 
+Bootstrap tabs and pills, Foundation tabs, or custom styling. 
+Renders active view. Supports routing. 
 [(Sample usage.)](/public/tabs.html)
 [(Results.)](/components/tabs/sample.png)
 [(Source and readme.)](/components/tabs)

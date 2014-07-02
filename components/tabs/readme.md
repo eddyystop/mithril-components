@@ -1,6 +1,14 @@
 # [tabs](https://github.com/eddyystop/mithril-components/tree/master/components/tabs)
 
-Display tabs.
+Display tabs and pills. 
+
+The builtin *flavors* include:
+* Bootstrap tabs.
+* Bootstrap horizontal and vertical pills.
+* Foundation horizontal and vertical tabs.
+
+Custom *flavors* may also be added. 
+Custom styling and attributes may be applied throughout.
  
 A render function is supported for each tab, 
 and it renders the tab's contents when the tab is active.
@@ -8,8 +16,11 @@ Each tab has an optional onclick handler.
 This may either redirect to another 'page' or be a customized function.
 
 ## Sample usage
-#### Results
-![tabs sample](sample.png)
+#### Results with Bootstrap 3.2 (using `css: 'bs/nav-tabs'` and `'bs/nav-pills.nav-stacked'`) 
+![tabs sample Bootstrap](sample.png)
+
+#### Results with Foundation 5 (using `css: ''zf/tabs'`)
+![tabs sample Foundation](sample-zf.png)
 
 #### Run it
 Point browser at /mithril-components/public/tabs.html .
@@ -164,10 +175,14 @@ view: function (ctrl) {
 * `options {obj}` contains the following properties:
     * `activeTabName {fcn | str | defaults to first tab}`
     The name of the currently active tab. The default is the name of the first tab in `tabs`.
-    * `css {str optional}` Create a component for use with the specified CSS framework. 
+    * `css {str optional}` Create a component for the specified CSS framework using certain options. 
     Otherwise the `selectors` and `attrs` properties are expected to style the component.
     The supported values are:
-        * `"bs"` Bootstrap.
+        * `'bs/nav-tabs'` Bootstrap tabs.
+        * `'bs/nav-pills'` Bootstrap pills.
+        * `'bs/nav-pills.nav-stacked'` Bootstrap vertical pills.
+        * `'zf/tabs'` Foundation tabs
+        * `'zf/tabs.vertical'` Foundation vertical tabs.
     * `tabs {obj {tabName1:{...}, ...} required}` Definition of the tabs. 
     The tabs are rendered in the stored order, i.e. Object.keys().
     Each tab contains:
@@ -222,8 +237,3 @@ different locations in the structure. The locations are:
 * `parent` The < ul>.
 * `item` and `itemActive` The < li> for every item.
 * `link` and `linkActive` The < a> for even link.
-
-The Bootstrap `css` injects the selectors:
-```
-{ parent: '.nav.nav-tabs', itemActive: '.active' };
-```
