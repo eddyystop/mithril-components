@@ -20,13 +20,10 @@ Start the server with ```node app.js``` and point your
 browser to ```http://localhost:3000/public/FormMixin.html``` for example. 
 
 ## Components
-Component ```tableResponsive``` resides in ```components/tableResponsive/```.
-Docs are in the ```readme```.
+
 You may extract the files you need with a build tool,
 or you may use the front-end packaging tool
 [component] (https://github.com/component/component).
-
-A working example, if any, is located at ```public/tableResponsive.html```.
 
 ### UI Components
 
@@ -67,9 +64,15 @@ They are useful for large tables, large lists, infinite scrolling,
 deferring rendering of below-the-fold content, and parallax sites.
 
 - ```occlusionList``` - Simple list, rendering only what is visible.
+[(Sample usage.)](/public/occlusionList.html)
+[(Results.)](/components/occlusionList/sample.png)
+[(Source and readme.)](/components/occlusionList)
 - ```occlusionTable``` - Table which scrolls vertically and horizontally.
 Optional header rows always displayed. Pinned columns always appear.
 Responsive to width changes from CSS media queries.
+[(Sample usage.)](/public/occlusionTable.html)
+[(Results.)](/components/occlusionTable/sample.png)
+[(Source and readme.)](/components/occlusionTable)
 
 ## Mixins
 Mixin ```ValidationMixin``` resides in ```mixins/ValidationMixins/```.
