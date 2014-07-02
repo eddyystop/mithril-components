@@ -1,6 +1,7 @@
 # [tabs](https://github.com/eddyystop/mithril-components/tree/master/components/tabs)
 
-Display tabs. 
+Display tabs.
+ 
 A render function is supported for each tab, 
 and it renders the tab's contents when the tab is active.
 Each tab has an optional onclick handler. 
@@ -139,9 +140,9 @@ m.route(document.body, '/', {
 You need not instantiate a controller, though you can.
 
 The tabs component is used within rendering functions, 
-and it turns out its awkward to first have to have to instantiate a controller.
-One state element is passed to the view, so this certainly is not the idiomatic Mithril way to do things.
-However we're letting practically win out in this case.
+and it turns out its awkward to idiomatically instantiate a controller.
+One state element is passed to the view, so this certainly is not the 'right' Mithril way to do things.
+However we're letting practically win out.
 
 
 ## View  --- the rest is not yet done correctly
