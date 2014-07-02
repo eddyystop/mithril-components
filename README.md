@@ -40,7 +40,7 @@ Supports searching, remote data, and infinite scrolling. jQuery based.
 - ```tableResponsive``` - Responsive table.
 [(Sample usage.)](/public/tableResponsive.html)
 [(Results.)](/components/tableResponsive/sample.png)
-[(Source and readme.)](/components/tableresponsive)
+[(Source and readme.)](/components/tableResponsive)
 - ```datatable``` - Table with sortable columns, AJAX population, 
 row selection and multi-row, nested headings.
 [(Sample usage.)](/public/Datatable.html)
@@ -50,7 +50,7 @@ row selection and multi-row, nested headings.
 (https://github.com/scottjehl/picturefill)  for < picture > and more.
 [(Sample usage.)](/public/imageResponsive.html)
 [(Results.)](/components/imageResponsive/sample.png)
-[(Source and readme.)](/components/imageresponsive)
+[(Source and readme.)](/components/imageResponsive)
 - ```tabs``` - Tab control. Renders active view. Routing via m.route().
 [(Sample usage.)](/public/tabs.html)
 [(Results.)](/components/tabs/sample.png)

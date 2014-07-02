@@ -6,10 +6,19 @@ var mc = mc || {};
 mc.Tabs = {
   controller: function () { }, // controller need not be called
 
-  view: function (ctrl, activeTabName, tabOptions) { // 'ctrl' is not used
-    activeTabName = mc.utils.setParam(activeTabName, '');
-    tabOptions = tabOptions || {};
-    var self = this;
+  view: function (ctrl, options) { // 'ctrl' is not used
+    options = options || {};
+    var self = this,
+      tabOptions = options.tabs || {},
+      selectors = options.selectors || {},
+      attrs = options.attrs || {},
+      cssSelectors = {},
+      tabOptionKeys = Object.keys(tabOptions),
+      activeTabName = mc.utils.setParam(options.activeTabName, tabOptionKeys[0] || '');
+
+    if (options.css === 'bs') {
+      cssSelectors = {parent: '.nav.nav-tabs', item: '', itemActive: '.active'};
+    }
 
     return [
       renderTabs(),
@@ -17,22 +26,30 @@ mc.Tabs = {
     ];
 
     function renderTabs () {
-      return m('ul.nav.nav-tabs', Object.keys(tabOptions).map(function (key) { //todo
+      return m('ul' + (cssSelectors.parent || '') + (selectors.parent || ''),
+        tabOptionKeys.map(function (key) {
 
-        var label = tabOptions[key].label || key,
-          route = tabOptions[key].onclickRedirectTo;
+          var route = mc.utils.resolveChild(tabOptions[key].onclickRedirectTo),
+            itemProp = activeTabName() === key ? 'itemActive' : 'item',
+            itemSelectors = (cssSelectors[itemProp] || '') + (selectors[itemProp] || ''),
+            linkProp = activeTabName() === key ? 'linkActive' : 'link',
+            linkSelectors = (cssSelectors[linkProp] || '') + (selectors[linkProp] || ''),
+            label = mc.utils.resolveChild(tabOptions[key].label || key);
 
-        if (route) {
-          return m('li', {class: activeTabName() === key ? 'active' : ''}, //todo
-            m('a' + '[href="' + route +'"]', //todo
-              {config: m.route}, label)
-          );
-        } else {
-          return m('li', {class: activeTabName() === key ? 'active' : ''},
-            m('a', {onclick: onchangeTab.bind(self, key)}, label)
-          );
-        }
-      }));
+          if (route) {
+            return m('li' + itemSelectors,
+              m('a' + '[href="' + route +'"]' + linkSelectors,
+                mc.utils.extend({config: m.route}, attrs[linkProp] || {}),
+                label)
+            );
+          } else {
+            return m('li' + itemSelectors,
+              m('a' + linkSelectors,
+                mc.utils.extend({onclick: onchangeTab.bind(self, key)}, attrs[linkProp] || {}),
+                label)
+            );
+          }
+        }));
     }
 
     function renderTabContents () {

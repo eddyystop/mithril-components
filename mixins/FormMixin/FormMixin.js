@@ -1,4 +1,6 @@
 /* globals m */
+//todo add a jquery like serializeArray to obtain body for POST
+//todo a method to do what postStatus does in the example
 
 // FormMixin ===================================================================
 function FormMixin (ctrl) {

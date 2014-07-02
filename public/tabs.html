@@ -22,61 +22,60 @@ var app = {
   view: function (ctrl) {
     var self = this,
       tabOptions = {
-        'finance': {
-          label: 'Financials',
-          render: function () { return self.renderFinanceContents(ctrl); },
-          onclick: function () { console.log('tab finance was clicked'); }
-        },
-        'staff': {
-          label: 'Personnel',
-          render: function () {
-            return [
-              m('p'),
-              m('form.col-md-offset-1.col-md-3',
-                m('.form-group', [
+        activeTabName: model.activeTabMain,
+        css: 'bs',
+        tabs: {
+          'finance': {
+            label: 'Financials',
+            render: function () { return self.renderFinanceContents(); },
+            onclick: function () { console.log('tab finance was clicked'); }
+          },
+          'staff': {
+            label: 'Personnel',
+            render: function () {
+              return [
+                m('p'),
+                m('form.col-md-offset-1.col-md-3',
+                  m('.form-group', [
                     m('label', 'Manager'),
                     m('input.form-control',
                       {onchange: m.withAttr('value', model.mgrName), value: model.mgrName()}
-                    )
-                  ]
-                )
-              )
-            ];
+          )]))];}},
+          'exit': {
+            label: 'Exit',
+            onclickRedirectTo:  '/foo'
           }
-        },
-        'exit': {
-          label: 'Exit',
-          onclickRedirectTo:  '/foo'
         }
       };
 
     return m('.container', [
       m('p'),
-      mc.Tabs.view(ctrl.tabs, model.activeTabMain, tabOptions)
+      mc.Tabs.view(ctrl.tabs, tabOptions)
     ]);
   },
 
   renderFinanceContents: function () {
     var tabOptions = {
-      'period': {
-        label: 'Sales',
-        render: function () {
-          var salesCtrl = new sales.controller();
-          return sales.view(salesCtrl);
-        }
-      },
-      'comment': {
-        label: 'commentary',
-        render: function () {
-          return m('.row .col-md-offset-1', [
-            m('h3', 'Well that sales data sucks!'),
-            m('h4', [
-              m('span', 'Use the Personnel tab to replace '),
-              m('span.mark', model.mgrName()),
-              m('span', ' with a new manager.')
-            ])
-          ]);
-        }
+      activeTabName: model.activeTabSub,
+      css: 'bs',
+      tabs: {
+        'period': {
+          label: 'Sales',
+          render: function () {
+            var salesCtrl = new sales.controller();
+            return sales.view(salesCtrl);
+          }
+        },
+        'comment': {
+          label: 'commentary',
+          render: function () {
+            return m('.row.col-md-offset-1', [
+              m('h3', 'Well that sales data sucks!'),
+              m('h4', [
+                m('span', 'Use the Personnel tab to replace '),
+                m('span.mark', model.mgrName()),
+                m('span', ' with a new manager.')
+        ])]);}}
       }
     };
 
@@ -84,12 +83,8 @@ var app = {
       m('.row', [
           m('p'),
           m('.col-md-offset-2', {style: {border: '1px solid Lightgrey'}}, [
-              mc.Tabs.view(null, model.activeTabSub, tabOptions)
-            ]
-          )
-        ]
-      )
-    ];
+              mc.Tabs.view(null, tabOptions)
+    ])])];
   }
 };
 

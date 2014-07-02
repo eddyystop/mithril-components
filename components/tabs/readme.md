@@ -36,54 +36,60 @@ var app = {
   view: function (ctrl) {
     var self = this,
       tabOptions = {
-        'finance': {
-          label: 'Financials',
-          render: function () { return self.renderFinanceContents(ctrl); },
-          onclick: function () { console.log('tab finance was clicked'); }
-        },
-        'staff': {
-          label: 'Personnel',
-          render: function () {
-            return [
-              m('p'),
-              m('form.col-md-offset-1.col-md-3',
-                m('.form-group', [
+        activeTabName: model.activeTabMain,
+        css: 'bs',
+        tabs: {
+          'finance': {
+            label: 'Financials',
+            render: function () { return self.renderFinanceContents(); },
+            onclick: function () { console.log('tab finance was clicked'); }
+          },
+          'staff': {
+            label: 'Personnel',
+            render: function () {
+              return [
+                m('p'),
+                m('form.col-md-offset-1.col-md-3',
+                  m('.form-group', [
                     m('label', 'Manager'),
                     m('input.form-control',
                       {onchange: m.withAttr('value', model.mgrName), value: model.mgrName()}
-          )]))];}
-        },
-        'exit': {
-          label: 'Exit',
-          onclickRedirectTo:  '/foo'
+          )]))];}},
+          'exit': {
+            label: 'Exit',
+            onclickRedirectTo:  '/foo'
+          }
         }
       };
 
     return m('.container', [
       m('p'),
-      mc.Tabs.view(ctrl.tabs, model.activeTabMain, tabOptions)
+      mc.Tabs.view(ctrl.tabs, tabOptions)
     ]);
   },
 
   renderFinanceContents: function () {
     var tabOptions = {
-      'period': {
-        label: 'Sales',
-        render: function () {
-          var salesCtrl = new sales.controller();
-          return sales.view(salesCtrl);
-        }
-      },
-      'comment': {
-        label: 'commentary',
-        render: function () {
-          return m('.row .col-md-offset-1', [
-            m('h3', 'Well that sales data sucks!'),
-            m('h4', [
-              m('span', 'Use the Personnel tab to replace '),
-              m('span.mark', model.mgrName()),
-              m('span', ' with a new manager.')
-        ])]);}
+      activeTabName: model.activeTabSub,
+      css: 'bs',
+      tabs: {
+        'period': {
+          label: 'Sales',
+          render: function () {
+            var salesCtrl = new sales.controller();
+            return sales.view(salesCtrl);
+          }
+        },
+        'comment': {
+          label: 'commentary',
+          render: function () {
+            return m('.row .col-md-offset-1', [
+              m('h3', 'Well that sales data sucks!'),
+              m('h4', [
+                m('span', 'Use the Personnel tab to replace '),
+                m('span.mark', model.mgrName()),
+                m('span', ' with a new manager.')
+        ])]);}}
       }
     };
 
@@ -91,7 +97,7 @@ var app = {
       m('.row', [
           m('p'),
           m('.col-md-offset-2', {style: {border: '1px solid Lightgrey'}}, [
-              mc.Tabs.view(null, model.activeTabSub, tabOptions)
+              mc.Tabs.view(null, tabOptions)
     ])])];
   }
 };
@@ -114,7 +120,9 @@ var sales = {
         m('.form-group', [
             m('label', 'Manager'),
             m('input.form-control', {disabled: true, value: model.mgrName()})
-      ])),
+          ]
+        )
+      ),
       mc.Table.view(ctrl.tableCtrl, {selectors: {parent: '.table .table-bordered .table-striped'}})
     ];
   }
@@ -145,7 +153,7 @@ One state element is passed to the view, so this certainly is not the 'right' Mi
 However we're letting practically win out.
 
 
-## View  --- the rest is not yet done correctly
+## View
 ```
 view: function (ctrl) {
   return mc.tableResponsive.view(ctrl, options);
@@ -154,21 +162,72 @@ view: function (ctrl) {
 
 * `ctrl {obj}` is the controller.
 * `options {obj}` contains the following optional properties:
-    * `isPlain {boolean | fcn | null defaults true}` is a normal table is to be rendered.
-    A table with pinned columns will be rendered is false.
-    A fcn is called and a {bool} is expected as a result.
-    * `startRow {numb | default 0 }` the starting row to display (base 0).
-    * `rows {numb | defaults to last row }` number of rows to display.
-    * `pinnedCols {numb | default 1 }` the number of leading columns to pin (base 1).
-    * `selectors {obj}` are the Mithril selectors attached to various elements in the table.
-    * `attrs {obj}` are the Mithril attrs attached to various elements in the table.
+    * `activeTabName {fcn | str | defaults to first tab}`
+    The name of the currently active tab. The defaults is the name of the first tab.
+    * `css {str optional}` Create a component for use with this CSS framework. 
+    Otherwise the `selectors` and `attrs` properties are expected to style the component.
+    The supported values are:
+        * `bs` Bootstrap.
+    * `tabs {obj {tabName1:{...}, ...} required}` Definition of the tabs. 
+    The tabs are rendered in the stored order, i.e. Object.keys().
+    Each tab contains:
+        * `tabName: { label:, render:, onclickRedirectTo:, onclick:, selectors:, attrs: }` 
+        Definition of one tab.
+            * `label {fcn | str | default is tabName}` The text to appear as the label.
+            * `render {fcn optional}` Fcn which renders the tab's contents if the tab is active.
+            * `onclickRedirectTo {URL | fcn returning URL optional}` 
+            Redirect to this route if the tab is clicked.
+            * `onclick {fcn optional}`
+            Call this fcn is the tab is clicked. Cannot appear with `onclickRedirectTo`.
+            The module is automatically re-rendered after a tab is clicked,
+            so this optional fcn would perform other specialized processing before the re-render.
+            * `selectors {obj}` are the Mithril selectors attached to various elements in the table.
+            They are applied after any selectors added by `css`.
+            * `attrs {obj}` are the Mithril attrs attached to various elements in the table.
+
+You can set the activeTagName to the current route name as follows:
+```
+options.activeTagName = m.route.param('tab');
+...
+m.route(document.body, '/', {
+  '/': app,
+  '/:tab': app
+});
+```
+    
+You can call a rendering function for a tab with:
+```
+render: function () {
+    return m('form.col-md-offset-1.col-md-3',
+        m('.form-group', [
+         m('label', 'Manager'),
+         m('input.form-control',
+           {onchange: m.withAttr('value', model.mgrName), value: model.mgrName()}
+         )
+        ])
+    );
+}
+```
+
+You can render a sub-app which contains a controller and view with:
+```
+render: function () {
+    var salesCtrl = new sales.controller();
+    return sales.view(salesCtrl);
+}
+```
+
+what css adds
 
 `selectors` and `attrs` specify the Mithril selectors and attrs to be attached to 
 different locations in the structure, e.g. `parent: '.table .table-bordered .table-striped'`
 
 The locations are:
-* `parent` The < table>.
-* `tr` Every < tr>.
-* `even` Even row < tr>.
-* `odd` Odd row < tr>.
-* `{number}` The < tr> of that row number (base 0).
+* `parent` The < ul>.
+* `item` and `itemActive` Every item < li>.
+* `link` and `linkActive` Even link < a>.
+
+The Bootstrap `css` injects the selectors:
+```
+{ parent: '.nav.nav-tabs', itemActive: '.active' };
+```
