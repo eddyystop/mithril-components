@@ -71,7 +71,7 @@ deferring rendering of below-the-fold content, and parallax sites.
 Optional header rows always displayed. Pinned columns always appear.
 Responsive to width changes from CSS media queries.
 [(Sample usage.)](/public/occlusionTable.html)
-[(Results.)](/components/occlusionTable/sample.png)
+[(Results.)](/components/occlusionTable/sample.jpg)
 [(Source and readme.)](/components/occlusionTable)
 
 ## Mixins
