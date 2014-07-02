@@ -5,9 +5,9 @@ mc.occlusionTable = {
   controller: function (table /*fcn|array*/, headerRows /*fcn|numb*/, pinnedCols /*fcn|numb*/) {
     var self = this;
     this.isInitialized = false;
-    this.table = typeof table === 'function' ? table : m.prop(table);
-    this.headerRows = typeof headerRows === 'function' ? headerRows : m.prop(headerRows || 0);
-    this.pinnedCols = typeof pinnedCols === 'function' ? pinnedCols : m.prop(pinnedCols || 0);
+    this.table = mc.utils.setParam(table);
+    this.headerRows =mc.utils.setParam(headerRows, 0);
+    this.pinnedCols = mc.utils.setParam(pinnedCols, 0);
 
     this.isContainerSizeDone = this.isHeaderHeightComputed = this.isRowHeightComputed = this.isScrollHeightDone = false;
     this.headerHeight = this.rowHeight = 16; // any estimate will do as we force a redraw
@@ -184,7 +184,7 @@ mc.occlusionTable = {
             return m('tr' + selector, attr,
               // render cells
               row.slice(startCol, endCol).map(function (cell) {
-                return m('td', cell + '');
+                return m('td', mc.utils.resolveChild(cell));
               })
             );
           })

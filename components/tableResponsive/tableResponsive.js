@@ -6,6 +6,7 @@ var mc = mc || {};
 mc.TableResponsive = {
   controller: function (table) {
     this.table = mc.utils.setParam(table);
+    console.log('Tableresponsive.table=', typeof this.table, this.table())
   },
 
   view: function (ctrl, options) {

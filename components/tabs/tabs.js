@@ -4,89 +4,45 @@
 var mc = mc || {};
 
 mc.Tabs = {
-	controller: function (tabSelector, action) {
-		this.tabSelector = tabSelector || function () {
-			return m.route.param('tab');
-		};
-		this.action = action;
-	},
+  controller: function () { }, // controller need not be called
 
-	view: function (ctrl, tabs, selectors, attrs) {
-		selectors = selectors || {};
-		attrs = attrs || {};
+  view: function (ctrl, activeTabName, tabOptions) { // 'ctrl' is not used
+    activeTabName = mc.utils.setParam(activeTabName, '');
+    tabOptions = tabOptions || {};
+    var self = this;
 
-		var tabSelector = ctrl.tabSelector,
-			activeTab = (typeof tabSelector == 'function' ? tabSelector() : tabSelector) || Object.keys(tabs)[0];
-		tabs = normalizeTabs(tabs, ctrl);
+    return [
+      renderTabs(),
+      renderTabContents()
+    ];
 
-		return [
-			m('div' + (selectors._parent || ''), attrs._parent || {},
-				m('ul', Object.keys(tabs).map(tab))
-			),
-			tabs[activeTab].view(tabs[activeTab].ctrl)
-			];
+    function renderTabs () {
+      return m('ul.nav.nav-tabs', Object.keys(tabOptions).map(function (key) { //todo
 
-		function tab(name) {
-			var selected = activeTab === name,
-				selector = (selected && selectors._activeAnchor ?
-					selectors._activeAnchor : selectors._anchor) || '',
-				attrParam = (selected && attrs._activeAnchor ?
-					attrs._activeAnchor : attrs._anchor) || '',
-				attr = {};
+        var label = tabOptions[key].label || key,
+          route = tabOptions[key].onclickRedirectTo;
 
-			if (attrParam) {
-				merge(attr, attrParam);
-			}
-			merge(attr, {
-				href: '/' + name,
-				config: !ctrl.action && m.route
-			});
+        if (route) {
+          return m('li', {class: activeTabName() === key ? 'active' : ''}, //todo
+            m('a' + '[href="' + route +'"]', //todo
+              {config: m.route}, label)
+          );
+        } else {
+          return m('li', {class: activeTabName() === key ? 'active' : ''},
+            m('a', {onclick: onchangeTab.bind(self, key)}, label)
+          );
+        }
+      }));
+    }
 
-			if (ctrl.action) {
-				attr.onclick = function (e) {
-					if (e.ctrlKey || e.metaKey || e.which == 2) return;
-					e.preventDefault();
-					ctrl.action(e.currentTarget.getAttribute('href').substr(1), e);
-				};
-			}
+    function renderTabContents () {
+      var tabOption = tabOptions[activeTabName()];
+      return tabOption && tabOption.render ? tabOption.render() : [];
+    }
 
-			return m('li' + (selectors._item || ''), attrs._item || {},
-				m('a' + selector, attr, tabs[name].label || '')
-			);
-		}
-
-		function normalizeTabs(tabs, ctrl) {
-			var norm = {},
-				lastCtrl = ctrl || {};
-
-			Object.keys(tabs).forEach(function (key) { // depends on .keys() returning keys in order defined
-				var tab = tabs[key];
-				if (typeof tab === 'function') {
-					norm[key] = {
-						view: tab,
-						ctrl: lastCtrl,
-						label: key
-					};
-				} else {
-					if (tab.ctrl) {
-						lastCtrl = tab.ctrl;
-					}
-					norm[key] = {
-						view: tab.view,
-						ctrl: lastCtrl,
-						label: tab.label || key
-					};
-				}
-			});
-
-			return norm;
-		}
-
-
-		function merge(to, from) {
-			for (var key in from) {
-				to[key] = from[key];
-			}
-		}
-	}
+    function onchangeTab  (tabName) {
+      activeTabName(tabName);
+      if (tabOptions[tabName] && tabOptions[tabName].onclick) { tabOptions[tabName].onclick(); }
+    }
+  }
 };

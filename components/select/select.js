@@ -5,7 +5,7 @@ var mc = mc || {};
 
 mc.Select = {
   controller: function (value) {
-    this.value = mc.utils.setParam(value);
+    this.value = mc.utils.setParam(value, '');
   },
 
   view: function (ctrl, options) {

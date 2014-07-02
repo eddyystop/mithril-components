@@ -55,6 +55,9 @@ row selection and multi-row, nested headings.
 [(Results.)](/components/imageResponsive/sample.png)
 [(Source and readme.)](/components/imageresponsive)
 - ```tabs``` - Tab control. Renders active view. Routing via m.route().
+[(Sample usage.)](/public/tabs.html)
+[(Results.)](/components/tabs/sample.png)
+[(Source and readme.)](/components/tabs)
 
 #### Occlusion components
 
