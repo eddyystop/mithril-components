@@ -8,7 +8,7 @@ Each tab has an optional onclick handler.
 This may either redirect to another 'page' or be a customized function.
 
 ## Sample usage
-#### Results (shown at 2 CSS media query breakpoints)
+#### Results
 ![tabs sample](sample.png)
 
 #### Run it
@@ -149,8 +149,8 @@ You need not instantiate a controller, though you can.
 
 The tabs component is used within rendering functions, 
 and it turns out its awkward to idiomatically instantiate a controller.
-One state element is passed to the view, so this certainly is not the 'right' Mithril way to do things.
-However we're letting practically win out.
+One state element is passed to the view, so this certainly is not the 'right' Mithril way of doing things.
+However we're letting practically win here.
 
 
 ## View
@@ -161,13 +161,13 @@ view: function (ctrl) {
 ```
 
 * `ctrl {obj}` is the controller.
-* `options {obj}` contains the following optional properties:
+* `options {obj}` contains the following properties:
     * `activeTabName {fcn | str | defaults to first tab}`
-    The name of the currently active tab. The defaults is the name of the first tab.
-    * `css {str optional}` Create a component for use with this CSS framework. 
+    The name of the currently active tab. The default is the name of the first tab in `tabs`.
+    * `css {str optional}` Create a component for use with the specified CSS framework. 
     Otherwise the `selectors` and `attrs` properties are expected to style the component.
     The supported values are:
-        * `bs` Bootstrap.
+        * `"bs"` Bootstrap.
     * `tabs {obj {tabName1:{...}, ...} required}` Definition of the tabs. 
     The tabs are rendered in the stored order, i.e. Object.keys().
     Each tab contains:
@@ -175,11 +175,11 @@ view: function (ctrl) {
         Definition of one tab.
             * `label {fcn | str | default is tabName}` The text to appear as the label.
             * `render {fcn optional}` Fcn which renders the tab's contents if the tab is active.
-            * `onclickRedirectTo {URL | fcn returning URL optional}` 
+            * `onclickRedirectTo {str URL | fcn returning URL | optional}` 
             Redirect to this route if the tab is clicked.
             * `onclick {fcn optional}`
-            Call this fcn is the tab is clicked. Cannot appear with `onclickRedirectTo`.
-            The module is automatically re-rendered after a tab is clicked,
+            Call this fcn when the tab is clicked. Ignored if `onclickRedirectTo` is specified.
+            The current module is automatically re-rendered after a tab is clicked,
             so this optional fcn would perform other specialized processing before the re-render.
             * `selectors {obj}` are the Mithril selectors attached to various elements in the table.
             They are applied after any selectors added by `css`.
@@ -217,15 +217,11 @@ render: function () {
 }
 ```
 
-what css adds
-
 `selectors` and `attrs` specify the Mithril selectors and attrs to be attached to 
-different locations in the structure, e.g. `parent: '.table .table-bordered .table-striped'`
-
-The locations are:
+different locations in the structure. The locations are:
 * `parent` The < ul>.
-* `item` and `itemActive` Every item < li>.
-* `link` and `linkActive` Even link < a>.
+* `item` and `itemActive` The < li> for every item.
+* `link` and `linkActive` The < a> for even link.
 
 The Bootstrap `css` injects the selectors:
 ```
