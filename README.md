@@ -56,6 +56,7 @@ Bootstrap tabs and pills, Foundation tabs, or custom styling.
 Renders active view. Supports routing. 
 [(Sample usage.)](/public/tabs.html)
 [(Results.)](/components/tabs/sample.png)
+[(and more.)](/components/tabs/sample-zf.png)
 [(Source and readme.)](/components/tabs)
 
 #### Occlusion components

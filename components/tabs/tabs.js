@@ -4,21 +4,27 @@
 var mc = mc || {};
 
 mc.Tabs = {
+  flavorsSelectors: {
+    'bs/nav-tabs': {parent: '.nav.nav-tabs', itemActive: '.active'},
+    'bs/nav-pills': {parent: '.nav.nav-pills', itemActive: '.active'},
+    'bs/nav-pills.nav-stacked': {parent: '.nav.nav-pills.nav-stacked', itemActive: '.active'},
+    'zf/tabs': {parent: '.tabs', item: '.tab-title', itemActive: '.tab-title.active'},
+    'zf/tabs.vertical': {parent: '.tabs.vertical', item: '.tab-title', itemActive: '.tab-title.active'}
+  },
+  flavorsAttrs: {},
+
   controller: function () { }, // controller need not be called
 
   view: function (ctrl, options) { // 'ctrl' is not used
     options = options || {};
     var self = this,
-      tabOptions = options.tabs || {},
-      selectors = options.selectors || {},
-      attrs = options.attrs || {},
-      cssSelectors = {},
+      tabOptions = options.tabs,
       tabOptionKeys = Object.keys(tabOptions),
-      activeTabName = mc.utils.setParam(options.activeTabName, tabOptionKeys[0] || '');
-
-    if (options.css === 'bs') {
-      cssSelectors = {parent: '.nav.nav-tabs', item: '', itemActive: '.active'};
-    }
+      activeTabName = mc.utils.setParam(options.activeTabName, tabOptionKeys[0] || ''),
+      selectors = mc.utils.combineSelectors({},
+        this.flavorsSelectors[options.flavor] || {}, options.selectors || {}),
+      attrs = mc.utils.extend({},
+        this.flavorsAttrs[options.flavor] || {}, options.attrs || {});
 
     return [
       renderTabs(),
@@ -26,25 +32,23 @@ mc.Tabs = {
     ];
 
     function renderTabs () {
-      return m('ul' + (cssSelectors.parent || '') + (selectors.parent || ''),
+      return m('ul' + (selectors.parent || ''), attrs.parent || {},
         tabOptionKeys.map(function (key) {
 
           var route = mc.utils.resolveChild(tabOptions[key].onclickRedirectTo),
             itemProp = activeTabName() === key ? 'itemActive' : 'item',
-            itemSelectors = (cssSelectors[itemProp] || '') + (selectors[itemProp] || ''),
             linkProp = activeTabName() === key ? 'linkActive' : 'link',
-            linkSelectors = (cssSelectors[linkProp] || '') + (selectors[linkProp] || ''),
             label = mc.utils.resolveChild(tabOptions[key].label || key);
 
           if (route) {
-            return m('li' + itemSelectors,
-              m('a' + '[href="' + route +'"]' + linkSelectors,
+            return m('li' + (selectors[itemProp] || ''), attrs[itemProp] || {},
+              m('a' + '[href="' + route +'"]' + (selectors[linkProp] || ''),
                 mc.utils.extend({config: m.route}, attrs[linkProp] || {}),
                 label)
             );
           } else {
-            return m('li' + itemSelectors,
-              m('a' + linkSelectors,
+            return m('li' + (selectors[itemProp] || ''), attrs[itemProp] || {},
+              m('a' + (selectors[linkProp] || ''),
                 mc.utils.extend({onclick: onchangeTab.bind(self, key)}, attrs[linkProp] || {}),
                 label)
             );

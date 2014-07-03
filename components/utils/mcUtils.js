@@ -15,6 +15,18 @@ mc.utils.extend = function extend (to /* arguments */) {
   return to;
 };
 
+// combine Selectors-like objects (they have only str property values)
+mc.utils.combineSelectors = function extend (to /* arguments */) {
+  Array.prototype.slice.call(arguments, 1).forEach(function (obj) {
+    if (typeof obj === 'object') {
+      Object.keys(obj).forEach(function (key) {
+        to[key] = (to[key] || '') + obj[key];
+      });
+    }
+  });
+  return to;
+};
+
 // ensure params are m.prop()
 mc.utils.setParam = function setParam(param, defaultValue) {
   return typeof param === 'function' ? param : m.prop(typeof param === 'undefined' ? defaultValue : param);

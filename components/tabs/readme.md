@@ -1,7 +1,6 @@
 # [tabs](https://github.com/eddyystop/mithril-components/tree/master/components/tabs)
 
 Display tabs and pills. 
-
 The builtin *flavors* include:
 * Bootstrap tabs.
 * Bootstrap horizontal and vertical pills.
@@ -16,10 +15,10 @@ Each tab has an optional onclick handler.
 This may either redirect to another 'page' or be a customized function.
 
 ## Sample usage
-#### Results with Bootstrap 3.2 (using `css: 'bs/nav-tabs'` and `'bs/nav-pills.nav-stacked'`) 
+#### Results with Bootstrap 3.2 (flavors *bs/nav-tabs* and *bs/nav-pills.nav-stacked*) 
 ![tabs sample Bootstrap](sample.png)
 
-#### Results with Foundation 5 (using `css: ''zf/tabs'`)
+#### Results with Foundation 5 (flavor *zf/tabs*)
 ![tabs sample Foundation](sample-zf.png)
 
 #### Run it
@@ -175,9 +174,9 @@ view: function (ctrl) {
 * `options {obj}` contains the following properties:
     * `activeTabName {fcn | str | defaults to first tab}`
     The name of the currently active tab. The default is the name of the first tab in `tabs`.
-    * `css {str optional}` Create a component for the specified CSS framework using certain options. 
+    * `flavor {str optional}` Create a particular version of the component. 
     Otherwise the `selectors` and `attrs` properties are expected to style the component.
-    The supported values are:
+    The flavors are:
         * `'bs/nav-tabs'` Bootstrap tabs.
         * `'bs/nav-pills'` Bootstrap pills.
         * `'bs/nav-pills.nav-stacked'` Bootstrap vertical pills.
@@ -197,7 +196,7 @@ view: function (ctrl) {
             The current module is automatically re-rendered after a tab is clicked,
             so this optional fcn would perform other specialized processing before the re-render.
             * `selectors {obj}` are the Mithril selectors attached to various elements in the table.
-            They are applied after any selectors added by `css`.
+            They are applied after any selectors added by `flavors`.
             * `attrs {obj}` are the Mithril attrs attached to various elements in the table.
 
 You can set the activeTagName to the current route name as follows:
@@ -237,3 +236,9 @@ different locations in the structure. The locations are:
 * `parent` The < ul>.
 * `item` and `itemActive` The < li> for every item.
 * `link` and `linkActive` The < a> for even link.
+
+You can add a new flavor by attaching a `selectors` and/or a `attrs`
+```
+mc.Tabs.flavorsSelectors.newFlavorName: {parent:, ...};
+mc.Tabs.flavorsAttrs.newFlavorName: {parent:, ...}'
+```
