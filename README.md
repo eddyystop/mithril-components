@@ -51,12 +51,9 @@ row selection and multi-row, nested headings.
 [(Sample usage.)](/public/imageResponsive.html)
 [(Results.)](/components/imageResponsive/sample.png)
 [(Source and readme.)](/components/imageResponsive)
-- ```tabs``` - 
+- [```tabs```](/components/tabs) - 
 Bootstrap tabs and pills, Foundation tabs, or custom styling. 
 Renders active view. Supports routing. 
-[(Sample usage.)](/public/tabs.html)
-[(Results.)](/components/tabs/sample.png)
-[(and more.)](/components/tabs/sample-zf.png)
 [(Source and readme.)](/components/tabs)
 
 #### Occlusion components

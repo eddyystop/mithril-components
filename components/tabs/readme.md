@@ -6,7 +6,7 @@ The builtin *flavors* include:
 * Bootstrap horizontal and vertical pills.
 * Foundation horizontal and vertical tabs.
 
-Custom *flavors* may also be added. 
+Custom *flavors* may be added. 
 Custom styling and attributes may be applied throughout.
  
 A render function is supported for each tab, 
@@ -22,7 +22,9 @@ This may either redirect to another 'page' or be a customized function.
 ![tabs sample Foundation](sample-zf.png)
 
 #### Run it
-Point browser at /mithril-components/public/tabs.html .
+Bootstrap: Point browser at /mithril-components/public/tabs.html .
+
+Foundation: Point browser at /mithril-components/public/tabs-zf.html .
 
 #### Code
 ```
@@ -234,13 +236,18 @@ render: function () {
 ```
 
 `selectors` and `attrs` specify the Mithril selectors and attrs to be attached to 
-different locations in the structure, e.g. `{parent: '.nav.nav-pills.nav-stacked', itemActive: '.active'}`. The locations are:
+different locations in the structure, e.g. selector = `{parent: '.nav.nav-pills.nav-stacked', itemActive: '.active'}`.
+ The locations are:
 * `parent` The < ul>.
 * `item` and `itemActive` The < li> for every item.
 * `link` and `linkActive` The < a> for even link.
 
-You can add a new flavor by attaching a `selectors` and/or a `attrs`, e.g.
+`flavors` are predefined sets of `selectors` and `attrs`. 
+You will find them defined at the start of the JS file.
+
+You can add a new `flavor` by attaching new `selectors` and/or a `attrs`, e.g.
 ```
-mc.Tabs.flavorsSelectors['bs/nav-pills.nav-stacked']: {parent: '.nav.nav-pills.nav-stacked', itemActive: '.active'},
-mc.Tabs.flavorsAttrs['bs/nav-pills.nav-stacked'] = {};
+mc.Tabs.flavorsSelectors['bs/nav-pills=bold'] = mc.Tabs.flavorsSelectors['bs/nav-pills'];
+mc.Tabs.flavorsAttrs['bs/nav-pills=bold'] = mc.utils.extend({}, 
+  mc.Tabs.flavorsAttrs['bs/nav-pills'], {style: {'font-weight': 'bold'}});
 ```
