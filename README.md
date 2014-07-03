@@ -27,29 +27,19 @@ or you may use the front-end packaging tool
 
 ### UI Components
 
-- ```select``` - Simple select.
-[(Sample usage.)](/public/select.html)
-[(Results.)](/components/select/sample.png)
+- [```select```](/components/select) - Simple select.
 [(Source and readme.)](/components/select)
 - ```select2``` - [Select replacement.] (https://github.com/ivaynberg/select2) 
 Supports searching, remote data, and infinite scrolling. jQuery based.
-- ```table``` - Simple table.
-[(Sample usage.)](/public/table.html)
-[(Results.)](/components/table/sample.png)
+- [```table```](/components/table) - Simple table.
 [(Source and readme.)](/components/table)
-- ```tableResponsive``` - Responsive table.
-[(Sample usage.)](/public/tableResponsive.html)
-[(Results.)](/components/tableResponsive/sample.png)
+- [```tableResponsive```](/components/tableResponsive) - Responsive table.
 [(Source and readme.)](/components/tableResponsive)
-- ```datatable``` - Table with sortable columns, AJAX population, 
+- [```datatable```](/components/datatable) - Table with sortable columns, AJAX population, 
 row selection and multi-row, nested headings.
-[(Sample usage.)](/public/Datatable.html)
-[(Results.)](/public/images/datatable.png)
 [(Source and readme.)](/components/datatable)
-- ```imageResponsive``` - [Responsive image polyfill] 
+- [```imageResponsive```](/components/imageResponsive) - [Responsive image polyfill] 
 (https://github.com/scottjehl/picturefill)  for < picture > and more.
-[(Sample usage.)](/public/imageResponsive.html)
-[(Results.)](/components/imageResponsive/sample.png)
 [(Source and readme.)](/components/imageResponsive)
 - [```tabs```](/components/tabs) - 
 Bootstrap tabs and pills, Foundation tabs, or custom styling. 

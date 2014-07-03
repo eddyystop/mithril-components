@@ -15,10 +15,10 @@ Each tab has an optional onclick handler.
 This may either redirect to another 'page' or be a customized function.
 
 ## Sample usage
-#### Results with Bootstrap 3.2 (flavors *bs/nav-tabs* and *bs/nav-pills.nav-stacked*) 
+#### Results with Bootstrap
 ![tabs sample Bootstrap](sample.png)
 
-#### Results with Foundation 5 (flavor *zf/tabs*)
+#### Results with Foundation
 ![tabs sample Foundation](sample-zf.png)
 
 #### Run it
@@ -244,10 +244,11 @@ different locations in the structure, e.g. selector = `{parent: '.nav.nav-pills.
 
 `flavors` are predefined sets of `selectors` and `attrs`. 
 You will find them defined at the start of the JS file.
-
-You can add a new `flavor` by attaching new `selectors` and/or a `attrs`, e.g.
+You can add a new `flavor` by attaching a new selector and/or attr, e.g.
 ```
-mc.Tabs.flavorsSelectors['bs/nav-pills=bold'] = mc.Tabs.flavorsSelectors['bs/nav-pills'];
-mc.Tabs.flavorsAttrs['bs/nav-pills=bold'] = mc.utils.extend({}, 
-  mc.Tabs.flavorsAttrs['bs/nav-pills'], {style: {'font-weight': 'bold'}});
+mc.Tabs.flavorsSelectors['bs/nav-pills=bold'] = 
+  mc.utils.extend({}, mc.Tabs.flavorsSelectors['bs/nav-pills']);
+mc.Tabs.flavorsAttrs['bs/nav-pills=bold'] = 
+  mc.utils.extend({}, mc.Tabs.flavorsAttrs['bs/nav-pills']);
+mc.Tabs.flavorsAttrs['bs/nav-pills=bold'].style['font-weight'] = 'bold';
 ```
