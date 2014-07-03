@@ -34,123 +34,124 @@ Point browser at /mithril-components/public/tabs.html .
 <script src="../components/table/table.js"></script>
 <script src="../components/tabs/tabs.js"></script>
 
-var model = {
-  mgrName: m.prop('John'),
-  activeTabMain: m.prop('finance'),
-  activeTabSub: m.prop('period')
-};
+  var model = {
+    mgrName: m.prop('John'),
+    activeTabMain: m.prop('finance'),
+    activeTabSub: m.prop('period')
+  };
 
-// app =========================================================================
-var app = {
-  controller: function () {	},
-  view: function (ctrl) {
-    var self = this,
-      tabOptions = {
-        activeTabName: model.activeTabMain,
-        css: 'bs',
-        tabs: {
-          'finance': {
-            label: 'Financials',
-            render: function () { return self.renderFinanceContents(); },
-            onclick: function () { console.log('tab finance was clicked'); }
-          },
-          'staff': {
-            label: 'Personnel',
-            render: function () {
-              return [
-                m('p'),
-                m('form.col-md-offset-1.col-md-3',
-                  m('.form-group', [
-                    m('label', 'Manager'),
-                    m('input.form-control',
-                      {onchange: m.withAttr('value', model.mgrName), value: model.mgrName()}
-          )]))];}},
-          'exit': {
-            label: 'Exit',
-            onclickRedirectTo:  '/foo'
+  // app =========================================================================
+  var app = {
+    controller: function () {	},
+    view: function (ctrl) {
+      var self = this,
+        tabOptions = {
+          activeTabName: model.activeTabMain,
+          flavor: 'bs/nav-tabs',
+          tabs: {
+            'finance': {
+              label: 'Financials',
+              render: function () { return self.renderFinanceContents(); },
+              onclick: function () { console.log('tab finance was clicked'); }
+            },
+            'staff': {
+              label: 'Personnel',
+              render: function () {
+                return [
+                  m('p'),
+                  m('form.col-md-offset-1.col-md-3',
+                    m('.form-group', [
+                      m('label', 'Manager'),
+                      m('input.form-control',
+                        {onchange: m.withAttr('value', model.mgrName), value: model.mgrName()}
+                      )]))];}},
+            'exit': {
+              label: 'Exit',
+              onclickRedirectTo:  '/foo'
+            }
           }
-        }
+        };
+
+      return m('.container', [
+        m('p'),
+        mc.Tabs.view(ctrl.tabs, tabOptions)
+      ]);
+    },
+
+    renderFinanceContents: function () {
+      var tabOptions = {
+        activeTabName: model.activeTabSub,
+        flavor: 'bs/nav-pills.nav-stacked',
+        tabs: {
+          'period': {
+            label: 'Sales',
+            render: function () {
+              var salesCtrl = new sales.controller();
+              return sales.view(salesCtrl);
+            }
+          },
+          'comment': {
+            label: 'commentary',
+            render: function () {
+              return m('.row.col-md-offset-1', [
+                m('h3', 'Well that sales data sucks!'),
+                m('h4', [
+                  m('span', 'Use the Personnel tab to replace '),
+                  m('span.mark', model.mgrName()),
+                  m('span', ' with a new manager.')
+                ])]);}}
+        },
+        selectors: { parent: '.nav-stacked' }
       };
 
-    return m('.container', [
-      m('p'),
-      mc.Tabs.view(ctrl.tabs, tabOptions)
-    ]);
-  },
-
-  renderFinanceContents: function () {
-    var tabOptions = {
-      activeTabName: model.activeTabSub,
-      css: 'bs',
-      tabs: {
-        'period': {
-          label: 'Sales',
-          render: function () {
-            var salesCtrl = new sales.controller();
-            return sales.view(salesCtrl);
-          }
-        },
-        'comment': {
-          label: 'commentary',
-          render: function () {
-            return m('.row .col-md-offset-1', [
-              m('h3', 'Well that sales data sucks!'),
-              m('h4', [
-                m('span', 'Use the Personnel tab to replace '),
-                m('span.mark', model.mgrName()),
-                m('span', ' with a new manager.')
-        ])]);}}
-      }
-    };
-
-    return [
-      m('.row', [
+      return [
+        m('.row', [
           m('p'),
           m('.col-md-offset-2', {style: {border: '1px solid Lightgrey'}}, [
-              mc.Tabs.view(null, tabOptions)
-    ])])];
-  }
-};
+            mc.Tabs.view(null, tabOptions)
+          ])])];
+    }
+  };
 
-// sales =======================================================================
-var sales = {
-  period: [
-    ['',      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    ['Units', 100,   125,   130,   120,   115,   140],
-    ['Sales', 10000, 12500, 13000, 12000, 11500, 14000]
-  ],
+  // sales =======================================================================
+  var sales = {
+    period: [
+      ['',      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      ['Units', 100,   125,   130,   120,   115,   140],
+      ['Sales', 10000, 12500, 13000, 12000, 11500, 14000]
+    ],
 
-  controller: function () {
-    this.tableCtrl = new mc.Table.controller(m.prop(sales.period));
-  },
+    controller: function () {
+      this.tableCtrl = new mc.Table.controller(m.prop(sales.period));
+    },
 
-  view: function (ctrl) {
-    return [
-      m('form.col-md-offset-1.col-md-3',
-        m('.form-group', [
-            m('label', 'Manager'),
-            m('input.form-control', {disabled: true, value: model.mgrName()})
-          ]
-        )
-      ),
-      mc.Table.view(ctrl.tableCtrl, {selectors: {parent: '.table .table-bordered .table-striped'}})
-    ];
-  }
-};
+    view: function (ctrl) {
+      return [
+        m('form.col-md-offset-1.col-md-3',
+          m('.form-group', [
+              m('label', 'Manager'),
+              m('input.form-control', {disabled: true, value: model.mgrName()})
+            ]
+          )
+        ),
+        mc.Table.view(ctrl.tableCtrl, {selectors: {parent: '.table .table-bordered .table-striped'}})
+      ];
+    }
+  };
 
-// foo =========================================================================
-var foo = {
-  controller: function () { },
-  view: function () {
-    return m('h1.col-md-offset-1.bg-warning', 'We have redirected to /foo');
-  }
-};
+  // foo =========================================================================
+  var foo = {
+    controller: function () { },
+    view: function () {
+      return m('h1.col-md-offset-1.bg-warning', 'We have redirected to /foo');
+    }
+  };
 
-// routing =====================================================================
-m.route(document.body, '/', {
-  '/': app,
-  '/foo': foo
-});
+  // routing =====================================================================
+  m.route(document.body, '/', {
+    '/': app,
+    '/foo': foo
+  });
 ```
 
 ## Controller
@@ -198,6 +199,7 @@ view: function (ctrl) {
             * `selectors {obj}` are the Mithril selectors attached to various elements in the table.
             They are applied after any selectors added by `flavors`.
             * `attrs {obj}` are the Mithril attrs attached to various elements in the table.
+            They are applied after any attrs added by `flavors`.
 
 You can set the activeTagName to the current route name as follows:
 ```
@@ -232,13 +234,13 @@ render: function () {
 ```
 
 `selectors` and `attrs` specify the Mithril selectors and attrs to be attached to 
-different locations in the structure. The locations are:
+different locations in the structure, e.g. `{parent: '.nav.nav-pills.nav-stacked', itemActive: '.active'}`. The locations are:
 * `parent` The < ul>.
 * `item` and `itemActive` The < li> for every item.
 * `link` and `linkActive` The < a> for even link.
 
-You can add a new flavor by attaching a `selectors` and/or a `attrs`
+You can add a new flavor by attaching a `selectors` and/or a `attrs`, e.g.
 ```
-mc.Tabs.flavorsSelectors.newFlavorName: {parent:, ...};
-mc.Tabs.flavorsAttrs.newFlavorName: {parent:, ...}'
+mc.Tabs.flavorsSelectors['bs/nav-pills.nav-stacked']: {parent: '.nav.nav-pills.nav-stacked', itemActive: '.active'},
+mc.Tabs.flavorsAttrs['bs/nav-pills.nav-stacked'] = {};
 ```
