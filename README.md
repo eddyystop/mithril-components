@@ -42,8 +42,8 @@ row selection and multi-row, nested headings.
 (https://github.com/scottjehl/picturefill)  for < picture > and more.
 [(readme)](/components/imageResponsive)
 - [```tabs```](/components/tabs) - 
-Bootstrap tabs and pills, Foundation tabs, or custom styling. 
-Renders active view. Supports routing. 
+Bootstrap tabs and pills including dropdowns, Foundation tabs, or custom styling. 
+Supports routing. 
 [(readme)](/components/tabs)
 
 #### Occlusion components

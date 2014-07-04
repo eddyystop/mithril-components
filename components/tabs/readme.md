@@ -41,74 +41,111 @@ Foundation: Point browser at /mithril-components/public/tabs-zf.html .
 
   // app =========================================================================
   var app = {
-    controller: function () {	},
+    controller: function () {
+      this.tabsCtrl = new mc.Tabs.controller(model.activeTabMain);
+      this.tabsCtrl2 = new mc.Tabs.controller(model.activeTabSub);
+    },
     view: function (ctrl) {
       var self = this,
         tabOptions = {
-          activeTabName: model.activeTabMain,
           flavor: 'bs/nav-tabs',
-          tabs: {
-            'finance': {
-              label: 'Financials',
-              render: function () { return self.renderFinanceContents(); },
-              onclick: function () { console.log('tab finance was clicked'); }
-            },
-            'staff': {
-              label: 'Personnel',
-              render: function () {
-                return [
-                  m('p'),
-                  m('form.col-md-offset-1.col-md-3',
-                    m('.form-group', [
-                      m('label', 'Manager'),
-                      m('input.form-control',
-                        {onchange: m.withAttr('value', model.mgrName), value: model.mgrName()}
-                      )]))];}},
-            'exit': {
-              label: 'Exit',
-              onclickRedirectTo:  '/foo'
-            }
-          }
+          tabs: [
+            { name: 'finance', label: 'Financials' },
+            { name: 'foo', label: 'Disabled', disabled: true },
+            { name: 'staff', label: 'Personnel' },
+            { name: 'dropdown', label: 'Dropdown', dropdown: [
+              {label: 'Primary actions', type: 'header' },
+              {name: 'action1', label: 'Action'},
+              {name: 'action2', label: 'Another action', disabled: true },
+              {type: 'divider' },
+              {label: 'Secondary actions', type: 'header' },
+              {name: 'action9', label: 'Separated action' },
+              {label: 'Exit bar', redirectTo: '/bar'}
+            ]},
+            { name: 'exit', label: 'Exit /foo', redirectTo:  '/foo' },
+            { name: 'exit2', label: 'Exit /bar', redirectTo:  '/bar', disabled: true }
+          ]
         };
 
       return m('.container', [
         m('p'),
-        mc.Tabs.view(ctrl.tabs, tabOptions)
+        mc.Tabs.view(ctrl.tabsCtrl, tabOptions),
+        renderTabContents(ctrl)
       ]);
+
+      function renderTabContents (ctrl) {
+        switch (model.activeTabMain()) {
+          case 'finance':
+            return self.renderFinanceContents(ctrl);
+          case 'staff':
+            return [
+              m('p'),
+              m('form.col-md-offset-1.col-md-3',
+                m('.form-group', [
+                    m('label', 'Manager'),
+                    m('input.form-control',
+                      {onchange: m.withAttr('value', model.mgrName), value: model.mgrName()}
+                    )
+                  ]
+                )
+              )
+            ];
+          default:
+            return m('h1', model.activeTabMain());
+        }
+      }
     },
 
-    renderFinanceContents: function () {
+    renderFinanceContents: function (ctrl) {
       var tabOptions = {
         activeTabName: model.activeTabSub,
-        flavor: 'bs/nav-pills.nav-stacked',
-        tabs: {
-          'period': {
-            label: 'Sales',
-            render: function () {
-              var salesCtrl = new sales.controller();
-              return sales.view(salesCtrl);
-            }
-          },
-          'comment': {
-            label: 'commentary',
-            render: function () {
-              return m('.row.col-md-offset-1', [
-                m('h3', 'Well that sales data sucks!'),
-                m('h4', [
-                  m('span', 'Use the Personnel tab to replace '),
-                  m('span.mark', model.mgrName()),
-                  m('span', ' with a new manager.')
-                ])]);}}
-        },
-        selectors: { parent: '.nav-stacked' }
+        flavor: 'bs/nav-pills',
+        tabs: [
+          { name: 'period', label: 'Sales' },
+          { name: 'comment', label: 'Analysis' },
+          { name: 'dropdownFinance', label: 'Dropdown', dropdown: [
+            { type: 'header', label: 'Primary subactions' },
+            { name: 'action1', label: 'Subaction' },
+            { name: 'action2', label: 'Another subaction', disabled: true },
+            { type: 'divider' },
+            { type: 'header', label: 'Secondary actions' },
+            { name: 'action9', label: 'Separated subaction' },
+            { name: 'exit2', label: 'Redirect to /bar', redirectTo:  '/bar' }
+          ]}
+        ]
       };
 
+      //var tabsSubCtrl = new mc.Tabs.controller(model.activeTabSub);
       return [
         m('.row', [
           m('p'),
           m('.col-md-offset-2', {style: {border: '1px solid Lightgrey'}}, [
-            mc.Tabs.view(null, tabOptions)
-          ])])];
+              mc.Tabs.view(ctrl.tabsCtrl2, tabOptions),
+              renderFinanceTabContents()
+            ]
+          )
+        ])
+      ];
+
+      function renderFinanceTabContents () {
+        switch (model.activeTabSub()) {
+          case 'period':
+            var salesCtrl = new sales.controller();
+            return sales.view(salesCtrl);
+          case 'comment':
+            return m('.row.col-md-offset-1', [
+              m('h3', 'Well that sales data sucks!'),
+              m('h4', [
+                  m('span', 'Use the Personnel tab to replace '),
+                  m('span.mark', model.mgrName()),
+                  m('span', ' with a new manager.')
+                ]
+              )
+            ]);
+          default:
+            return m('h1', model.activeTabSub());
+        }
+      }
     }
   };
 
@@ -133,7 +170,7 @@ Foundation: Point browser at /mithril-components/public/tabs-zf.html .
             ]
           )
         ),
-        mc.Table.view(ctrl.tableCtrl, {selectors: {parent: '.table .table-bordered .table-striped'}})
+        mc.Table.view(ctrl.tableCtrl, {selectors: {parent: '.table.table-bordered.table-striped'}})
       ];
     }
   };
@@ -142,29 +179,22 @@ Foundation: Point browser at /mithril-components/public/tabs-zf.html .
   var foo = {
     controller: function () { },
     view: function () {
-      return m('h1.col-md-offset-1.bg-warning', 'We have redirected to /foo');
+      return m('h1.col-md-offset-1.bg-warning', 'We have redirected to another route');
     }
   };
 
   // routing =====================================================================
   m.route(document.body, '/', {
     '/': app,
-    '/foo': foo
+    '/:tab': foo
   });
 ```
 
 ## Controller
 
-You need not instantiate a controller, though you can.
-
-The tabs component is used within rendering functions, 
-and it turns out its awkward to idiomatically instantiate a controller.
-One state element is passed to the view, so this certainly is not the 'right' Mithril way of doing things.
-However we're letting practically win here.
-
 ```
 controller: function () {
-  this.component = new mc.table.controller(activeTabName);
+  this.component = new mc.Tabs.controller(activeTabName);
 }
 ```
 
@@ -184,14 +214,14 @@ m.route(document.body, '/', {
 ## View
 ```
 view: function (ctrl) {
-  return mc.tableResponsive.view(ctrl, options);
+  return mc.Tabs.view(ctrl, options);
 }
 ```
 
 * `ctrl {obj}` is the controller.
 * `options {obj}` contains the following properties:
     * `flavor {str optional}` Create a particular version of the component. 
-    Otherwise the `selectors` and `attrs` properties are expected to style the component.
+    Otherwise the `selectors` and `attrs` options alone will to style the component.
     The flavors are:
         * `'bs/nav-tabs'` Bootstrap tabs.
         * `'bs/nav-pills'` Bootstrap pills.
@@ -200,25 +230,25 @@ view: function (ctrl) {
         * `'zf/tabs.vertical'` Foundation vertical tabs.
     * `tabs {array of {obj}}` Definition of the tabs. 
     Each array element defines a tab item, and looks like:
-        * `{ name:, label:, type:, disabled:, dropdown:, redirectTo:, selectors:, attrs: }` 
+        * `{ name:, label:, type:, disabled:, dropdown:, redirectTo: }` 
         Definition of one tab.
             * `name {str optional}` The tab name.
             Ignored for `type` header and divider, required otherwise.
             * `label {fcn | str | default is name}` The text to appear as the label.
-            * `type {str optional}`
-                * `header {str}` A header, allowed within dropdowns.
-                * `divider {str}` A divider, allowed within dropdowns.
+            * `type {str optional}` Allowed within dropdowns.
+                * `"header"` Display as a heading, not as an item.
+                * `"divider"` Display a horizontal divider.
             * `disabled {bool | defaults to false}` If the item is disabled.
             * `dropdown {obj like tabs, optional}`
             The presence of `dropdown` indicates the item is a dropdown,
             and its value itemizes the items in the dropdown.
-            Dropdown items are defined the same way as tab items are.
+            Dropdown items are defined in the same manner as tab items.
             * `redirectTo {str URL | fcn returning URL | optional}` 
             Redirect to this route if the tab is clicked.
     * `selectors {obj}` Mithril selectors..
-    * `attrs {obj}` Mithril attrs.
+    * `attrs {obj}` Mithril attributes.
     
-`selectors` and `attrs` are standard Mithril selectors and attrs.
+`selectors` and `attrs` are standard Mithril selectors and attributes.
 They are added to specific tags in the component, 
 after any selectors or attrs provided by the optional `flavor`.
 A `selectors` may look like `{ parent: '.nav', itemDisabled: '.disabled', itemActive: '.active' }`.
