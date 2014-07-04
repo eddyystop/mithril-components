@@ -28,23 +28,23 @@ or you may use the front-end packaging tool
 ### UI Components
 
 - [```select```](/components/select) - Simple select.
-[(Source and readme.)](/components/select)
+[(readme)](/components/select)
 - ```select2``` - [Select replacement.] (https://github.com/ivaynberg/select2) 
 Supports searching, remote data, and infinite scrolling. jQuery based.
 - [```table```](/components/table) - Simple table.
-[(Source and readme.)](/components/table)
+[(readme)](/components/table)
 - [```tableResponsive```](/components/tableResponsive) - Responsive table.
-[(Source and readme.)](/components/tableResponsive)
+[(readme)](/components/tableResponsive)
 - [```datatable```](/components/datatable) - Table with sortable columns, AJAX population, 
 row selection and multi-row, nested headings.
-[(Source and readme.)](/components/datatable)
+[(readme)](/components/datatable)
 - [```imageResponsive```](/components/imageResponsive) - [Responsive image polyfill] 
 (https://github.com/scottjehl/picturefill)  for < picture > and more.
-[(Source and readme.)](/components/imageResponsive)
+[(readme)](/components/imageResponsive)
 - [```tabs```](/components/tabs) - 
 Bootstrap tabs and pills, Foundation tabs, or custom styling. 
 Renders active view. Supports routing. 
-[(Source and readme.)](/components/tabs)
+[(readme)](/components/tabs)
 
 #### Occlusion components
 
@@ -53,16 +53,12 @@ only what is visible on the screen.
 They are useful for large tables, large lists, infinite scrolling, 
 deferring rendering of below-the-fold content, and parallax sites.
 
-- ```occlusionList``` - Simple list, rendering only what is visible.
-[(Sample usage.)](/public/occlusionList.html)
-[(Results.)](/components/occlusionList/sample.png)
-[(Source and readme.)](/components/occlusionList)
-- ```occlusionTable``` - Table which scrolls vertically and horizontally.
+- [```occlusionList```](/components/occlusionList) - Simple list, rendering only what is visible.
+[(readme)](/components/occlusionList)
+- [```occlusionTable```](/components/occlusionTable) - Table which scrolls vertically and horizontally.
 Optional header rows always displayed. Pinned columns always appear.
 Responsive to width changes from CSS media queries.
-[(Sample usage.)](/public/occlusionTable.html)
-[(Results.)](/components/occlusionTable/sample.jpg)
-[(Source and readme.)](/components/occlusionTable)
+[(readme)](/components/occlusionTable)
 
 ## Mixins
 Mixin ```ValidationMixin``` resides in ```mixins/ValidationMixins/```.

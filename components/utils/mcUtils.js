@@ -6,7 +6,7 @@ mc._internals.redrawScheduled = false;
 mc.utils = mc.utils || {};
 
 // extend an object with others
-mc.utils.extend = function extend (to /* arguments */) {
+mc.utils.extend = function (to /* arguments */) {
   Array.prototype.slice.call(arguments, 1).forEach(function (obj) {
     if (typeof obj === 'object') {
       Object.keys(obj).forEach(function (key) { to[key] = obj[key]; });
@@ -16,7 +16,7 @@ mc.utils.extend = function extend (to /* arguments */) {
 };
 
 // combine Selectors-like objects (they have only str property values)
-mc.utils.combineSelectors = function extend (to /* arguments */) {
+mc.utils.combineSelectors = function (to /* arguments */) {
   Array.prototype.slice.call(arguments, 1).forEach(function (obj) {
     if (typeof obj === 'object') {
       Object.keys(obj).forEach(function (key) {
@@ -28,12 +28,15 @@ mc.utils.combineSelectors = function extend (to /* arguments */) {
 };
 
 // ensure params are m.prop()
-mc.utils.setParam = function setParam(param, defaultValue) {
+mc.utils.coerceToMprop = function (param, defaultValue) {
   return typeof param === 'function' ? param : m.prop(typeof param === 'undefined' ? defaultValue : param);
+};
+mc.utils.setParam = function (param, defaultValue) {
+  return mc.utils.coerceToMprop(param, defaultValue);
 };
 
 // turn param into something m('', '', child) can consume
-mc.utils.resolveChild = function resolveChild (child) {
+mc.utils.resolveChild = function (child) {
   switch (typeof child) {
     case 'array':
       return child;

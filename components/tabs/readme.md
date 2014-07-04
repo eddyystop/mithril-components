@@ -1,18 +1,15 @@
 # [tabs](https://github.com/eddyystop/mithril-components/tree/master/components/tabs)
 
-Display tabs and pills. 
+Display tabs and pills, including ones with dropdowns. 
 The builtin *flavors* include:
 * Bootstrap tabs.
 * Bootstrap horizontal and vertical pills.
 * Foundation horizontal and vertical tabs.
 
-Custom *flavors* may be added. 
-Custom styling and attributes may be applied throughout.
+These *flavors* may be extended with custom ones. 
+Alternatively you can specify the custom styling and attributes for some or all tags.
  
-A render function is supported for each tab, 
-and it renders the tab's contents when the tab is active.
-Each tab has an optional onclick handler. 
-This may either redirect to another 'page' or be a customized function.
+An selected item may automatically redirect to another 'page'.
 
 ## Sample usage
 #### Results with Bootstrap
@@ -165,43 +162,14 @@ and it turns out its awkward to idiomatically instantiate a controller.
 One state element is passed to the view, so this certainly is not the 'right' Mithril way of doing things.
 However we're letting practically win here.
 
-
-## View
 ```
-view: function (ctrl) {
-  return mc.tableResponsive.view(ctrl, options);
+controller: function () {
+  this.component = new mc.table.controller(activeTabName);
 }
 ```
 
-* `ctrl {obj}` is the controller.
-* `options {obj}` contains the following properties:
-    * `activeTabName {fcn | str | defaults to first tab}`
-    The name of the currently active tab. The default is the name of the first tab in `tabs`.
-    * `flavor {str optional}` Create a particular version of the component. 
-    Otherwise the `selectors` and `attrs` properties are expected to style the component.
-    The flavors are:
-        * `'bs/nav-tabs'` Bootstrap tabs.
-        * `'bs/nav-pills'` Bootstrap pills.
-        * `'bs/nav-pills.nav-stacked'` Bootstrap vertical pills.
-        * `'zf/tabs'` Foundation tabs
-        * `'zf/tabs.vertical'` Foundation vertical tabs.
-    * `tabs {obj {tabName1:{...}, ...} required}` Definition of the tabs. 
-    The tabs are rendered in the stored order, i.e. Object.keys().
-    Each tab contains:
-        * `tabName: { label:, render:, onclickRedirectTo:, onclick:, selectors:, attrs: }` 
-        Definition of one tab.
-            * `label {fcn | str | default is tabName}` The text to appear as the label.
-            * `render {fcn optional}` Fcn which renders the tab's contents if the tab is active.
-            * `onclickRedirectTo {str URL | fcn returning URL | optional}` 
-            Redirect to this route if the tab is clicked.
-            * `onclick {fcn optional}`
-            Call this fcn when the tab is clicked. Ignored if `onclickRedirectTo` is specified.
-            The current module is automatically re-rendered after a tab is clicked,
-            so this optional fcn would perform other specialized processing before the re-render.
-            * `selectors {obj}` are the Mithril selectors attached to various elements in the table.
-            They are applied after any selectors added by `flavors`.
-            * `attrs {obj}` are the Mithril attrs attached to various elements in the table.
-            They are applied after any attrs added by `flavors`.
+* `activeTabName {fcn | str | defaults to name of first tab}` 
+The name of the tab currently *open*. 
 
 You can set the activeTagName to the current route name as follows:
 ```
@@ -212,43 +180,94 @@ m.route(document.body, '/', {
   '/:tab': app
 });
 ```
+
+## View
+```
+view: function (ctrl) {
+  return mc.tableResponsive.view(ctrl, options);
+}
+```
+
+* `ctrl {obj}` is the controller.
+* `options {obj}` contains the following properties:
+    * `flavor {str optional}` Create a particular version of the component. 
+    Otherwise the `selectors` and `attrs` properties are expected to style the component.
+    The flavors are:
+        * `'bs/nav-tabs'` Bootstrap tabs.
+        * `'bs/nav-pills'` Bootstrap pills.
+        * `'bs/nav-pills.nav-stacked'` Bootstrap vertical pills.
+        * `'zf/tabs'` Foundation tabs
+        * `'zf/tabs.vertical'` Foundation vertical tabs.
+    * `tabs {array of {obj}}` Definition of the tabs. 
+    Each array element defines a tab item, and looks like:
+        * `{ name:, label:, type:, disabled:, dropdown:, redirectTo:, selectors:, attrs: }` 
+        Definition of one tab.
+            * `name {str optional}` The tab name.
+            Ignored for `type` header and divider, required otherwise.
+            * `label {fcn | str | default is name}` The text to appear as the label.
+            * `type {str optional}`
+                * `header {str}` A header, allowed within dropdowns.
+                * `divider {str}` A divider, allowed within dropdowns.
+            * `disabled {bool | defaults to false}` If the item is disabled.
+            * `dropdown {obj like tabs, optional}`
+            The presence of `dropdown` indicates the item is a dropdown,
+            and its value itemizes the items in the dropdown.
+            Dropdown items are defined the same way as tab items are.
+            * `redirectTo {str URL | fcn returning URL | optional}` 
+            Redirect to this route if the tab is clicked.
+    * `selectors {obj}` Mithril selectors..
+    * `attrs {obj}` Mithril attrs.
     
-You can call a rendering function for a tab with:
+`selectors` and `attrs` are standard Mithril selectors and attrs.
+They are added to specific tags in the component, 
+after any selectors or attrs provided by the optional `flavor`.
+A `selectors` may look like `{ parent: '.nav', itemDisabled: '.disabled', itemActive: '.active' }`.
+This adds selectors to `locations` parent, itemDisabled and itemActive.
+
+Below is an example of a tabs with a dropdown. 
+It shows the `locations` where you can added `selectors` and `attrs`.
 ```
-render: function () {
-    return m('form.col-md-offset-1.col-md-3',
-        m('.form-group', [
-         m('label', 'Manager'),
-         m('input.form-control',
-           {onchange: m.withAttr('value', model.mgrName), value: model.mgrName()}
-         )
-        ])
-    );
-}
+<ul class="nav nav-tabs"> <--- .parent
+  <li class="active"> <--- .itemActive
+    <a>Financials</a> <--- .linkActive
+  </li>
+  <li class="disabled"> <--- .itemDisabled
+    <a>Disabled</a> <--- .linkDisabled
+  </li>
+  <li> <--- .item
+    <a>Personnel</a> <--- .link
+  </li>
+  <li class="open"> <--- .dd .ddOpen .ddDisabled
+    <a class="dropdown-toggle">
+      <span>Dropdown  </span>
+      <span class="caret"> </span> <--- dd.caret
+    </a>
+    <ul class="dropdown-menu"> <--- ddMenu
+      <li class="dropdown-header">Primary actions</li> <--- .itemHeader
+      <li>  <--- .item
+        <a>Action</a> <-- .link .linkActive .linkDisabled
+      </li>
+      <li class="disabled"> <--- .itemDisabled
+        <a>Another action</a> <--- .linkDisabled
+      </li> 
+      <li class="divider" style="margin: 6px 0px;"></li> <--- itemDivider
+      <li class="dropdown-header">Secondary actions</li>
+      <li><a>Separated action</a></li>
+      <li><a href="/public/tabs2.html?/bar">Exit bar</a></li>
+    </ul>
+  </li>
+  <li><a href="/public/tabs2.html?/foo">Exit /foo</a></li>
+  <li class="disabled"><a>Exit /bar</a></li>
+</ul>
 ```
 
-You can render a sub-app which contains a controller and view with:
-```
-render: function () {
-    var salesCtrl = new sales.controller();
-    return sales.view(salesCtrl);
-}
-```
-
-`selectors` and `attrs` specify the Mithril selectors and attrs to be attached to 
-different locations in the structure, e.g. selector = `{parent: '.nav.nav-pills.nav-stacked', itemActive: '.active'}`.
- The locations are:
-* `parent` The < ul>.
-* `item` and `itemActive` The < li> for every item.
-* `link` and `linkActive` The < a> for even link.
-
-`flavors` are predefined sets of `selectors` and `attrs`. 
+`flavors` are now easy to explain. 
+They are predefined sets of `selectors` and `attrs`. 
 You will find them defined at the start of the JS file.
 You can add a new `flavor` by attaching a new selector and/or attr, e.g.
 ```
-mc.Tabs.flavorsSelectors['bs/nav-pills=bold'] = 
-  mc.utils.extend({}, mc.Tabs.flavorsSelectors['bs/nav-pills']);
-mc.Tabs.flavorsAttrs['bs/nav-pills=bold'] = 
-  mc.utils.extend({}, mc.Tabs.flavorsAttrs['bs/nav-pills']);
-mc.Tabs.flavorsAttrs['bs/nav-pills=bold'].style['font-weight'] = 'bold';
+mc.Tabs.flavorsSelectors['bs/nav-pills=bold'] = mc.utils.combineSelectors(
+  {}, mc.Tabs.flavorsSelectors['bs/nav-pills'], {item: '.myBoldClass'});
+mc.Tabs.flavorsAttrs['bs/nav-pills=bold'] = mc.utils.extend(
+  {}, mc.Tabs.flavorsAttrs['bs/nav-pills']);
 ```
