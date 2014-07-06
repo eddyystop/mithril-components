@@ -27,14 +27,14 @@ mc.Tabs = {
     self.openDropdownName = '';
 
     self.onchangeTab = function (name, isDropdown) {
-      console.log('onchangeTab', name, isDropdown, self.openDropdownName)
+      console.log('onchangeTab', name, isDropdown, self.openDropdownName);
       if (isDropdown) {
         self.openDropdownName = name === self.openDropdownName ? '' : name;
       } else {
         self.openDropdownName = '';
         self.activeTabName(name);
       }
-      console.log(name, isDropdown, self.openDropdownName)
+      console.log(name, isDropdown, self.openDropdownName);
     }.bind(self);
   },
 
@@ -65,7 +65,7 @@ mc.Tabs = {
       var  ddProp = tab.disabled ? 'ddDisabled' : (ctrl.openDropdownName === tab.name ? 'ddOpen' : 'dd'),
         label = mc.utils.resolveChild(tab.label || tab.name) + ' '; // trailing blank needed for BS look
 
-      console.log('renderDropdownTab', ddProp, '...')
+      console.log('renderDropdownTab', ddProp, '...');
       return m('li' + (selectors[ddProp] || ''), attrs[ddProp] || {},
         [
           m('a' + (selectors.ddLink || ''),
@@ -81,7 +81,7 @@ mc.Tabs = {
     }
 
     function renderDropdownItems (dropdown) {
-      console.log('---------renderDropdownItems')
+      console.log('---------renderDropdownItems');
       return m('ul' + (selectors.ddMenu || ''), attrs.ddMenu || {},
         dropdown.map(function (item) {
 

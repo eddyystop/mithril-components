@@ -115,7 +115,6 @@ Foundation: Point browser at /mithril-components/public/tabs-zf.html .
         ]
       };
 
-      //var tabsSubCtrl = new mc.Tabs.controller(model.activeTabSub);
       return [
         m('.row', [
           m('p'),
@@ -254,8 +253,8 @@ after any selectors or attrs provided by the optional `flavor`.
 A `selectors` may look like `{ parent: '.nav', itemDisabled: '.disabled', itemActive: '.active' }`.
 This adds selectors to `locations` parent, itemDisabled and itemActive.
 
-Below is an example of a tabs with a dropdown. 
-It shows the `locations` where you can added `selectors` and `attrs`.
+Below is the first rendered tabs component in the example above. 
+The `locations` where you can added `selectors` and `attrs` are shown.
 ```
 <ul class="nav nav-tabs"> <--- .parent
   <li class="active"> <--- .itemActive
@@ -268,14 +267,14 @@ It shows the `locations` where you can added `selectors` and `attrs`.
     <a>Personnel</a> <--- .link
   </li>
   <li class="open"> <--- .dd .ddOpen .ddDisabled
-    <a class="dropdown-toggle">
+    <a class="dropdown-toggle"> <-- .ddLink
       <span>Dropdown  </span>
       <span class="caret"> </span> <--- dd.caret
     </a>
     <ul class="dropdown-menu"> <--- ddMenu
       <li class="dropdown-header">Primary actions</li> <--- .itemHeader
       <li>  <--- .item
-        <a>Action</a> <-- .link .linkActive .linkDisabled
+        <a>Action</a> <-- .link
       </li>
       <li class="disabled"> <--- .itemDisabled
         <a>Another action</a> <--- .linkDisabled
