@@ -6,6 +6,7 @@ var gulp = require('gulp');
 var msx = require('./msx-main');
 var through = require('through2');
 
+var clean = require('gulp-clean');
 var plumber = require('gulp-plumber');
 var gutil = require('gulp-util');
 
@@ -28,7 +29,12 @@ function msxTransform(name) {
   });
 }
 
-gulp.task('msx', function() {
+gulp.task('clean', function () {
+  return gulp.src(dest, {read: false})
+    .pipe(clean());
+});
+
+gulp.task('msx', ['clean'], function() {
   return gulp.src(jsxGlob)
     .pipe(plumber())
     .pipe(msxTransform())

@@ -2,7 +2,13 @@
   "name": "mithril-components",
   "description": "Components, mixins, patterns and sample code for Mithril.",
   "version": "0.1.0",
-  "keywords": ["mithril", "components", "mixins", "patterns", "sample"],
+  "keywords": [
+    "mithril",
+    "components",
+    "mixins",
+    "patterns",
+    "sample"
+  ],
   "homepage": "https://github.com/eddyystop/mithril-components",
   "bugs": {
     "url": "https://github.com/eddyystop/mithril-components/issues"
@@ -18,5 +24,10 @@
     "express": "~3.5.1"
   },
   "devDependencies": {
+    "gulp-clean": "^0.3.1",
+    "gulp-plumber": "^0.6.3",
+    "gulp-util": "^2.2.20",
+    "through2": "^0.5.1",
+    "jstransform": "^6.0.0"
   }
 }
