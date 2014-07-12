@@ -1,0 +1,38 @@
+<!doctype html>
+<head>
+  <link href="../../public/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h1>select</h1>
+<script src="../../public/js/vendor/mithril.js"></script>
+<script src="../../components/utils/mcUtils.js"></script>
+<script src="../components/dropdown/dropdown.js"></script>
+<script>
+  var app = {
+    controller: function () {
+      var ctrl = this;
+      this.dropdownCtrl = new mc.Dropdown.controller({
+        label: 'Label',
+        items: {},
+        onclick: function () {
+          console.log('this=', this);
+          console.log('clicked. was=', this.dropdownIsOpen());
+          this.dropdownIsOpen(!this.dropdownIsOpen());
+        }.bind(this)
+      });
+
+      this.dropdownIsOpen = m.prop(false);
+    },
+
+    view: function (ctrl) {
+      return m('.container', [
+          m('p'),
+          mc.Dropdown.view(ctrl.dropdownCtrl)
+        ]
+      );
+    }
+  };
+
+  m.module(document.body, app);
+</script>
+</body>

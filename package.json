@@ -25,9 +25,11 @@
   },
   "devDependencies": {
     "gulp-clean": "^0.3.1",
+    "gulp-load-plugins": "^0.5.3",
     "gulp-plumber": "^0.6.3",
     "gulp-util": "^2.2.20",
-    "through2": "^0.5.1",
-    "jstransform": "^6.0.0"
+    "gulp-include-js": "git://github.com/ng-vu/gulp-include-js.git",
+    "jstransform": "^6.0.0",
+    "through2": "^0.5.1"
   }
 }

@@ -1,0 +1,94 @@
+<!doctype html>
+<head>
+  <link href="../../public/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h1>tabs2</h1>
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+    Dropdown
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
+    <li role="presentation" class="divider"></li>
+    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
+  </ul>
+</div>
+<script src="../../public/js//vendor/jquery.js"></script>
+<script src="../../public/vendor/bootstrap/js/bootstrap.js"></script>
+<script src="../../public/js/vendor/mithril.js"></script>
+<script src="../../components/utils/mcUtils.js"></script>
+<script src="../componentsUi/tabs/tabs.js"></script>
+<script>
+  var app = {
+    controller: function () {
+      this.activeTab = m.prop('finance');
+      this.tabsCtrl = new mc.Tabs.controller({
+        activeTab: this.activeTab
+      });
+
+      this.selectedTab = m.prop(null);
+      this.dropdownCtrl = new mc.Dropdown.controller({
+        selectedTab: this.selectedTab
+      });
+    },
+
+    view: function (ctrl) {
+      var tabOptions = {
+        flavor: 'tabs',
+        tabs: [
+          { name: 'finance', label: 'Financials' },
+          { name: 'foo', label: 'Disabled', isDisabled: true },
+          { name: 'staff', label: 'Personnel' },
+          { name: 'dropdown', label: 'Dropdown', dropdown: [
+            {label: 'Primary actions', type: 'header' },
+            {name: 'action1', label: 'Action'},
+            {name: 'action2', label: 'Another action', isDisabled: true },
+            {type: 'divider' },
+            {label: 'Secondary actions', type: 'header' },
+            {name: 'action9', label: 'Separated action' },
+            {label: 'Exit bar', redirectTo: '/bar'}
+          ]},
+          { name: 'exit', label: 'Exit /foo', redirectTo:  '/foo' },
+          { name: 'exit2', label: 'Exit /bar', redirectTo:  '/bar', isDisabled: true }
+        ]
+      };
+      var dropdownOptions = {
+        name: 'dropdown1',
+        label: 'Dropdown-1',
+        dropdown: [
+          {label: 'Primary actions', type: 'header' },
+          {name: 'action1', label: 'Action'},
+          {name: 'action2', label: 'Another action', isDisabled: true },
+          {type: 'divider' },
+          {label: 'Secondary actions', type: 'header' },
+          {name: 'action9', label: 'Separated action' },
+          {label: 'Exit bar', redirectTo: '/bar'}
+        ]
+      };
+
+      return m('.container', [
+        mc.Tabs.view(ctrl.tabsCtrl, tabOptions),
+        m('p', 'active tab is ' + ctrl.activeTab()),
+        mc.Dropdown.view(ctrl.dropdownCtrl, dropdownOptions),
+        m('p', 'selected tab is ' + ctrl.selectedTab())
+      ]);
+    }
+  };
+
+  var foo = {
+    controller: function () { },
+    view: function () {
+      return m('h1.col-md-offset-1.bg-warning', 'We have redirected to another route');
+    }
+  };
+
+  m.route(document.body, '/', {
+    '/': app,
+    '/:tab': foo
+  });
+</script>
+</body>
