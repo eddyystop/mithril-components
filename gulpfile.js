@@ -7,10 +7,8 @@ var plugins = require('gulp-load-plugins')(); // checks package.json
 var msx = require('./msx-main');
 var through = require('through2');
 
-var jsxGlob = './componentsMsx/**/*.js';
-var dest = './dist/componentsMsx';
-var jsxGlob1 = './componentsMsx/**/*.js';
-var dest1 = './dist1/componentsMsx';
+var jsxSrc= './componentsJsx/**/*.js';
+var jsxDestBase = './dist/componentsJsx';
 
 var log = plugins.util.log;
 
@@ -31,32 +29,23 @@ function msxTransform(name) {
 }
 
 gulp.task('clean', function () {
-  return gulp.src(dest, {read: false})
+  return gulp.src(jsxDestBase, {read: false})
     .pipe(plugins.clean());
 });
 
-gulp.task('include', function(cb) {
-  gulp.src(jsxGlob1)
+gulp.task('jsx', ['clean'], function() {
+  return gulp.src(jsxSrc)
     .pipe(plugins.plumber())
-    .pipe(plugins.includeJs({ext:'js', cache:true, showFiles:'Building'}))
-    // .pipe(plugins.size({showFiles: true}))
-    .pipe(gulp.dest(dest1))
-    .on('end', cb || function(){})
-    .on('error', log);
-});
-
-gulp.task('msx', ['clean'], function() {
-  return gulp.src(jsxGlob)
-    .pipe(plugins.plumber())
+    .pipe(plugins.includeJs({ext:'html', cache:true, showFiles:'Building'}))
     .pipe(msxTransform())
     .on('error', function(e) {
       console.error(e.message + '\n  in ' + e.fileName);
     })
-    .pipe(gulp.dest(dest));
+    .pipe(gulp.dest(jsxDestBase));
 });
 
 gulp.task('watch', function() {
-  gulp.watch([jsxGlob], ['msx']);
+  gulp.watch([jsxGlob], ['jsx']);
 });
 
-gulp.task('default', ['watch', 'msx']);
+gulp.task('default', ['watch', 'jsx']);

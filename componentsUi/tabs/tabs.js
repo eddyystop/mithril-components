@@ -26,9 +26,15 @@ mc.Tabs = {
   // options.tab[]: <props> name, label, isActive, isDisabled, redirectTo, dropdown[], alignMenuRight
   view: function (ctrl, options) {
     console.log('\n.. in mc.Tabs.view. options=', options);
-    var flavor = options.flavor === 'pills' ? '.nav-pills' : (options.flavor === 'pills-stacked' ? '.nav-pills.nav-stacked' : '.nav.tabs');
+    var flavors = {
+      tabs: '.nav.nav-tabs',
+      pills: '.nav.nav-pills',
+      'pills-stacked': '.nav.nav-pills.nav-stacked',
+      navbar: '.nav.navbar-nav'
+    };
+
     return [
-      m('ul.nav.nav-tabs' + flavor,
+      m('ul' + (flavors[options.flavor] || flavors.tabs),
         (options.tabs || []).map(function (tab) {
           var tabsTabCtrl = mc.utils.extend({}, tab, ctrl, { isActive: ctrl.activeTab() === tab.name });
           return !tab.dropdown ? mc.TabsTab.view(tabsTabCtrl) : mc.TabsDropdown.view(tabsTabCtrl);
