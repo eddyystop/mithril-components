@@ -1,7 +1,7 @@
 var mc = mc || {};
 
 mc.Tabs = {
-  // options: <props> activeTab(), isDropdownOpen
+  // options: <props> activeTab(), isDropdownOpen <event> onclickTab
   controller: function (options) {
     console.log('\n.. in mc.Tabs.controller. options=', options);
     options = options || {};
@@ -12,6 +12,7 @@ mc.Tabs = {
       console.log('mc.Tabs.controller > onclickTab. name=', name);
       this.isDropdownOpen = false;
       this.activeTab(name);
+      if (options.onclickTab) { options.onclickTab(this.activeTab()); }
     }.bind(this);
 
     this.onclickDropdown = function (name) {
@@ -30,7 +31,8 @@ mc.Tabs = {
       tabs: '.nav.nav-tabs',
       pills: '.nav.nav-pills',
       'pills-stacked': '.nav.nav-pills.nav-stacked',
-      navbar: '.nav.navbar-nav'
+      nav: '.nav.navbar-nav',
+      'nav-right': '.nav.navbar-nav.navbar-right'
     };
 
     return [

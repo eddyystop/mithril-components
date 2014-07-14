@@ -15,29 +15,20 @@ mc.NavResponsive = {
     });
   },
 
-  // options: <props> brandLabel, brandUrl
+  // options: <props> brandLabel, brandUrl, alignRight
   view: function (ctrl, options) {
-    var tabOptions = {
-      flavor: 'navbar',
-      tabs: [
-        { name: 'finance', label: 'Financials' },
-        { name: 'foo', label: 'Disabled', isDisabled: true },
-        { name: 'staff', label: 'Personnel' },
-        { name: 'dropdown', label: 'Dropdown', dropdown: [
-          {label: 'Primary actions', type: 'header' },
-          {name: 'action1', label: 'Action'},
-          {name: 'action2', label: 'Another action', isDisabled: true },
-          {type: 'divider' },
-          {label: 'Secondary actions', type: 'header' },
-          {name: 'action9', label: 'Separated action' },
-          {label: 'Exit bar', redirectTo: '/bar'}
-        ]},
-        { name: 'exit', label: 'Exit /foo', redirectTo:  '/foo' },
-        { name: 'exit2', label: 'Exit /bar', redirectTo:  '/bar', isDisabled: true }
-      ]
-    };
+    var flavors = {
+      default: '.navbar.navbar-default',
+      'fixed-top': '.navbar.navbar-default.navbar-fixed-top', // needs style: body { padding-top: 70px }
+      'fixed-bottom': '.navbar.navbar-default.navbar-fixed-bottom', // needs style: body { padding-bottom: 70px }
+      'static-top': '.navbar.navbar-default.navbar-static-top',
+      inverse: '.navbar.navbar-default.navbar-inverse',
+      'fixed-top-inverse': '.navbar.navbar-default.navbar-fixed-top.navbar-inverse', // needs style: body { padding-top: 70px }
+      'fixed-bottom-inverse': '.navbar.navbar-default.navbar-fixed-bottom.navbar-inverse', // needs style: body { padding-bottom: 70px }
+      'static-top-inverse': '.navbar.navbar-default.navbar-static-top.navbar-inverse'
+      };
 
-    return m('nav.navbar navbar-default', [
+    return m('nav' + (flavors[options.flavor] || flavors.default), [
       m('.container-fluid', [
 
         // Brand name & collapsed nav toggle
@@ -53,7 +44,7 @@ mc.NavResponsive = {
 
         // navbar contents
         m('.collapse.navbar-collapse' + (ctrl.isCollapsedOpen ? '.in' : ''),
-          mc.Tabs.view(ctrl.tabsCtrl, tabOptions)
+          options.viewContents()
         )
       ])
     ]);
