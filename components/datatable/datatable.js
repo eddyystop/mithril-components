@@ -148,12 +148,6 @@ mc.Datatable = (function () {
 					if (isOld) return;
 					el.addEventListener('click', ctrl.onclick);
 					ctrl._tableEl = el;
-					m.module(el, {
-						controller: function () {
-							return ctrl;
-						},
-						view: dt.contentsView
-					});
 				}
 
 			};
@@ -162,7 +156,8 @@ mc.Datatable = (function () {
 
 			return m(
 				'table',
-				attrs
+				attrs,
+				dt.contentsView(ctrl)
 			);
 
 
